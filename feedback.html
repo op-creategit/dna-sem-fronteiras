@@ -293,12 +293,14 @@ const QR=(()=>{
     for(let i=0;i<6;i++) m[8][i]=bit(i);
     m[8][7]=bit(6); m[8][8]=bit(7); m[7][8]=bit(8);
     for(let i=9;i<15;i++) m[14-i][8]=bit(i);
-    for(let i=0;i<8;i++) m[n-1-i][8]=bit(i);
-    for(let i=8;i<15;i++) m[8][n-15+i]=bit(i);
-    // O bit 7 da segunda cópia cai exatamente sobre o módulo escuro obrigatório,
-    // então ele precisa ser reafirmado DEPOIS. Com a máscara 5 o bit calhava de
-    // ser 1 e o defeito passava despercebido; com outras, o QR quebraria.
-    m[n-8][8]=1;
+    // Segunda cópia, e aqui o corte entre coluna e linha é exato:
+    // bits 0 a 6 descem pela coluna 8, bits 7 a 14 correm pela linha 8.
+    // Pôr 8 bits na coluna e 7 na linha desloca metade da cópia e deixa
+    // (8, n-8) vazio. A primeira cópia continua legível, então round-trip
+    // nenhum acusa: só um leitor de verdade reclama.
+    for(let i=0;i<7;i++)  m[n-1-i][8]=bit(i);
+    for(let i=7;i<15;i++) m[8][n-15+i]=bit(i);
+    m[n-8][8]=1;                                   // módulo escuro obrigatório
   }
 
   function gerar(texto){
