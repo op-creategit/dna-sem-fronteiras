@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratório do DNA · cartaz de feedback</title>
+<meta name="theme-color" content="#EFF3F7">
+<style>
+:root{
+  --paper:#EFF3F7; --card:#FFFFFF; --line:#D3DBE4; --hair:#E6EBF1;
+  --ink:#10171F; --ink2:#3E4C5A; --mut:#6B7885;
+  --accent:#1D5FD1; --accent-dk:#0E3F94; --accent-sf:#E4EDFC;
+  --A:#2E9E4B; --T:#E8B70C; --G:#2A6FDB; --C:#EE6420;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(16,23,31,.05),0 4px 12px rgba(16,23,31,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--sans);
+  background-image:
+    linear-gradient(#E0E7EE 1px,transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg,#E0E7EE 1px,transparent 1px) 0 0/28px 100%;}
+.wrap{max-width:840px;margin:0 auto;padding:34px 20px 60px}
+.eyebrow{font:800 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-dk);margin:0 0 12px}
+h1{margin:0 0 10px;font:800 clamp(26px,5vw,38px)/1.14 var(--sans);letter-spacing:-.02em}
+.sub{margin:0 0 26px;font:400 17px/1.55 var(--sans);color:var(--ink2);max-width:56ch}
+
+.grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:start}
+.qrcard{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:20px;box-shadow:var(--shadow);text-align:center}
+#qr{display:block;width:246px;height:246px}
+.qrcap{margin:12px 0 0;font:700 11px/1.4 var(--sans);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mut)}
+.linkcard{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:20px;box-shadow:var(--shadow)}
+.lbl{font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.url{display:block;margin:10px 0 0;font:600 15px/1.5 var(--mono);color:var(--accent-dk);
+  word-break:break-all;background:var(--accent-sf);padding:12px 14px;border-radius:10px;
+  text-decoration:none}
+.url:hover{background:#D6E4FA}
+.copiar{margin-top:12px;font:800 14px/1 var(--sans);padding:13px 18px;border:0;
+  border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+.copiar:hover{background:var(--accent-dk)}
+
+.aviso{margin:26px 0 0;background:#FFF6E3;border:1px solid #F0D9AC;border-left:5px solid #C97A06;
+  border-radius:12px;padding:16px 18px}
+.aviso b{color:#7A4A00}
+.aviso p{margin:6px 0 0;color:#7A4A00;font-size:15px}
+
+h2{margin:34px 0 14px;font:800 21px/1.2 var(--sans);letter-spacing:-.01em}
+.checks{display:grid;gap:10px;padding:0;margin:0;list-style:none}
+.checks li{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+.checks .n{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  font:800 12px/1 var(--mono);color:#fff}
+.checks li:nth-child(1) .n{background:var(--A)}
+.checks li:nth-child(2) .n{background:var(--T);color:#3A2C00}
+.checks li:nth-child(3) .n{background:var(--G)}
+.checks li:nth-child(4) .n{background:var(--C)}
+.checks li:nth-child(5) .n{background:var(--accent)}
+.checks b{display:block;font:700 15.5px/1.35 var(--sans);color:var(--ink)}
+.checks span{display:block;font:400 14.5px/1.5 var(--sans);color:var(--mut);margin-top:3px}
+footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
+  font:400 13.5px/1.6 var(--sans);color:var(--mut)}
+
+@media (max-width:720px){
+  .grid{grid-template-columns:1fr}
+  #qr{width:min(246px,70vw);height:auto}
+}
+@media print{
+  body{background:#fff;background-image:none}
+  .copiar{display:none}
+  .wrap{padding:0}
+  .qrcard,.linkcard,.checks li{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Projeto DNA sem fronteiras</p>
+  <h1>Laboratório do DNA</h1>
+  <p class="sub">Abra pelo celular, mexa à vontade e conte o que funcionou e o que travou.
+     Não precisa instalar nada.</p>
+
+  <div class="grid">
+    <div class="qrcard">
+      <svg id="qr" role="img" aria-label="Código QR para abrir o projeto"></svg>
+      <p class="qrcap">Aponte a câmera do celular</p>
+    </div>
+    <div class="linkcard">
+      <span class="lbl">Ou abra por este endereço</span>
+      <a class="url" id="url" href="#">carregando</a>
+      <button class="copiar" id="copiar">Copiar link</button>
+      <div class="aviso">
+        <b>Link aberto</b>
+        <p>Qualquer pessoa com este endereço abre direto, sem conta e sem instalar nada.
+           Depois de carregar uma vez, a página funciona mesmo sem internet.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>O que olhar</h2>
+  <ul class="checks">
+    <li><span class="n">1</span><div><b>Você entendeu sem ninguém explicar?</b>
+      <span>Chegou, olhou e soube o que fazer? Onde travou?</span></div></li>
+    <li><span class="n">2</span><div><b>Algum texto ficou difícil?</b>
+      <span>Aponte a palavra exata que você não entendeu.</span></div></li>
+    <li><span class="n">3</span><div><b>O modelo 3D girou liso no seu celular?</b>
+      <span>Diga o aparelho, principalmente se engasgou.</span></div></li>
+    <li><span class="n">4</span><div><b>O jogo prendeu ou cansou?</b>
+      <span>Jogaria de novo? Dez posições é pouco, demais, ou está bom?</span></div></li>
+    <li><span class="n">5</span><div><b>O que faltou?</b>
+      <span>Qualquer coisa que você esperava encontrar e não achou.</span></div></li>
+  </ul>
+
+  <footer>Material didático de Biologia, ensino médio. Roda no celular e sem internet
+    depois de aberto.</footer>
+</div>
+
+<script>
+"use strict";
+/* =======================================================================
+   QR CODE gerado aqui dentro, sem chamar serviço nenhum: o endereço do
+   projeto não sai desta página. Modo byte, correção de erro nível M,
+   versões 1 a 6 (até 106 caracteres), que cobre a URL com folga.
+======================================================================= */
+const QR=(()=>{
+  // ---- corpo finito GF(256), polinômio 0x11D ----
+  const EXP=new Uint8Array(512), LOG=new Uint8Array(256);
+  (()=>{let x=1;for(let i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&0x100)x^=0x11D;}
+        for(let i=255;i<512;i++)EXP[i]=EXP[i-255];})();
+  const mul=(a,b)=>(a===0||b===0)?0:EXP[LOG[a]+LOG[b]];
+
+  function geradorRS(n){
+    let p=[1];
+    for(let i=0;i<n;i++){
+      const q=[...p,0];
+      for(let j=0;j<p.length;j++) q[j+1]^=mul(p[j],EXP[i]);
+      p=q;
+    }
+    return p;
+  }
+  function restoRS(dados,n){
+    const g=geradorRS(n), r=new Array(dados.length+n).fill(0);
+    for(let i=0;i<dados.length;i++) r[i]=dados[i];
+    for(let i=0;i<dados.length;i++){
+      const c=r[i]; if(!c) continue;
+      for(let j=0;j<g.length;j++) r[i+j]^=mul(g[j],c);
+    }
+    return r.slice(dados.length);
+  }
+
+  // ---- tabelas do nível M, versões 1 a 6 ----
+  //        [ total, ec/bloco, [ [nBlocos, dadosPorBloco], ... ] ]
+  const VER={
+    1:[26 ,10,[[1,16]]],
+    2:[44 ,16,[[1,28]]],
+    3:[70 ,26,[[1,44]]],
+    4:[100,18,[[2,32]]],
+    5:[134,24,[[2,43]]],
+    6:[172,16,[[4,27]]]
+  };
+  const ALIN={1:[],2:[6,18],3:[6,22],4:[6,26],5:[6,30],6:[6,34]};
+  const capacidade=v=>VER[v][2].reduce((s,[n,d])=>s+n*d,0)-2;  // 2 bytes de cabeçalho
+
+  function versaoPara(nBytes){
+    for(let v=1;v<=6;v++) if(nBytes<=capacidade(v)) return v;
+    return null;
+  }
+
+  function codificar(texto){
+    const bytes=new TextEncoder().encode(texto);
+    const v=versaoPara(bytes.length);
+    if(!v) throw new Error("URL longa demais para as versões 1 a 6");
+    const [total,ecPorBloco,grupos]=VER[v];
+    const totalDados=grupos.reduce((s,[n,d])=>s+n*d,0);
+
+    // fluxo de bits: modo 0100, contagem em 8 bits, dados, terminador, enchimento
+    const bits=[];
+    const put=(val,n)=>{for(let i=n-1;i>=0;i--) bits.push((val>>i)&1);};
+    put(0b0100,4); put(bytes.length,8);
+    bytes.forEach(b=>put(b,8));
+    for(let i=0;i<4&&bits.length<totalDados*8;i++) bits.push(0);
+    while(bits.length%8) bits.push(0);
+    const dados=[];
+    for(let i=0;i<bits.length;i+=8){let b=0;for(let j=0;j<8;j++)b=(b<<1)|bits[i+j];dados.push(b);}
+    const enche=[0xEC,0x11]; let k=0;
+    while(dados.length<totalDados) dados.push(enche[k++%2]);
+
+    // divide em blocos, calcula correção e intercala
+    const blocosD=[],blocosE=[]; let p=0;
+    grupos.forEach(([n,d])=>{ for(let i=0;i<n;i++){
+      const bl=dados.slice(p,p+d); p+=d;
+      blocosD.push(bl); blocosE.push(restoRS(bl,ecPorBloco));
+    }});
+    const saida=[];
+    const maxD=Math.max(...blocosD.map(b=>b.length));
+    for(let i=0;i<maxD;i++) blocosD.forEach(b=>{if(i<b.length)saida.push(b[i]);});
+    for(let i=0;i<ecPorBloco;i++) blocosE.forEach(b=>saida.push(b[i]));
+    return {v,codewords:saida,total};
+  }
+
+  // ---- montagem da matriz ----
+  function matriz(v){
+    const n=v*4+17;
+    const m=Array.from({length:n},()=>new Array(n).fill(null));
+    const res=Array.from({length:n},()=>new Array(n).fill(false));
+    const marca=(r,c,val)=>{if(r>=0&&r<n&&c>=0&&c<n){m[r][c]=val;res[r][c]=true;}};
+
+    const finder=(r0,c0)=>{
+      for(let r=-1;r<=7;r++)for(let c=-1;c<=7;c++){
+        const dentro=r>=0&&r<7&&c>=0&&c<7;
+        const anel=dentro&&((r===0||r===6||c===0||c===6)||(r>=2&&r<=4&&c>=2&&c<=4));
+        marca(r0+r,c0+c,dentro?(anel?1:0):0);
+      }
+    };
+    finder(0,0); finder(0,n-7); finder(n-7,0);
+
+    for(let i=8;i<n-8;i++){ marca(6,i,i%2?0:1); marca(i,6,i%2?0:1); }   // temporização
+
+    ALIN[v].forEach(ar=>ALIN[v].forEach(ac=>{
+      if((ar<=8&&ac<=8)||(ar<=8&&ac>=n-9)||(ar>=n-9&&ac<=8)) return;    // não pisa nos finders
+      for(let r=-2;r<=2;r++)for(let c=-2;c<=2;c++)
+        marca(ar+r,ac+c,(Math.abs(r)===2||Math.abs(c)===2||(r===0&&c===0))?1:0);
+    }));
+
+    marca(n-8,8,1);                                                      // módulo escuro
+    for(let i=0;i<9;i++){ if(m[8][i]===null)res[8][i]=true; if(m[i][8]===null)res[i][8]=true; }
+    for(let i=0;i<8;i++){ res[8][n-1-i]=true; res[n-1-i][8]=true; }
+    return {m,res,n};
+  }
+
+  function preencher(m,res,n,cw){
+    const bits=[];
+    cw.forEach(b=>{for(let i=7;i>=0;i--)bits.push((b>>i)&1);});
+    let idx=0,subindo=true;
+    for(let col=n-1;col>0;col-=2){
+      if(col===6) col--;                                                 // pula a coluna de temporização
+      for(let i=0;i<n;i++){
+        const row=subindo?n-1-i:i;
+        for(let j=0;j<2;j++){
+          const c=col-j;
+          if(res[row][c]) continue;
+          m[row][c]= idx<bits.length ? bits[idx++] : 0;
+        }
+      }
+      subindo=!subindo;
+    }
+  }
+
+  const MASCARAS=[
+    (r,c)=>(r+c)%2===0, (r,c)=>r%2===0, (r,c)=>c%3===0, (r,c)=>(r+c)%3===0,
+    (r,c)=>(Math.floor(r/2)+Math.floor(c/3))%2===0,
+    (r,c)=>((r*c)%2)+((r*c)%3)===0,
+    (r,c)=>(((r*c)%2)+((r*c)%3))%2===0,
+    (r,c)=>(((r+c)%2)+((r*c)%3))%2===0
+  ];
+  function penalidade(m,n){
+    let p=0;
+    const linha=get=>{
+      for(let a=0;a<n;a++){ let run=1;
+        for(let b=1;b<n;b++){
+          if(get(a,b)===get(a,b-1)) run++;
+          else { if(run>=5)p+=3+(run-5); run=1; }
+        }
+        if(run>=5)p+=3+(run-5);
+      }
+    };
+    linha((a,b)=>m[a][b]); linha((a,b)=>m[b][a]);
+    for(let r=0;r<n-1;r++)for(let c=0;c<n-1;c++){
+      const s=m[r][c]+m[r][c+1]+m[r+1][c]+m[r+1][c+1];
+      if(s===0||s===4)p+=3;
+    }
+    const alvo=[1,0,1,1,1,0,1,0,0,0,0];
+    const casa=(get,a,b)=>{for(let i=0;i<11;i++) if(get(a,b+i)!==alvo[i])return false;return true;};
+    for(let a=0;a<n;a++)for(let b=0;b+11<=n;b++){
+      if(casa((x,y)=>m[x][y],a,b))p+=40;
+      if(casa((x,y)=>m[y][x],a,b))p+=40;
+    }
+    let escuros=0; m.forEach(r=>r.forEach(v=>escuros+=v));
+    p+=Math.floor(Math.abs(escuros*100/(n*n)-50)/5)*10;
+    return p;
+  }
+  function formato(mask){
+    let d=(0b00<<3)|mask;                     // nível M = 00
+    let r=d<<10;
+    for(let i=14;i>=10;i--) if((r>>i)&1) r^=0b10100110111<<(i-10);
+    return ((d<<10)|r)^0b101010000010010;
+  }
+  function porFormato(m,n,mask){
+    const f=formato(mask), bit=i=>(f>>i)&1;
+    for(let i=0;i<6;i++) m[8][i]=bit(i);
+    m[8][7]=bit(6); m[8][8]=bit(7); m[7][8]=bit(8);
+    for(let i=9;i<15;i++) m[14-i][8]=bit(i);
+    for(let i=0;i<8;i++) m[n-1-i][8]=bit(i);
+    for(let i=8;i<15;i++) m[8][n-15+i]=bit(i);
+    // O bit 7 da segunda cópia cai exatamente sobre o módulo escuro obrigatório,
+    // então ele precisa ser reafirmado DEPOIS. Com a máscara 5 o bit calhava de
+    // ser 1 e o defeito passava despercebido; com outras, o QR quebraria.
+    m[n-8][8]=1;
+  }
+
+  function gerar(texto){
+    const {v,codewords}=codificar(texto);
+    const {m,res,n}=matriz(v);
+    preencher(m,res,n,codewords);
+    let melhor=null;
+    for(let k=0;k<8;k++){
+      const t=m.map(r=>[...r]);
+      for(let r=0;r<n;r++)for(let c=0;c<n;c++) if(!res[r][c]&&MASCARAS[k](r,c)) t[r][c]^=1;
+      porFormato(t,n,k);
+      const p=penalidade(t,n);
+      if(!melhor||p<melhor.p) melhor={p,t,k};
+    }
+    return {n,m:melhor.t,versao:v,mascara:melhor.k,reservado:res};
+  }
+  return {gerar,capacidade};
+})();
+
+/* ---- desenha o QR em SVG, que imprime nítido em qualquer tamanho ---- */
+function desenharQR(svg,texto){
+  const {n,m}=QR.gerar(texto);
+  const q=4, lado=n+q*2;                                  // zona de silêncio obrigatória
+  svg.setAttribute("viewBox","0 0 "+lado+" "+lado);
+  svg.setAttribute("shape-rendering","crispEdges");
+  let d="";
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++)
+    if(m[r][c]) d+="M"+(c+q)+" "+(r+q)+"h1v1h-1z";
+  svg.innerHTML='<rect width="'+lado+'" height="'+lado+'" fill="#fff"/>'+
+                '<path d="'+d+'" fill="#10171F"/>';
+  return {n,lado};
+}
+
+/* O cartaz descobre sozinho onde está hospedado, em vez de guardar um endereço
+   fixo que alguém teria que lembrar de editar. Este arquivo mora ao lado do
+   index.html, então a pasta que o contém É o endereço do projeto.            */
+/* Endereço fixo do projeto. Preencha quando o GitHub Pages estiver no ar.
+   Serve para o cartaz gerar o QR certo mesmo aberto direto do computador,
+   antes de ir para o servidor. Deixando vazio, ele se vira sozinho.        */
+const ENDERECO_PUBLICADO="https://op-creategit.github.io/dna-sem-fronteiras/";
+
+function enderecoDoProjeto(href){
+  try{
+    const u=new URL(href);
+    if(u.protocol==="http:"||u.protocol==="https:") return new URL(".",u).href;
+  }catch(e){}
+  return ENDERECO_PUBLICADO||null;   // aberto do disco: cai no endereço fixo, se houver
+}
+const LINK=enderecoDoProjeto(location.href);
+const a=document.getElementById("url");
+if(LINK){
+  a.href=LINK; a.textContent=LINK;
+  desenharQR(document.getElementById("qr"),LINK);
+}else{
+  // Aberto por duplo clique, fora de um servidor: não existe endereço público
+  // para colocar no código, e um QR apontando para C:\... não serve a ninguém.
+  a.removeAttribute("href");
+  a.textContent="Abra este cartaz pelo site publicado para o código aparecer";
+  a.style.cssText+="background:#FFF6E3;color:#7A4A00;font-weight:700";
+  document.getElementById("qr").outerHTML=
+    '<p style="margin:0;padding:40px 16px;font:600 14px/1.5 var(--sans);color:var(--mut)">'+
+    'O código QR aparece quando este cartaz é aberto pelo endereço publicado, '+
+    'e não a partir do arquivo no computador.</p>';
+  const c=document.getElementById("copiar"); if(c) c.style.display="none";
+}
+
+document.getElementById("copiar").onclick=async e=>{
+  const b=e.currentTarget;
+  if(!LINK)return;
+  try{ await navigator.clipboard.writeText(LINK); b.textContent="Link copiado"; }
+  catch(err){ b.textContent="Selecione o link acima e copie"; }
+  setTimeout(()=>b.textContent="Copiar link",2200);
+};
+</script>
+</body>
+</html>

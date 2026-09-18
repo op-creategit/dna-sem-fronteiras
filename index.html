@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratório do DNA · Experimento de Rosalind Franklin, química e jogo</title>
+<meta name="description" content="Material interativo de DNA para o ensino médio: o experimento de Rosalind Franklin com o padrão de difração calculado, a química da molécula peça por peça e um jogo de fixação. Roda offline, sem instalar nada.">
+<meta name="author" content="Projeto DNA sem fronteiras">
+<meta name="theme-color" content="#EFF3F7">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="color-scheme" content="light">
+<!-- prévia do link quando compartilhado (WhatsApp, Telegram, e-mail) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Laboratório do DNA">
+<meta property="og:description" content="O experimento de Rosalind Franklin, a química da molécula e um jogo. Interativo, roda no celular e sem internet.">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary">
+<!-- permite “adicionar à tela de início” e abrir em tela cheia, sem barra do navegador -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lab do DNA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23060609'/%3E%3Cpath d='M10 4c0 6 12 6 12 12s-12 6-12 12' stroke='%23E8A94E' stroke-width='2.4' fill='none'/%3E%3Cpath d='M22 4c0 6-12 6-12 12s12 6 12 12' stroke='%23F2EDE3' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<style>
+/* ===================================================================
+   Material de bancada escolar: papel quadriculado claro para a interface,
+   janelas ESCURAS para observar. O registro do experimento é um negativo : manchas claras
+   só existem sobre chapa preta , então ela e os modelos 3D moram em
+   painéis escuros embutidos na página clara, como vitrine de museu.
+=================================================================== */
+:root{
+  --paper:#EFF3F7;
+  --grid:#E0E7EE;
+  --card:#FFFFFF;
+  --line:#D3DBE4;
+  --hair:#E6EBF1;
+  --ink:#10171F;
+  --ink2:#3E4C5A;
+  --mut:#6B7885;
+  --dark:#07090D;              /* janelas de observação */
+  --accent:#1D5FD1;            /* azul interativo */
+  --accent-dk:#0E3F94;
+  --accent-sf:#E4EDFC;
+  --amber:#C97A06;             /* exposição: ocre, para sobreviver ao claro */
+  --amber-sf:#FCF0DC;
+
+  /* cores do kit; as "-t" são as versões legíveis sobre claro */
+  --A:#2E9E4B; --T:#E8B70C; --G:#2A6FDB; --C:#EE6420; --S:#D93A2B; --P:#FFFFFF;
+  --A-t:#1E7A38; --T-t:#9A7500; --G-t:#1D53AC; --C-t:#C24B10; --S-t:#B32A1D;
+
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(16,23,31,.05),0 4px 12px rgba(16,23,31,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+  background:var(--paper); color:var(--ink);
+  font:400 16px/1.5 var(--sans);
+  overflow:hidden; overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+#app{
+  display:flex;flex-direction:column;height:100dvh;
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/28px 100%,
+    var(--paper);
+}
+.lbl{font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.snd{width:42px;height:42px;flex:0 0 auto;border-radius:11px;display:grid;place-items:center;
+  font-size:18px;border:1px solid var(--line);background:var(--card);transition:.15s}
+.snd:hover{border-color:var(--accent);background:var(--accent-sf)}
+.snd[aria-pressed="false"]{opacity:.45}
+
+/* ---------- cabeçalho ---------- */
+header{
+  display:flex;align-items:center;gap:16px;padding:0 18px;height:60px;flex:0 0 auto;
+  background:var(--card);border-bottom:1px solid var(--line);box-shadow:var(--shadow);z-index:4;
+}
+.mark{font:800 17px/1 var(--sans);letter-spacing:-.01em;color:var(--ink);white-space:nowrap;
+  min-width:0;overflow:hidden;text-overflow:ellipsis}
+.mark span{color:var(--accent)}
+nav{margin-left:auto;display:flex;gap:4px;flex:0 0 auto;background:var(--paper);
+  padding:4px;border-radius:12px}
+nav button{font:700 14px/1 var(--sans);padding:10px 16px;border-radius:9px;
+  color:var(--ink2);transition:.15s}
+nav button:hover{color:var(--ink);background:rgba(255,255,255,.7)}
+nav button.on{background:var(--accent);color:#fff;box-shadow:0 2px 6px rgba(29,95,209,.35)}
+
+/* ---------- estrutura ---------- */
+main{flex:1 1 auto;min-height:0;position:relative}
+.view{position:absolute;inset:0;display:none;min-height:0}
+.view.on{display:grid;animation:enter .32s cubic-bezier(.2,.8,.3,1)}
+@keyframes enter{from{transform:translateY(10px)}to{transform:none}}  /* só transform: opacidade travada em 0 esconderia a aba inteira */
+#v-exp,#v-qui{grid-template-columns:minmax(0,1fr) 372px;gap:16px;padding:16px}
+/* a janela escura de observação */
+.stage{position:relative;min-width:0;min-height:0;overflow:hidden;
+  background:var(--dark);border-radius:16px;box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.06)}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.side{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.side .scroll{overflow-y:auto;display:flex;flex-direction:column;gap:14px;min-height:0;padding-right:2px}
+
+/* ---------- controles ---------- */
+.bar{position:absolute;left:0;right:0;bottom:0;display:flex;gap:8px;flex-wrap:wrap;
+  padding:14px;pointer-events:none;
+  background:linear-gradient(transparent,rgba(7,9,13,.9) 60%)}
+.bar>*{pointer-events:auto}
+.ctl{font:700 13px/1 var(--sans);padding:11px 15px;border-radius:10px;
+  background:rgba(255,255,255,.1);color:#EDF1F5;border:1px solid rgba(255,255,255,.18);
+  transition:.15s;text-align:left;backdrop-filter:blur(4px)}
+.ctl:hover{background:rgba(255,255,255,.2)}
+.ctl[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.ctl.live{background:var(--amber);border-color:var(--amber);color:#fff}
+.ctl i{display:block;font-style:normal;font:600 10.5px/1 var(--sans);opacity:.72;margin-top:4px}
+.hint{position:absolute;top:14px;left:16px;font:600 12px/1 var(--sans);color:rgba(255,255,255,.6);
+  background:rgba(255,255,255,.08);padding:7px 11px;border-radius:8px;pointer-events:none}
+
+/* ---------- cartões ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px;box-shadow:var(--shadow)}
+.finding{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px;box-shadow:var(--shadow)}
+.finding .ix{display:inline-block;font:800 11px/1 var(--mono);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--accent-dk);background:var(--accent-sf);
+  padding:6px 9px;border-radius:6px}
+.finding .ix.amber{color:#8A5400;background:var(--amber-sf)}
+.finding h3{margin:11px 0 8px;font:800 19px/1.25 var(--sans);letter-spacing:-.01em;color:var(--ink)}
+.finding p{margin:0;font:400 15px/1.6 var(--sans);color:var(--ink2)}
+.finding p+p{margin-top:9px}
+.finding b{color:var(--ink);font-weight:700}
+.k{font:700 14px/1 var(--mono);color:var(--accent-dk);background:var(--accent-sf);
+  padding:2px 6px;border-radius:5px;white-space:nowrap}
+/* a frase que faz o aluno parar */
+.why{margin-top:11px;padding:11px 13px;border-radius:10px;background:var(--amber-sf);
+  font:600 14px/1.5 var(--sans);color:#7A4A00}
+.why::before{content:"Por que isso importa · ";font:800 10.5px/1 var(--sans);
+  letter-spacing:.09em;text-transform:uppercase;color:#A96A00;display:block;margin-bottom:5px}
+
+.group{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px 16px;box-shadow:var(--shadow)}
+.group>.lbl{display:block;margin-bottom:10px}
+.list{display:flex;flex-wrap:wrap;gap:7px}
+.tag{font:700 13px/1 var(--sans);padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);
+  background:var(--card);color:var(--ink2);display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.tag:hover{border-color:var(--accent);color:var(--accent-dk)}
+.tag[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;box-shadow:0 0 0 1px rgba(16,23,31,.15)}
+
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 16px;
+  box-shadow:var(--shadow)}
+details summary{cursor:pointer;list-style:none;font:700 12px/1 var(--sans);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:" +";color:var(--accent)}
+details[open] summary::after{content:" −"}
+details ul{margin:11px 0 0;padding-left:17px;font:400 13px/1.7 var(--sans);color:var(--mut)}
+/* carimbo de versão: responde em um segundo a pergunta "este aparelho está
+   com o código novo?", que sem isso vira adivinhação */
+.verline{margin:11px 0 0;font:700 12px/1.4 var(--mono);color:var(--accent-dk);
+  background:var(--accent-sf);padding:8px 10px;border-radius:8px}
+
+/* ---------- a chapa e o trilho ---------- */
+.platewrap{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px;box-shadow:var(--shadow);margin-bottom:14px}
+.plate{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;align-items:stretch;
+  max-width:330px;margin:0 auto}
+#film{width:100%;height:auto;background:#000;display:block;border-radius:8px;
+  box-shadow:0 0 0 1px var(--line);touch-action:manipulation}
+.rail{position:relative}
+.tick{position:absolute;left:0;right:0;display:block;cursor:pointer}
+.tick .mk{position:absolute;left:0;right:0;transform:translateY(-50%);
+  display:flex;align-items:center;justify-content:flex-end;gap:7px}
+.tick .ix{font:700 12px/1 var(--mono);color:var(--mut);white-space:nowrap;transition:color .3s}
+.tick .dash{width:13px;height:0;border-top:2px solid var(--line);
+  transition:border-color .3s,width .25s;flex:0 0 auto}
+.tick[data-lit="1"] .ix{color:var(--ink2)}
+.tick[data-lit="1"] .dash{border-color:var(--ink2)}
+.tick[aria-pressed="true"] .ix{color:var(--accent);font-weight:800}
+.tick[aria-pressed="true"] .dash{border-color:var(--accent);width:24px}
+.tick.absent .dash{border-top-style:dashed}
+.tick.absent[data-lit="1"] .ix{color:var(--amber)}
+.tick.absent[data-lit="1"] .dash{border-color:var(--amber)}
+
+.meter{display:flex;align-items:center;gap:11px;max-width:330px;margin:12px auto 0}
+.meter .track{flex:1;height:6px;background:var(--hair);border-radius:99px;position:relative;overflow:hidden}
+.meter .fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--amber);
+  border-radius:99px;transition:width .18s linear}
+.meter .read{font:700 12px/1 var(--mono);color:var(--mut);white-space:nowrap}
+
+/* ---------- etiqueta ancorada e legenda do ponteiro ---------- */
+.callout{
+  position:absolute;z-index:5;pointer-events:none;width:230px;padding:13px 15px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  border-left:5px solid var(--co,var(--accent));box-shadow:0 6px 24px rgba(7,9,13,.35);
+  opacity:0;transform:translateX(-9px) scale(.96);transform-origin:left center;
+  transition:opacity .2s ease-out,transform .26s cubic-bezier(.16,.9,.3,1)
+}
+.callout.flip{transform:translateX(9px) scale(.96);transform-origin:right center;
+  border-left:1px solid var(--line);border-right:5px solid var(--co,var(--accent))}
+.callout.on{opacity:1;transform:none}
+.co-f{font:700 11px/1 var(--mono);color:var(--mut)}
+.callout h4{margin:7px 0 6px;font:800 15px/1.2 var(--sans);color:var(--ink)}
+.callout p{margin:0;font:400 13.5px/1.5 var(--sans);color:var(--ink2)}
+.tip{position:absolute;z-index:6;pointer-events:none;white-space:nowrap;
+  font:700 12px/1 var(--sans);padding:8px 11px;background:var(--ink);border-radius:8px;
+  color:#fff;opacity:0;transition:opacity .12s ease-out;box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.tip.on{opacity:1}
+
+/* ---------- diagrama molecular ---------- */
+#mol{width:100%;height:100%;display:block;touch-action:none}
+.hit{fill:transparent;cursor:pointer}
+.hit:hover{fill:rgba(255,255,255,.06)}
+
+/* ---------- jogo ---------- */
+#v-jog{grid-template-columns:minmax(0,1fr);overflow-y:auto}
+.game{max-width:660px;margin:0 auto;padding:24px 18px 48px;width:100%;min-width:0;
+  display:flex;flex-direction:column;gap:18px}
+.hud{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-width:0}
+.hud .grow{flex:1}
+.pill{font:800 13px/1 var(--sans);padding:8px 12px;border-radius:99px;
+  background:var(--card);border:1px solid var(--line);color:var(--ink2)}
+.pill b{color:var(--accent-dk)}
+.pill.hot{background:var(--amber-sf);border-color:#F0D9AC;color:#8A5400}
+
+
+/* tira de progresso */
+.strip{display:flex;gap:4px}
+.frame{flex:1;height:8px;border-radius:99px;background:var(--hair);transition:.25s}
+.frame.hit{background:var(--A)}
+.frame.miss{background:#E8A0A0}
+.frame.now{background:var(--accent)}
+
+/* --- montar a fita --- */
+.tpl{background:var(--dark);border-radius:14px;padding:18px 14px;overflow-x:auto;max-width:100%;
+  box-shadow:var(--shadow)}
+.tpl-lbl{font:700 11px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:12px;display:block}
+.strand{display:flex;gap:5px;align-items:center;justify-content:center;min-width:min-content}
+.nt{width:44px;height:52px;border-radius:9px;display:grid;place-items:center;
+  font:800 20px/1 var(--sans);color:#fff;flex:0 0 auto;position:relative}
+.nt.A{background:var(--A)} .nt.T{background:var(--T);color:#3A2C00}
+.nt.G{background:var(--G)} .nt.C{background:var(--C)}
+.pair{display:flex;flex-direction:column;gap:5px;align-items:center;flex:0 0 auto}
+.slot{width:44px;height:52px;border-radius:9px;display:grid;place-items:center;
+  border:2px dashed rgba(255,255,255,.28);font:800 20px/1 var(--sans);color:rgba(255,255,255,.3)}
+.slot.now{border-color:#fff;border-style:solid;background:rgba(255,255,255,.1);
+  animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.45)}50%{box-shadow:0 0 0 7px rgba(255,255,255,0)}}
+.slot.done{border:0}
+.bond{font:700 9px/1 var(--mono);color:rgba(255,255,255,.55);letter-spacing:.12em}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.base-btn{padding:16px 10px;border-radius:14px;border:2px solid transparent;color:#fff;
+  font:800 22px/1 var(--sans);box-shadow:var(--shadow);transition:.12s;
+  display:flex;flex-direction:column;align-items:center;gap:5px}
+.base-btn small{font:700 10px/1 var(--sans);letter-spacing:.06em;opacity:.85}
+.base-btn:active{transform:scale(.95)}
+.base-btn.A{background:var(--A)} .base-btn.T{background:var(--T);color:#3A2C00}
+.base-btn.G{background:var(--G)} .base-btn.C{background:var(--C)}
+.base-btn:disabled{opacity:.45}
+@keyframes shake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(4px)}50%{transform:translateX(-4px)}}
+.shake{animation:shake .32s}
+.combo{position:absolute;font:800 22px/1 var(--sans);color:var(--A);pointer-events:none;
+  animation:rise .8s ease-out forwards}
+@keyframes rise{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-38px)}}
+
+/* --- quiz --- */
+.fb{font:400 15px/1.6 var(--sans);color:var(--ink2);background:var(--card);
+  border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;
+  padding:14px 16px;box-shadow:var(--shadow)}
+.fb b{color:var(--ink);font-weight:800}
+.fb.ok{border-left-color:var(--A)} .fb.no{border-left-color:#E06060}
+
+.btn{font:800 15px/1 var(--sans);padding:15px 22px;border-radius:12px;background:var(--accent);
+  color:#fff;box-shadow:0 2px 8px rgba(29,95,209,.35);transition:.15s;align-self:flex-start}
+.btn:hover{background:var(--accent-dk);transform:translateY(-1px)}
+.btn.ghost{background:var(--card);color:var(--ink2);border:2px solid var(--line);box-shadow:var(--shadow)}
+.btn.ghost:hover{background:var(--card);border-color:var(--accent);color:var(--accent-dk)}
+
+.score{font:800 64px/1 var(--sans);letter-spacing:-.03em;color:var(--accent-dk)}
+.rowbtn{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- tela de atração (totem sem ninguém por perto) ---------- */
+/* `#attract` é seletor de id e vence a regra `[hidden]{display:none}` do navegador:
+   sem esta linha, marcar hidden não esconde nada e o botão "Começar" parece morto. */
+#attract[hidden]{display:none}
+#attract{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;
+  background:#05070C}
+#heroCv{position:absolute;inset:0;width:100%;height:100%;display:block;
+  touch-action:none;z-index:0}
+#attract .at{position:relative;z-index:1;pointer-events:none}
+#attract .at .btn{pointer-events:auto}
+#attract .at-ver{margin:26px 0 0;font:700 10px/1 var(--mono);letter-spacing:.12em;
+  color:rgba(255,255,255,.3)}
+#attract .at-dica{margin:20px 0 0;font:700 11px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.38)}
+/* Nada de fade de opacidade aqui: se a animação não avançar, a tela ficaria
+   invisível E ainda cobrindo tudo . O totem pareceria travado. A entrada
+   suave fica só no conteúdo, que não bloqueia nada se não animar. */
+#attract .at{animation:entraAt .45s cubic-bezier(.2,.8,.3,1)}
+@keyframes entraAt{from{transform:translateY(14px) scale(.98)}to{transform:none}}
+#attract .at{max-width:560px;text-align:center;color:#fff}
+#attract .at-eyebrow{font:800 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:#7FB2FF;margin:0 0 18px}
+#attract h1{margin:0 0 14px;font:800 clamp(28px,6vw,46px)/1.1 var(--sans);letter-spacing:-.02em;
+  text-wrap:balance}
+#attract .at-sub{margin:0 0 30px;font:400 clamp(15px,3.2vw,19px)/1.55 var(--sans);
+  color:rgba(255,255,255,.75);text-wrap:balance}
+#attract .btn{align-self:center;font-size:17px;padding:17px 32px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#attract .at-helix{width:clamp(90px,22vw,140px);height:auto;margin:0 auto 22px;display:block}
+
+/* ---------- responsivo ---------- */
+@media (max-width:900px){
+  header{padding:0 12px;gap:10px;height:54px}
+  .mark{font-size:14.5px}
+  nav{gap:2px;padding:3px} nav button{padding:9px 11px;font-size:12.5px}
+  .snd{width:36px;height:36px;font-size:16px;border-radius:9px}
+  #v-exp,#v-qui{grid-template-columns:1fr;gap:12px;padding:12px}
+  #v-exp{grid-template-rows:minmax(0,32dvh) minmax(0,1fr)}
+  #v-qui{grid-template-rows:minmax(0,44dvh) minmax(0,1fr)}
+  .platewrap{padding:12px;margin-bottom:12px}
+  .plate{grid-template-columns:56px minmax(0,1fr);width:fit-content;max-width:none;margin:0 auto}
+  #film{width:auto;height:min(30dvh,250px)}
+  .meter{max-width:260px}
+  .bar{padding:11px;gap:6px} .ctl{padding:10px 12px;font-size:12px}
+  .hint{top:11px;left:12px;font-size:11px;padding:6px 9px}
+  .finding h3{font-size:17px} .finding p{font-size:14.5px}
+  .callout{width:min(210px,calc(100vw - 40px));padding:11px 13px}
+  .callout h4{font-size:14px} .callout p{font-size:12.5px}
+  .game{padding:18px 14px 44px;gap:15px}
+  .q{font-size:19px}
+  .opts{gap:8px} .base-btn{padding:14px 6px;font-size:20px}
+  .nt,.slot{width:38px;height:46px;font-size:17px}
+  .score{font-size:52px}
+}
+@media (max-width:400px){
+  .mark{font-size:13px} nav button{padding:8px 10px;font-size:12px}
+  .modes{grid-template-columns:1fr}
+  .nt,.slot{width:33px;height:41px;font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms!important;animation-duration:.01ms!important;
+    animation-iteration-count:1!important}
+}
+</style>
+</head>
+<body>
+<!-- Tela de atração: volta sozinha quando ninguém mexe, para o próximo
+     aluno que chegar no evento encontrar um convite, e não a tela parada
+     de quem passou antes. -->
+<div id="attract">
+  <canvas id="heroCv" aria-hidden="true"></canvas>
+  <div class="at">
+    <p class="at-eyebrow">Projeto DNA sem fronteiras</p>
+    <h1>Como descobriram o formato do DNA?</h1>
+    <p class="at-sub">Um experimento de 1952, um modelo que você gira com o dedo e um jogo para ver se pegou.</p>
+    <button class="btn" id="atStart">Começar</button>
+    <p class="at-dica">passe o dedo ou o mouse pela tela</p>
+    <p class="at-ver" id="atVer"></p>
+  </div>
+</div>
+<div id="app">
+<header>
+  <div class="mark">Laboratório do <span>DNA</span></div>
+  <nav>
+    <button data-tab="exp" class="on">Experimento</button>
+    <button data-tab="qui">Química</button>
+    <button data-tab="jog">Jogo</button>
+  </nav>
+  <button class="snd" id="snd" aria-pressed="true" aria-label="Ligar ou desligar o som" title="Som">🔊</button>
+</header>
+
+<main>
+  <!-- ================= ABA 1 ================= -->
+  <section id="v-exp" class="view on">
+    <div class="stage">
+      <canvas id="lab"></canvas>
+      <div class="hint">Arraste para girar · toque nas peças</div>
+      <div class="bar">
+        <button class="ctl" id="expose">▶ Expor</button>
+        <button class="ctl" id="formB" data-form="B" aria-pressed="true">92% UR<i>Forma B</i></button>
+        <button class="ctl" id="formA" data-form="A" aria-pressed="false">75% UR<i>Forma A</i></button>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="platewrap">
+        <div class="plate">
+          <div class="rail" id="rail"></div>
+          <canvas id="film" width="640" height="800"></canvas>
+        </div>
+        <div class="meter">
+          <span class="read" id="filmcap">Forma B · 92% UR</span>
+          <span class="track"><span class="fill" id="expfill"></span></span>
+          <span class="read" id="expread">0 h</span>
+        </div>
+      </div>
+      <div class="scroll">
+        <div class="finding" id="expInfo"></div>
+        <details>
+          <summary>Fontes e versão</summary>
+          <p class="verline" id="verLine"></p>
+          <ul>
+            <li>Franklin R.E. &amp; Gosling R.G. <i>Molecular configuration in sodium thymonucleate.</i> Nature 171, 740-741 (1953).</li>
+            <li>Franklin R.E. &amp; Gosling R.G. <i>The structure of sodium thymonucleate fibres I.</i> Acta Cryst. 6, 673 (1953).</li>
+            <li>Cochran W., Crick F.H.C. &amp; Vand V. <i>The structure of synthetic polypeptides. I. The transform of atoms on a helix.</i> Acta Cryst. 5, 581 (1952).</li>
+            <li>Watson J.D. &amp; Crick F.H.C. Nature 171, 737-738 (1953).</li>
+            <li>Wilkins M.H.F., Stokes A.R. &amp; Wilson H.R. Nature 171, 738-740 (1953).</li>
+            <li>Drew H.R. et al. <i>Structure of a B‑DNA dodecamer.</i> PNAS 78, 2179 (1981).</li>
+          </ul>
+        </details>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ================= ABA 2 ================= -->
+  <section id="v-qui" class="view">
+    <div class="stage">
+      <canvas id="helix"></canvas>
+      <svg id="mol" style="display:none"></svg>
+      <div class="callout" id="callout" hidden>
+        <span class="co-f" id="coForm"></span>
+        <h4 id="coName"></h4>
+        <p id="coShort"></p>
+      </div>
+      <div class="tip" id="tip" hidden></div>
+      <div class="hint" id="quiHint">Passe o ponteiro para identificar · toque para abrir</div>
+      <div class="bar">
+        <button class="ctl" data-view="helix" aria-pressed="true">Hélice</button>
+        <button class="ctl" data-view="AT" aria-pressed="false">Par A = T</button>
+        <button class="ctl" data-view="GC" aria-pressed="false">Par G ≡ C</button>
+        <button class="ctl" id="reframe" hidden>↺ Reenquadrar</button>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="scroll">
+        <div class="finding" id="quiInfo"></div>
+        <div class="group"><span class="lbl">Esqueleto</span><div class="list" id="gEsq"></div></div>
+        <div class="group"><span class="lbl">Bases</span><div class="list" id="gBase"></div></div>
+        <div class="group"><span class="lbl">Ligações e forma</span><div class="list" id="gLig"></div></div>
+        <div class="group">
+          <span class="lbl">Forma B · medidas</span>
+          <p style="margin:0;font:400 13px/1.9 var(--sans);color:var(--halide)">
+            <span class="k">34 Å</span> passo · <span class="k">3,4 Å</span> entre bases ·
+            <span class="k">10 pb</span> por volta · <span class="k">20 Å</span> diâmetro ·
+            sulco maior <span class="k">22 Å</span> · menor <span class="k">12 Å</span>
+          </p>
+          <p style="margin:9px 0 0;font:400 11.5px/1.55 var(--sans);color:var(--graphite)">
+            Como todo modelo de bancada, este engrossa a hélice para as peças
+            caberem na mão. Na molécula real o passo é 1,7× o diâmetro.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ================= ABA 3 ================= -->
+  <section id="v-jog" class="view"><div class="game" id="game"></div></section>
+</main>
+</div>
+
+<script>
+"use strict";
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+
+/* =======================================================================
+   SOM · sintetizado na hora, sem arquivo externo (o HTML segue offline).
+   A ideia que faz o som ensinar: no encaixe, o número de NOTAS é o número
+   de PONTES DE HIDROGÊNIO. A=T toca duas notas; G≡C toca três e soa mais
+   cheio. Depois de algumas rodadas o aluno ouve a diferença antes de ler.
+   Navegador de celular só libera áudio depois de um toque, então o
+   contexto é destravado no primeiro gesto.
+======================================================================= */
+const SFX=(()=>{
+  let ctx=null, ligado=true;
+  try{ ligado = localStorage.getItem("labdna_som")!=="0"; }catch(e){}
+
+  function destravar(){
+    if(ctx){ if(ctx.state==="suspended") ctx.resume(); return; }
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    try{ ctx=new AC(); if(ctx.state==="suspended") ctx.resume(); }catch(e){ ctx=null; }
+  }
+  // envelope curto: ataque rápido, cauda exponencial. Nada de bipe longo.
+  function nota(f,atraso,dur,vol,tipo,desliza){
+    if(!ctx||!ligado) return;
+    const t=ctx.currentTime+atraso;
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=tipo||"sine";
+    o.frequency.setValueAtTime(f,t);
+    if(desliza) o.frequency.exponentialRampToValueAtTime(desliza,t+dur);
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+.012);
+    g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t); o.stop(t+dur+.03);
+  }
+  const DO=523.25, MI=659.25, SOL=783.99, DO2=1046.5;
+
+  return {
+    destravar,
+    ligado:()=>ligado,
+    alternar(){
+      ligado=!ligado;
+      try{ localStorage.setItem("labdna_som",ligado?"1":"0"); }catch(e){}
+      if(ligado){ destravar(); nota(DO,0,.1,.07); }
+      return ligado;
+    },
+    // encaixe certo: uma nota por ponte de hidrogênio
+    encaixe(pontes){
+      const esc=[DO,MI,SOL];
+      for(let i=0;i<pontes;i++) nota(esc[i],i*.075,.19,.09,"triangle");
+    },
+    erro(){ nota(207.65,0,.2,.075,"triangle",164.81); },   // grave e curto, sem repreender
+    toque(){ nota(1174.7,0,.045,.035,"sine"); },            // peça tocada: quase um tique
+    revela(){ nota(392,0,.13,.05,"sine"); nota(587.33,.09,.24,.06,"sine"); },
+    fim(acertou,total){
+      const p=total?acertou/total:0;
+      if(p>=.7){ [DO,MI,SOL,DO2].forEach((f,i)=>nota(f,i*.1,.32,.085,"triangle")); }
+      else     { [DO,MI,SOL].forEach((f,i)=>nota(f*.75,i*.11,.28,.07,"triangle")); }
+    },
+    recorde(){ [DO,MI,SOL,DO2,SOL,DO2].forEach((f,i)=>nota(f,.45+i*.085,.3,.08,"triangle")); }
+  };
+})();
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const TAU=Math.PI*2;
+
+/* Carimbo de versão. Serve para responder num segundo, em qualquer aparelho,
+   se aquela tela está com o código novo. Suba o número a cada publicação. */
+const VERSAO="v11", VERSAO_DATA="18 set 2026";
+(()=>{
+  const t=VERSAO+" · "+VERSAO_DATA;
+  const a=$("#atVer"); if(a) a.textContent=t;
+  const b=$("#verLine"); if(b) b.textContent="Versão desta tela: "+t;
+})();
+
+/* =======================================================================
+   ABAS
+======================================================================= */
+$$("nav button").forEach(b=>b.onclick=()=>{
+  $$("nav button").forEach(x=>x.classList.toggle("on",x===b));
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+b.dataset.tab));
+  resizeAll();
+});
+
+/* =======================================================================
+   MINI MOTOR 3D (canvas 2D, projeção em perspectiva + painter's algorithm)
+======================================================================= */
+function mkCanvas(el){
+  const ctx=el.getContext("2d");
+  const st={el,ctx,w:0,h:0,dpr:1};
+  st.resize=()=>{
+    const r=el.getBoundingClientRect();
+    // no toque o modelo é chunky e não ganha nada com 2x ou 3x de densidade;
+    // limitar a 1.5 corta ~44% dos pixels a preencher
+    const dpr=Math.min(window.devicePixelRatio||1,
+                       matchMedia("(pointer:coarse)").matches?1.5:2);
+    st.w=Math.max(1,Math.round(r.width)); st.h=Math.max(1,Math.round(r.height)); st.dpr=dpr;
+    // com dpr fracionário (1.5) o buffer é truncado e sobra meia coluna cortada:
+    // arredonda o buffer e tira a escala DELE, não do dpr
+    el.width=Math.round(st.w*dpr); el.height=Math.round(st.h*dpr);
+    ctx.setTransform(el.width/st.w,0,0,el.height/st.h,0,0);
+  };
+  // Limpa o BUFFER inteiro, em pixels de dispositivo, ignorando a transformação
+  // corrente. Limpar em pixels de CSS deixa resto de quadro anterior se a escala
+  // estiver dessincronizada e resto de quadro é exatamente uma imagem fantasma.
+  st.clear=()=>{
+    ctx.save(); ctx.setTransform(1,0,0,1,0,0);
+    ctx.clearRect(0,0,el.width,el.height); ctx.restore();
+  };
+  // O host pode mudar o tamanho sem disparar resize (emulação de aparelho,
+  // painel de prévia). Confere sozinho e se corrige.
+  st.ensure=()=>{
+    if(el.clientWidth===st.w && el.clientHeight===st.h &&
+       el.width===Math.round(st.w*st.dpr) && el.height===Math.round(st.h*st.dpr)) return false;
+    st.resize(); return true;      // vale para o CSS E para o buffer: é a dessincronia
+  };                               // do buffer que espreme e fantasmeia a imagem
+  return st;
+}
+function project(p,cam,w,h){
+  const cy=Math.cos(cam.ry),sy=Math.sin(cam.ry);
+  const x1=p.x*cy+p.z*sy, z1=-p.x*sy+p.z*cy;
+  const cx=Math.cos(cam.rx),sx=Math.sin(cam.rx);
+  const y1=p.y*cx-z1*sx;
+  let z2=p.y*sx+z1*cx+cam.dist;
+  if(z2<8) z2=8;
+  const s=cam.fov/z2;
+  return {x:w/2+x1*s, y:h/2-(y1+(cam.oy||0))*s, z:z2, s};
+}
+// Leva um vetor para o espaço da câmera (pt=true trata como ponto e soma a distância).
+function camVec(v,cam,pt){
+  const cy=Math.cos(cam.ry),sy=Math.sin(cam.ry),cx=Math.cos(cam.rx),sx=Math.sin(cam.rx);
+  const x1=v.x*cy+v.z*sy, z1=-v.x*sy+v.z*cy;
+  return {x:x1, y:v.y*cx-z1*sx, z:v.y*sx+z1*cx+(pt?cam.dist:0)};
+}
+/* A face olha para quem vê?
+   Testar só a direção da normal (n.z<0) supõe projeção ORTOGRÁFICA. Aqui a projeção
+   é em perspectiva: com raio 19 e distância 75, a linha de visada abre 14° do centro
+   para a borda, e toda face cuja normal caia nessa faixa era classificada errado,
+   as peças das laterais da hélice perdiam faces conforme a perspectiva mudava.
+   O teste certo usa a visada até AQUELA face: dot(normal, ponto - olho) < 0.        */
+function facesViewer(n,p,cam){
+  const N=camVec(n,cam,false), P=camVec(p,cam,true);
+  return N.x*P.x+N.y*P.y+N.z*P.z < 0;
+}
+function orbit(el,cam,onChange){
+  let drag=false,lx=0,ly=0,pinch=0;
+  const down=e=>{if(e.touches&&e.touches.length===2){pinch=dist2(e);return}drag=true;const p=pt(e);lx=p.x;ly=p.y;cam.auto=false;};
+  const move=e=>{
+    if(e.touches&&e.touches.length===2){
+      e.preventDefault(); const d=dist2(e);
+      if(pinch){setZoom(cam,(cam.zoom||1)*(pinch/d));onChange&&onChange();}
+      pinch=d; return;
+    }
+    if(!drag)return; e.preventDefault();
+    const p=pt(e); cam.ry+=(p.x-lx)*.008; cam.rx=clamp(cam.rx+(p.y-ly)*.006,-1.35,1.35);
+    lx=p.x;ly=p.y; onChange&&onChange();
+  };
+  const up=()=>{drag=false;pinch=0;};
+  const pt=e=>e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};
+  const dist2=e=>Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  el.addEventListener("mousedown",down); el.addEventListener("touchstart",down,{passive:true});
+  window.addEventListener("mousemove",move); el.addEventListener("touchmove",move,{passive:false});
+  window.addEventListener("mouseup",up); window.addEventListener("touchend",up);
+  el.addEventListener("wheel",e=>{e.preventDefault();
+    setZoom(cam,(cam.zoom||1)*(1+Math.sign(e.deltaY)*.11));onChange&&onChange();},{passive:false});
+}
+// enquadra o modelo no canvas para QUALQUER rotação (perspectiva incluída)
+function boxPts(hx,hy,hz){
+  const p=[];
+  for(const x of[-hx,hx])for(const y of[-hy,hy])for(const z of[-hz,hz])p.push({x,y,z});
+  return p;
+}
+// envelope cilíndrico: para a hélice, a caixa inflaria a largura pela diagonal
+// e custaria ~40% do zoom sem que nada ocupasse aqueles cantos
+function cylPts(r,hy,n){
+  const p=[];
+  for(let k=0;k<(n||14);k++){const a=k*TAU/(n||14);
+    for(const y of[-hy,hy]) p.push({x:Math.cos(a)*r,y,z:Math.sin(a)*r});}
+  return p;
+}
+/* O zoom do usuário é guardado como FATOR relativo ao enquadramento, não como
+   distância absoluta. Antes, quem desse zoom desligava o enquadramento para sempre:
+   ao girar o aparelho ou trocar de aba o modelo ficava minúsculo e não havia volta. */
+function setZoom(cam,z){
+  cam.zoom=clamp(z,.35,3);
+  cam.dist=clamp((cam.fit||cam.dist)*cam.zoom,cam.min||40,cam.max||400);
+}
+function fitCam(cam,pts,st,pad){
+  if(st.w<40||st.h<40)return;
+  const mx=st.w/2-pad, my=st.h/2-pad;
+  const ok=d=>{
+    for(let a=0;a<12;a++){
+      const c={ry:a*TAU/12,rx:cam.rx,dist:d,fov:cam.fov,oy:cam.oy};
+      for(let i=0;i<pts.length;i++){
+        const q=project(pts[i],c,st.w,st.h);
+        if(Math.abs(q.x-st.w/2)>mx||Math.abs(q.y-st.h/2)>my)return false;
+      }
+    }
+    return true;
+  };
+  if(!ok(cam.max)){cam.fit=cam.max;cam.dist=cam.max;return;}
+  let lo=cam.min,hi=cam.max;
+  for(let i=0;i<24;i++){const m=(lo+hi)/2; if(ok(m))hi=m; else lo=m;}
+  cam.fit=hi;                                    // enquadramento ideal para este canvas
+  cam.dist=clamp(hi*(cam.zoom||1),cam.min,cam.max);
+}
+function sphere(ctx,x,y,r,col,glow){
+  if(r<0.4)return;
+  const g=ctx.createRadialGradient(x-r*.35,y-r*.4,r*.1,x,y,r);
+  g.addColorStop(0,"#fff"); g.addColorStop(.28,col); g.addColorStop(1,shade(col,-52));
+  if(glow){ctx.shadowColor=col;ctx.shadowBlur=glow;}
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill();
+  ctx.shadowBlur=0;
+}
+function shade(hex,amt){
+  const n=parseInt(hex.slice(1),16);
+  const f=v=>clamp(v+amt,0,255);
+  return "rgb("+f(n>>16)+","+f((n>>8)&255)+","+f(n&255)+")";
+}
+function tube(ctx,a,b,wA,wB,col,alpha){
+  const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy); if(L<.4)return;
+  const nx=-dy/L,ny=dx/L;
+  ctx.globalAlpha=alpha==null?1:alpha;
+  ctx.fillStyle=col;
+  ctx.beginPath();
+  ctx.moveTo(a.x+nx*wA,a.y+ny*wA); ctx.lineTo(b.x+nx*wB,b.y+ny*wB);
+  ctx.lineTo(b.x-nx*wB,b.y-ny*wB); ctx.lineTo(a.x-nx*wA,a.y-ny*wA);
+  ctx.closePath(); ctx.fill(); ctx.globalAlpha=1;
+}
+
+/* =======================================================================
+   TEORIA DA DIFRAÇÃO HELICOIDAL  (Cochran, Crick & Vand 1952)
+   Para uma hélice contínua de raio r, a linha de camada l tem amplitude
+   proporcional a J_l(2*pi*R*r). Duas cadeias defasadas de 3/8 de volta
+   introduzem o fator cos^2(3*pi*l/8)  ->  a 4a linha de camada some.
+   O empilhamento das bases a cada 3,4 A gera o termo meridional em l=+-10.
+======================================================================= */
+const LAMBDA=1.5418;   // A  (Cu K-alpha)
+const PITCH=34.0;      // A  passo da helice B
+const RHELIX=9.4;      // A  raio do esqueleto fosfato
+const RBASE=3.0;       // A  raio efetivo das bases
+const DFILM=15.0;      // mm distancia amostra-filme
+const SIGZ=0.0055;     // A^-1 largura das linhas de camada (desordem da fibra)
+
+const JTAB=(()=>{
+  const NMAX=12,XMAX=32,STEP=0.04,N=Math.round(XMAX/STEP)+1;
+  const t=[];
+  for(let n=0;n<=NMAX;n++){
+    const a=new Float32Array(N);
+    for(let i=0;i<N;i++){
+      const x=i*STEP,M=180; let s=0;
+      for(let k=0;k<=M;k++){
+        const th=Math.PI*k/M, w=(k===0||k===M)?.5:1;
+        s+=w*Math.cos(n*th-x*Math.sin(th));
+      }
+      a[i]=s/M;
+    }
+    t.push(a);
+  }
+  return {t,STEP,XMAX,NMAX};
+})();
+function J(n,x){
+  n=Math.abs(n); if(n>JTAB.NMAX)return 0;
+  x=Math.abs(x); if(x>=JTAB.XMAX)return 0;
+  const a=JTAB.t[n],f=x/JTAB.STEP,i=f|0,d=f-i;
+  return a[i]*(1-d)+a[i+1]*d;
+}
+// intensidade da forma B em (R,Z) do espaco reciproco, em A^-1
+function intB(R,Z){
+  let sum=0;
+  for(let l=-12;l<=12;l++){
+    const d=(Z-l/PITCH)/SIGZ;
+    if(d*d>13) continue;
+    const g=Math.exp(-.5*d*d), al=Math.abs(l);
+    const c=Math.cos(3*Math.PI*l/8);
+    let a=4*c*c*Math.pow(J(al,TAU*R*RHELIX),2);
+    if(al===10) a+=4*Math.pow(J(0,TAU*R*RBASE),2);    // arco meridional 3,4 A
+    sum+=g*a;
+  }
+  return sum*Math.exp(-6*(R*R+Z*Z));                   // decaimento de forma
+}
+// forma A: rede cristalina monoclinica -> muitas manchas discretas, sem X limpo
+const ASPOTS=(()=>{
+  const s=[]; let seed=7;
+  const rnd=()=>(seed=(seed*1103515245+12345)&0x7fffffff)/0x7fffffff;
+  for(let h=-6;h<=6;h++)for(let k=0;k<=7;k++){
+    const R=Math.abs(h)*0.0405+ (k%2)*0.014, Z=k*0.0364;
+    if(R>0.33||Z>0.30) continue;
+    if(R===0&&k===0) continue;
+    const w=Math.exp(-9*(R*R+Z*Z))*(0.35+rnd());
+    s.push([R,Z,w]); if(Z>0) s.push([R,-Z,w*0.97]);
+  }
+  return s;
+})();
+function intA(R,Z){
+  let s=0;
+  for(let i=0;i<ASPOTS.length;i++){
+    const p=ASPOTS[i], dr=(R-p[0])/0.0092, dz=(Z-p[1])/0.0072;
+    const e=dr*dr+dz*dz; if(e<11) s+=p[2]*Math.exp(-.5*e);
+  }
+  return s*3.2;
+}
+// geometria filme plano: |S| -> mm ; mm -> |S|
+const S2mm=S=>Math.sign(S)*DFILM*Math.tan(2*Math.asin(clamp(LAMBDA*Math.abs(S)/2,0,.999)));
+const mm2S=m=>2*Math.sin(.5*Math.atan(m/DFILM))/LAMBDA;
+
+/* =======================================================================
+   ABA 1 · EXPERIMENTO
+======================================================================= */
+const filmC=$("#film"), fctx=filmC.getContext("2d");
+const FW=filmC.width, FH=filmC.height, FCX=FW/2, FCY=FH/2;
+const MMPP=11/(FH/2);                    // mm por pixel (meia altura = 11 mm)
+let form="B", field=null, fieldForm=null, expose=0, exposing=false;
+
+function buildField(f){
+  const arr=new Float32Array(FW*FH); let mx=0;
+  for(let y=0;y<FH;y++){
+    const dy=(y-FCY)*MMPP;
+    for(let x=0;x<FW;x++){
+      const dx=(x-FCX)*MMPP, rm=Math.hypot(dx,dy);
+      if(rm<1e-6){arr[y*FW+x]=0;continue}
+      const S=mm2S(rm), R=S*Math.abs(dx)/rm, Z=S*dy/rm;
+      const v=f==="B"?intB(R,Z):intA(R,Z);
+      arr[y*FW+x]=v;
+      if(rm>1.9&&v>mx)mx=v;              // ignora a área coberta pelo anteparo
+    }
+  }
+  for(let i=0;i<arr.length;i++) arr[i]/=(mx||1);
+  return arr;
+}
+function drawFilm(){
+  if(fieldForm!==form){field=buildField(form);fieldForm=form;spots3D=null;computeThr();}
+  const img=fctx.createImageData(FW,FH), d=img.data;
+  const e=expose;
+  for(let i=0,p=0;i<field.length;i++,p+=4){
+    let v=Math.pow(field[i]*e,0.36)*1.08;
+    const g=(i*2654435761>>>13)%17/700;         // grão do filme
+    v=clamp(v+g*e,0,1);
+    d[p]=v*247; d[p+1]=v*241; d[p+2]=v*228; d[p+3]=255;   // prata revelada: marfim quente
+  }
+  fctx.putImageData(img,0,0);
+  // névoa da emulsão + bloqueador do feixe direto
+  fctx.fillStyle="rgba(242,237,227,"+(0.032*e)+")"; fctx.fillRect(0,0,FW,FH);
+  fctx.fillStyle="#000";
+  fctx.beginPath(); fctx.arc(FCX,FCY,26,0,TAU); fctx.fill();
+  fctx.fillRect(FCX-8,FCY,16,FH/2);            // haste do anteparo
+  if(form==="B") drawOverlay();
+  $("#filmcap").textContent = form==="B" ? "Forma B · 92% UR" : "Forma A · 75% UR";
+  $("#expread").textContent = Math.round(expose*62)+" h";
+  $("#expfill").style.width=(expose*100)+"%";
+  litUpdate();
+}
+
+/* -----------------------------------------------------------------------
+   O TRILHO DE LINHAS DE CAMADA
+   A navegação do filme usa a notação da própria cristalografia: cada achado
+   é indexado pela linha de camada onde ele se lê. As marcas do trilho ficam
+   alinhadas ao pixel com o padrão calculado, e acendem quando a intensidade
+   real daquela camada cruza o limiar . Por isso a l = 4 nunca acende.
+----------------------------------------------------------------------- */
+const yOf=l=>FCY-S2mm(l/PITCH)/MMPP;               // linha de camada l → y no filme
+const SILVER="rgba(242,237,227,", AMBER="rgba(232,169,78,";
+
+// braço da cruz helicoidal: passa pelo 1º máximo de J_l em cada camada
+function besselPeak(n){const a=JTAB.t[n];let bx=0,bv=-1;
+  for(let i=0;i<a.length;i++)if(a[i]>bv){bv=a[i];bx=i*JTAB.STEP;}return bx;}
+const ARM=(()=>{const p=[[0,0]];
+  for(let l=1;l<=8;l++){
+    const R=besselPeak(l)/(TAU*RHELIX), Z=l/PITCH, S=Math.hypot(R,Z), rp=S2mm(S)/MMPP;
+    p.push([rp*R/S, rp*Z/S]);
+  } return p;})();
+
+function hline(y,col,dash,wid){
+  fctx.save(); if(dash)fctx.setLineDash(dash);
+  fctx.strokeStyle=col; fctx.lineWidth=wid||2;
+  fctx.beginPath(); fctx.moveTo(14,y); fctx.lineTo(FW-14,y); fctx.stroke(); fctx.restore();
+}
+const FIND=[
+  {id:"x", ix:"⨯", y:60, ttl:"Cruz helicoidal",
+   t:"Esse X é a <b>assinatura de uma hélice</b>. Quando raios-X atravessam uma escada em espiral, eles se espalham exatamente nesse formato e em nenhum outro. Antes desta chapa, ninguém tinha prova de que o DNA era enrolado.",
+   peak:()=>{let m=0;ARM.forEach(([dx,dy])=>{const x=Math.round(FCX+dx),y=Math.round(FCY-dy);
+     if(y>=0&&y<FH&&x>=0&&x<FW){const v=field[y*FW+x];if(v>m)m=v;}});return m;},
+   draw:()=>{fctx.save();fctx.strokeStyle=SILVER+".62)";fctx.lineWidth=2;
+     [[1,1],[-1,1],[1,-1],[-1,-1]].forEach(([sx,sy])=>{fctx.beginPath();
+       ARM.forEach(([dx,dy],i)=>{const X=FCX+dx*sx,Y=FCY-dy*sy;i?fctx.lineTo(X,Y):fctx.moveTo(X,Y);});
+       fctx.stroke();});fctx.restore();}},
+
+  {id:"l10", ix:"l = 10", y:yOf(10), ttl:"Arco meridional · 3,4 Å",
+   t:"A mancha mais forte da chapa. Ela diz que os degraus estão empilhados a cada <span class='k'>3,4 Å</span>, um sobre o outro como moedas. Agora divida: 34 ÷ 3,4 = <b>10 degraus a cada volta completa</b>.",
+   peak:()=>rowPeak(yOf(10),0),
+   draw:()=>{hline(yOf(10),SILVER+".55)");hline(FCY+(FCY-yOf(10)),SILVER+".28)");}},
+
+  {id:"l4", ix:"l = 4", y:yOf(4), ttl:"A 4ª camada não existe", absent:true,
+   t:"Aqui deveria ter uma linha. Não tem: o filme fica <b>limpo</b>. E o vazio prova algo que mancha nenhuma provaria . Só existe buraco aqui se houver <b>duas fitas</b>, deslocadas uma da outra. É desse deslocamento que nascem as duas fendas da hélice.",
+   peak:()=>0,
+   draw:()=>{hline(yOf(4),AMBER+".8)",[10,9]);hline(FCY+(FCY-yOf(4)),AMBER+".45)",[10,9]);}},
+
+  {id:"l0", ix:"l = 0", y:FCY, ttl:"Equador · diâmetro 20 Å",
+   t:"As manchas da linha do meio medem a largura da escada: <b>20 Å</b> , cerca de 2 milionésimos de milímetro. E ela é a mesma de cima a baixo, o que só acontece se cada degrau tiver uma base grande com uma pequena.",
+   peak:()=>rowPeak(FCY,34),
+   draw:()=>hline(FCY,SILVER+".55)")},
+
+  {id:"dl", ix:"Δl", y:(yOf(-2)+yOf(-3))/2, ttl:"Passo da hélice · 34 Å",
+   t:"As linhas horizontais se repetem sempre na mesma distância. Medindo o espaçamento entre duas vizinhas, sai o <b>passo da hélice: 34 Å</b> : o quanto a escada sobe em uma volta inteira.",
+   peak:()=>rowPeak(yOf(-2),0),
+   draw:()=>{const a=yOf(-2),b=yOf(-3),x=104;
+     hline(a,SILVER+".22)",null,1); hline(b,SILVER+".22)",null,1);
+     fctx.strokeStyle=SILVER+".7)"; fctx.lineWidth=2;
+     fctx.beginPath(); fctx.moveTo(x-11,a);fctx.lineTo(x,a);fctx.lineTo(x,b);fctx.lineTo(x-11,b);
+     fctx.stroke();}}
+];
+function rowPeak(yc,skip){
+  let m=0; const y0=Math.max(0,Math.round(yc)-3), y1=Math.min(FH-1,Math.round(yc)+3);
+  for(let y=y0;y<=y1;y++)for(let x=0;x<FW;x++){
+    if(skip&&Math.abs(x-FCX)<skip)continue;
+    const v=field[y*FW+x]; if(v>m)m=v;
+  } return m;
+}
+let hsSel=null;
+function drawOverlay(){ const f=FIND.find(h=>h.id===hsSel); if(f)f.draw(); }
+
+// limiar de revelação derivado da intensidade calculada em cada camada
+function litUpdate(){
+  FIND.forEach(f=>{
+    const el=$("#rail [data-id='"+f.id+"']"); if(!el)return;
+    const lit = f.absent ? expose>=.55 : (f.thr!=null && expose>=f.thr);
+    el.dataset.lit=lit?"1":"0";
+  });
+}
+// faixa que cada marca possui: da metade do caminho até a vizinha de cima
+// à metade do caminho até a de baixo. É também a região do filme que ela indexa.
+function railBands(){
+  const e=[0];
+  for(let i=1;i<FIND.length;i++) e.push((FIND[i-1].y+FIND[i].y)/2);
+  e.push(FH);
+  return FIND.map((f,i)=>({top:e[i],h:e[i+1]-e[i],mk:(f.y-e[i])/(e[i+1]-e[i])*100}));
+}
+const BANDS=railBands();
+// faixas para o toque no filme: cobrem a chapa inteira, incluindo as camadas espelhadas
+const TAPBANDS=(()=>{
+  const pts=[];
+  FIND.forEach(f=>{ pts.push({y:f.y,f}); if(f.y<FCY-1) pts.push({y:FCY*2-f.y,f}); });
+  pts.sort((a,b)=>a.y-b.y);
+  const e=[0]; for(let i=1;i<pts.length;i++) e.push((pts[i-1].y+pts[i].y)/2); e.push(FH);
+  return pts.map((p,i)=>({top:e[i],bot:e[i+1],f:p.f}));
+})();
+function bandAt(y){ const b=TAPBANDS.find(b=>y>=b.top&&y<b.bot); return b?b.f:null; }
+function buildRail(){
+  const rail=$("#rail"); rail.innerHTML="";
+  FIND.forEach((f,i)=>{
+    const b=document.createElement("button"), bd=BANDS[i];
+    b.className="tick"+(f.absent?" absent":""); b.dataset.id=f.id;
+    b.style.top=(bd.top/FH*100)+"%"; b.style.height=(bd.h/FH*100)+"%";
+    b.setAttribute("aria-pressed","false");
+    b.setAttribute("aria-label",f.ttl);
+    b.innerHTML='<span class="mk" style="top:'+bd.mk+'%">'+
+      '<span class="ix">'+f.ix+'</span><span class="dash"></span></span>';
+    b.onclick=()=>selectFinding(f.id===hsSel?null:f.id);
+    rail.appendChild(b);
+  });
+}
+function selectFinding(id){
+  hsSel=id;
+  $$("#rail .tick").forEach(t=>t.setAttribute("aria-pressed",t.dataset.id===id?"true":"false"));
+  const f=FIND.find(h=>h.id===id);
+  if(f) $("#expInfo").innerHTML='<span class="ix'+(f.absent?" amber":"")+'">'+f.ix+
+        '</span><h3>'+f.ttl+"</h3><p>"+f.t+"</p>";
+  else expInfoReset();
+  if(f) SFX.revela();
+  if(f&&expose<.15){expose=1;exposing=false;setExposeBtn();}
+  drawFilm();
+}
+// limiar de cada achado = quanta exposição a intensidade real daquela camada exige
+function computeThr(){
+  FIND.forEach(f=>{const p=f.peak(); f.thr = p>1e-6 ? clamp(0.10/p,.04,1.01) : null;});
+}
+function expInfoReset(){
+  $("#expInfo").innerHTML=
+    '<span class="ix">Comece por aqui</span>'+
+    '<h3>Aperte “Expor” e revele a foto</h3>'+
+    '<p>Londres, 1952. Rosalind Franklin aponta raios-X para um fio de DNA e deixa o filme exposto por <b>62 horas</b>. Ninguém consegue fotografar uma molécula : ela é pequena demais até para microscópio. O que aparece na chapa é a <b>sombra</b> que ela deixa.</p>'+
+    '<div class="why">Dessa única chapa saíram todos os números da dupla-hélice. Toque nas marcas ao lado do filme para descobrir cada um.</div>';
+}
+filmC.addEventListener("click",ev=>{
+  const r=filmC.getBoundingClientRect();
+  const x=(ev.clientX-r.left)*FW/r.width, y=(ev.clientY-r.top)*FH/r.height;
+  let best=null;
+  for(const [dx,dy] of ARM){        // os braços da cruz atravessam as faixas: testa primeiro
+    if(Math.hypot(Math.abs(x-FCX)-dx,Math.abs(y-FCY)-dy)<30){best=FIND[0];break;}
+  }
+  if(!best) best=bandAt(y);
+  if(best) selectFinding(best.id===hsSel?null:best.id);
+});
+
+/* ---- cena 3D do aparelho ---- */
+const lab=mkCanvas($("#lab"));
+const camL={rx:-.12,ry:-.62,dist:210,fov:620,min:100,max:520,oy:0,auto:true};
+orbit(lab.el,camL,()=>drawLab());
+
+const PARTS=[
+  {id:"tubo",n:"Tubo de raios-X",c:"#8C9BA5",x:-92,y:0,z:0,w:46,h:26,d:26,
+   t:"Ampola com anodo de <b>cobre</b>: emite raios-X de <span class='k'>λ = 1,54 Å</span>. Esse comprimento de onda é da ordem da distância entre átomos : condição para que a molécula difrate o feixe."},
+  {id:"col",n:"Colimador",c:"#6E7A83",x:-46,y:0,z:0,w:34,h:8,d:8,
+   t:"Microcâmara de Ehrenberg-Spear. Estreita o feixe para cerca de <span class='k'>0,1 mm</span>, o que permitiu trabalhar com uma <b>única fibra fina</b> de DNA."},
+  {id:"am",n:"Fibra de DNA",c:"#D8CFBE",x:0,y:0,z:0,w:5,h:46,d:5,
+   t:"Fibra de DNA de timo de bezerro, estirada e mantida em <b>umidade controlada</b>. A grande descoberta de Franklin: a 92% de umidade o DNA passa à <b>forma B</b>, hidratada e helicoidal , a que existe na célula. Seca (75%), vira a forma A, cristalina."},
+  {id:"cam",n:"Câmara de umidade",c:"#3A4048",x:0,y:0,z:0,w:30,h:56,d:30,hollow:true,
+   t:"Solução salina saturada dentro da câmara fixa a umidade relativa do ar. Sem esse controle, as duas formas do DNA se misturam e o padrão fica ilegível."},
+  {id:"stop",n:"Anteparo do feixe",c:"#242830",x:26,y:0,z:0,w:6,h:12,d:12,
+   t:"Bloqueia o feixe <b>não desviado</b>, que é milhares de vezes mais intenso que o difratado. Sem ele o centro do filme queimaria."},
+  {id:"filme",n:"Filme fotográfico",c:"#171A22",x:96,y:0,z:0,w:3,h:76,d:76,
+   t:"Placa plana a <span class='k'>15 mm</span> da amostra. Cada mancha é um feixe difratado que chegou em fase. O experimento de Rosalind Franklin exigiu cerca de <b>62 horas</b> de exposição."}
+];
+let spots3D=null;
+function buildSpots(){
+  const out=[];
+  for(let y=8;y<FH;y+=7)for(let x=8;x<FW;x+=7){
+    const v=field[y*FW+x]; if(v<0.045) continue;
+    const my=(y-FCY)*MMPP, mx=(x-FCX)*MMPP;
+    if(Math.hypot(mx,my)<1.5) continue;
+    out.push({y:-my*3.4, z:mx*3.4, v});
+  }
+  return out;
+}
+function boxFaces(p){
+  const hw=p.w/2,hh=p.h/2,hd=p.d/2;
+  const V=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]
+    .map(v=>({x:p.x+v[0]*hw,y:p.y+v[1]*hh,z:p.z+v[2]*hd}));
+  const F=[[0,1,2,3,-.55],[4,5,6,7,-.55],[0,1,5,4,-.2],[3,2,6,7,.2],[0,3,7,4,-.4],[1,2,6,5,.4]];
+  return F.map(f=>({idx:f.slice(0,4),lig:f[4],V}));
+}
+function drawLab(){
+  const {ctx,w,h}=lab; lab.clear();
+  const items=[];
+  // aparelho
+  PARTS.forEach(p=>{
+    if(p.hollow&&partSel!=="cam"&&partSel!==null&&partSel!=="am"){}
+    boxFaces(p).forEach(f=>{
+      const pts=f.idx.map(i=>project(f.V[i],camL,w,h));
+      const z=pts.reduce((a,q)=>a+q.z,0)/4;
+      const sel=partSel===p.id;
+      items.push({z,d:()=>{
+        ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y);
+        for(let i=1;i<4;i++)ctx.lineTo(pts[i].x,pts[i].y);
+        ctx.closePath();
+        ctx.globalAlpha=p.hollow?(sel?.28:.13):1;
+        ctx.fillStyle=shade(p.c,f.lig*70); ctx.fill();
+        ctx.globalAlpha=1;
+        ctx.strokeStyle=sel?"#fff":"rgba(255,255,255,.16)"; ctx.lineWidth=sel?1.6:.8; ctx.stroke();
+      }});
+    });
+  });
+  // feixe incidente
+  const a=project({x:-46,y:0,z:0},camL,w,h), b=project({x:0,y:0,z:0},camL,w,h);
+  items.push({z:(a.z+b.z)/2,d:()=>{
+    ctx.save(); ctx.setLineDash([9,7]); ctx.lineDashOffset=-beamT;
+    ctx.strokeStyle="rgba(200,193,218,.92)"; ctx.lineWidth=2.4;
+    ctx.shadowColor="#C8C1DA"; ctx.shadowBlur=12;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke(); ctx.restore();
+  }});
+  // feixe direto ate o anteparo
+  const c0=project({x:0,y:0,z:0},camL,w,h), c1=project({x:26,y:0,z:0},camL,w,h);
+  items.push({z:(c0.z+c1.z)/2,d:()=>{
+    ctx.strokeStyle="rgba(200,193,218,.32)";ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.moveTo(c0.x,c0.y);ctx.lineTo(c1.x,c1.y);ctx.stroke();
+  }});
+  // manchas difratadas no filme + raios
+  if(expose>0.02){
+    if(!spots3D){ if(fieldForm!==form){field=buildField(form);fieldForm=form;} spots3D=buildSpots(); }
+    const org=project({x:0,y:0,z:0},camL,w,h);
+    spots3D.forEach(s=>{
+      const q=project({x:96,y:s.y,z:s.z},camL,w,h);
+      const al=clamp(Math.pow(s.v*expose,.6),0,1);
+      items.push({z:q.z-1,d:()=>{
+        if(al>.30){
+          ctx.strokeStyle="rgba(200,193,218,"+(al*.14)+")";ctx.lineWidth=.7;
+          ctx.beginPath();ctx.moveTo(org.x,org.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+        }
+        ctx.fillStyle="rgba(247,241,228,"+al+")";
+        ctx.beginPath();ctx.arc(q.x,q.y,1.5*q.s/5.2+.6,0,TAU);ctx.fill();
+      }});
+    });
+  }
+  items.sort((p,q)=>q.z-p.z).forEach(i=>i.d());
+  // rótulos
+  ctx.font='500 10px ui-monospace,Consolas,monospace'; ctx.textAlign="center";
+  try{ctx.letterSpacing="1.3px";}catch(e){}
+  PARTS.filter(p=>!p.hollow).forEach(p=>{
+    const q=project({x:p.x,y:p.y+p.h/2+9,z:p.z},camL,w,h);
+    ctx.fillStyle=partSel===p.id?"#F2EDE3":"rgba(242,237,227,.34)";
+    ctx.fillText(p.n.toUpperCase(),q.x,q.y);
+  });
+  try{ctx.letterSpacing="0px";}catch(e){}
+}
+let partSel=null, beamT=0;
+lab.el.addEventListener("click",ev=>{
+  const r=lab.el.getBoundingClientRect(), mx=ev.clientX-r.left, my=ev.clientY-r.top;
+  let best=null,bd=999;
+  PARTS.forEach(p=>{
+    const q=project({x:p.x,y:p.y,z:p.z},camL,lab.w,lab.h);
+    const d=Math.hypot(q.x-mx,q.y-my), lim=Math.max(26,p.h*q.s*.5);
+    if(d<lim&&d<bd){bd=d;best=p;}
+  });
+  if(!best)return;
+  partSel=partSel===best.id?null:best.id;
+  if(partSel) $("#expInfo").innerHTML='<span class="ix">Aparelho</span><h3>'+best.n+"</h3><p>"+best.t+"</p>";
+  else expInfoReset();
+  drawLab();
+});
+function setExposeBtn(){
+  const b=$("#expose");
+  b.classList.toggle("live",exposing);
+  b.textContent = exposing ? "Pausar" : expose>=1 ? "Nova exposição" : expose>0 ? "Continuar" : "Expor";
+}
+$("#expose").onclick=()=>{
+  if(expose>=1&&!exposing){                       // exposição completa: recomeça a chapa
+    expose=0; spots3D=null; selectFinding(null); setExposeBtn(); drawLab(); return;
+  }
+  exposing=!exposing; setExposeBtn();
+};
+$$("[data-form]").forEach(b=>b.onclick=()=>{
+  form=b.dataset.form;
+  $$("[data-form]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  spots3D=null; hsSel=null;
+  $$("#rail .tick").forEach(t=>t.setAttribute("aria-pressed","false"));
+  const rail=$("#rail");
+  rail.style.opacity=form==="B"?1:.22; rail.style.pointerEvents=form==="B"?"":"none";
+  if(form!=="B") $("#expInfo").innerHTML='<span class="ix">Controle · 75% UR</span>'+
+    '<h3>Forma A · fibra seca</h3>'+
+    '<p>Seco, o DNA se organiza num cristal: o padrão vira um mosaico denso de manchas, <b>sem a cruz em X</b> e sem camadas limpas. Foi por saber separar as duas formas que Franklin chegou a esse resultado.</p>'+
+    '<p style="color:var(--graphite)">Padrão representado de forma esquemática. Só a forma B é calculada aqui pela teoria de difração helicoidal.</p>';
+  else expInfoReset();
+  drawFilm();drawLab();
+});
+
+/* =======================================================================
+   ABA 2 · QUÍMICA
+======================================================================= */
+let mode="helix", sel2=null;
+/* Textos escritos para quem tem 15 anos e está sozinho na frente da tela:
+   frase curta, jargão explicado na hora que aparece, e um "por que isso
+   importa" que conecta com o corpo do próprio aluno. */
+const INFO={
+  fosfato:{n:"Grupo fosfato",c:"#E9EDF2",f:"PO₄³⁻",
+    short:"O disco branco. É o que deixa o DNA com carga negativa.",
+    t:"O fosfato é <b>negativo</b>. Numa fita inteira são milhões de cargas negativas, todas se repelindo.",
+    why:"Como cargas iguais se repelem, o DNA tenta se esticar. Para caber no núcleo, ele se enrola em proteínas <b>positivas</b> , que o atraem. É esse cabo de guerra elétrico que empacota 2 metros de DNA dentro de uma célula que você não enxerga a olho nu."},
+
+  acucar:{n:"Desoxirribose",c:"#DC3A2C",f:"C₅H₈O₃",
+    short:"O pentágono vermelho. Cinco lados, cinco carbonos.",
+    t:"Um <b>açúcar</b> de cinco carbonos, em forma de anel . Por isso a peça é um pentágono. <b>Desoxi</b> quer dizer “sem um oxigênio”: falta um OH que o açúcar do RNA tem.",
+    why:"Esse oxigênio a menos deixa o DNA muito mais resistente. O RNA, que o tem, se desmancha em horas. O DNA dura milhares de anos . É por isso que dá para extrair DNA de um mamute congelado, mas não RNA."},
+
+  A:{n:"Adenina",c:"#2E9E4B",f:"C₅H₅N₅",
+    short:"Barra verde. Grande (purina). Encaixa só na timina.",
+    t:"É uma <b>purina</b>: base grande, feita de dois anéis. Encaixa sempre com a timina, presa por <b>2 pontes de hidrogênio</b>.",
+    why:"A adenina não é só letra do DNA: ela também é o A do <b>ATP</b>, a molécula que carrega energia em cada célula sua, agora."},
+
+  T:{n:"Timina",c:"#E8B70C",f:"C₅H₆N₂O₂",
+    short:"Barra amarela. Pequena (pirimidina). Só existe no DNA.",
+    t:"É uma <b>pirimidina</b>: base pequena, de um anel só. Encaixa com a adenina por <b>2 pontes</b>. É a única das quatro que o RNA não tem . Lá o lugar dela é da uracila.",
+    why:"Duas timinas vizinhas podem se colar quando o sol bate na sua pele. Esse defeito é a principal causa de câncer de pele e é exatamente contra ele que o protetor solar protege."},
+
+  G:{n:"Guanina",c:"#2A6FDB",f:"C₅H₅N₅O",
+    short:"Barra azul. Grande (purina). Encaixa só na citosina.",
+    t:"Outra <b>purina</b>, de dois anéis. Encaixa com a citosina, presa por <b>3 pontes de hidrogênio</b> , uma a mais que o par A=T.",
+    why:"Trecho cheio de G e C custa mais para abrir. Bactérias de fontes termais têm DNA rico em G≡C justamente para não se desmontar na água fervendo."},
+
+  C:{n:"Citosina",c:"#EE6420",f:"C₄H₅N₃O",
+    short:"Barra laranja. Pequena (pirimidina). Par mais firme com a G.",
+    t:"<b>Pirimidina</b>, de um anel. Encaixa com a guanina por <b>3 pontes</b>. Grande sempre com pequena: é isso que mantém a largura da hélice constante.",
+    why:"Marcar citosinas é como a célula liga e desliga genes. Seu fígado e seu olho têm o MESMO DNA . O que muda é quais partes estão marcadas."},
+
+  ponteH:{n:"Ponte de hidrogênio",c:"#A8B4C2",f:"A=T: 2  ·  G≡C: 3",
+    short:"O tracejado no meio do degrau. Fraquinha de propósito.",
+    t:"É um <b>ímã fraco</b> entre as duas bases do degrau. Sozinha quase não segura nada; aos milhões, mantém a hélice fechada.",
+    why:"Se fossem fortes, ninguém conseguiria abrir o DNA para copiá-lo e uma célula jamais viraria duas. A vida depende de essa ligação ser fraca."},
+
+  fosfodiester:{n:"Ligação fosfodiéster",c:"#8FA0B2",f:"C3′ · O · P · O · C5′",
+    short:"A haste branca. Liga um nucleotídeo no próximo, ao longo da fita.",
+    t:"Ligação <b>forte</b>, do tipo que só se quebra com enzima. É ela que emenda pentágono, disco, pentágono, disco: o corrimão da escada.",
+    why:"Forte no corrimão, fraca nos degraus. Essa combinação é o truque do DNA: dá para abrir no meio sem a molécula se desfazer nas pontas."},
+
+  glicosidica:{n:"Ligação N-glicosídica",c:"#B08BD4",f:"C1′ · base",
+    short:"O encaixe entre a barra da base e o pentágono do açúcar.",
+    t:"Prende a base no açúcar. É o ponto onde a “letra” se conecta ao corrimão.",
+    why:"Quando uma base é danificada, a célula corta bem aqui, joga a letra estragada fora e encaixa uma nova. É conserto de DNA acontecendo milhares de vezes por dia em você."},
+
+  antiparalelo:{n:"Antiparalelismo",c:"#6B7885",f:"5′→3′  /  3′→5′",
+    short:"As duas fitas correm em sentidos contrários.",
+    t:"Uma fita sobe, a outra desce. Toda fita tem uma ponta <b>5′</b> e uma <b>3′</b>, e elas ficam sempre de frente uma para a outra.",
+    why:"Pense em duas mãos dadas: só encaixam palma com palma, invertidas. Se as duas fitas corressem no mesmo sentido, as bases não alcançariam umas às outras."},
+
+  sulcos:{n:"Sulco maior e menor",c:"#9C8AA8",f:"22 Å  e  12 Å",
+    short:"As duas fendas entre as fitas: uma larga, uma estreita.",
+    t:"As fitas não ficam em lados opostos exatos: estão deslocadas. Sobram duas fendas de larguras diferentes correndo pela hélice.",
+    why:"É pela fenda larga que as proteínas leem qual gene está ali , sem precisar abrir a hélice. É como ler um livro fechado passando o dedo pela lombada."}
+};
+function showInfo(k){
+  const i=INFO[k];
+  if(!i){
+    sel2=null;
+    $$("#v-qui .tag").forEach(t=>t.setAttribute("aria-pressed","false"));
+    $("#quiInfo").innerHTML='<span class="ix">Comece por aqui</span>'+
+      '<h3>Toque numa peça do modelo</h3>'+
+      '<p>Cada peça tem uma forma que conta o que ela é: <b>pentágono</b> = açúcar de 5 carbonos, '+
+      '<b>disco branco</b> = fosfato, <b>barra colorida</b> = uma das 4 letras do DNA. '+
+      'Arraste para girar. Toque numa peça e a etiqueta abre ao lado dela.</p>';
+    if(mode==="helix"&&typeof HM!=="undefined")drawHelix();
+    return;
+  }
+  $("#quiInfo").innerHTML='<span class="ix">'+(i.f||"")+'</span><h3>'+i.n+"</h3><p>"+i.t+"</p>"+
+    (i.why?'<div class="why">'+i.why+"</div>":"");
+  $$("#v-qui .tag").forEach(t=>t.setAttribute("aria-pressed",t.dataset.k===k?"true":"false"));
+  sel2=k; if(mode==="helix"&&typeof HM!=="undefined")drawHelix();
+}
+// agrupadas como a molécula é montada: o esqueleto é invariante, as bases carregam a informação
+const GROUPS={
+  gEsq:["fosfato","acucar"],
+  gBase:["A","T","G","C"],
+  gLig:["ponteH","fosfodiester","glicosidica","sulcos","antiparalelo"]
+};
+for(const id in GROUPS) GROUPS[id].forEach(k=>{
+  const b=document.createElement("button");
+  b.className="tag"; b.dataset.k=k; b.setAttribute("aria-pressed","false");
+  b.innerHTML='<i class="sw" style="background:'+INFO[k].c+'"></i>'+INFO[k].n;
+  b.onclick=()=>{
+    if(sel2===k){ showInfo(null); closeCallout(); return; }
+    showInfo(k);
+    // ancora a etiqueta na primeira peça daquele tipo, para ela abrir ao lado de um exemplo
+    if(mode==="helix"){
+      const o=HM.find(x=>x.k===k)||HM.find(x=>k==="fosfodiester"?x.t==="pho":k==="glicosidica"?x.t==="sug":x.t==="sug");
+      if(o){ coAnchor=o; openCallout(k); camH.auto=false; drawHelix(); }
+    }
+  };
+  $("#"+id).appendChild(b);
+});
+
+/* =======================================================================
+   HÉLICE · réplica do modelo didático de bancada
+   Cada peça é uma PLACA com espessura e furo de encaixe, como no kit:
+     pentágono vermelho .... desoxirribose (5 lados = 5 carbonos)
+     disco branco .......... fosfato, entre dois pentágonos
+     placa colorida ........ base nitrogenada
+   Detalhe do kit que também é a química certa: a PURINA (A, G) é uma peça
+   maior que a PIRIMIDINA (C, T) : dois anéis contra um. Por isso a junção
+   do degrau não cai no meio, e sim deslocada para o lado da pirimidina.
+   A haste e o pedestal do modelo real NÃO são representados: são bancada.
+   Geometria da forma B: 10 pb por volta, 36° de giro, fitas defasadas ~140°.
+======================================================================= */
+const helix=mkCanvas($("#helix"));
+// olhar um pouco de cima, como nas fotos do kit: as placas horizontais
+// das bases só mostram que são placas se a câmera não estiver no nível delas
+const RX0=-.22, RY0=.35;
+const camH={rx:RX0,ry:RY0,dist:170,zoom:1,fov:620,min:38,max:340,oy:0,auto:true};
+orbit(helix.el,camH,()=>{drawHelix();updateReframe();});
+
+// Sem isto o aluno que gira ou dá zoom fica sem caminho de volta.
+function updateReframe(){
+  const b=$("#reframe"); if(!b)return;
+  b.hidden = Math.abs((camH.zoom||1)-1)<.02 && Math.abs(camH.rx-RX0)<.05 && camH.auto;
+}
+function reframeHelix(){
+  camH.rx=RX0; camH.ry=RY0; camH.zoom=1; camH.auto=true;
+  fitCam(camH,FIT_HEL,helix,10); drawHelix(); updateReframe();
+}
+
+const NBP=21, RISE=3.6, TWIST=36*Math.PI/180, OFF2=140*Math.PI/180;
+const R_BB=15.5;            // raio do esqueleto açúcar-fosfato
+const R_C1=14.3;            // base começa rente ao pentágono, SEM entrar nele:
+                            // peças que se interpenetram quebram o algoritmo do pintor
+const SUGR=3.25;            // raio do pentágono
+const PHOR=1.8;             // raio do disco (1,8+3,25 < 5,1 = distância até o pentágono)
+const FPUR=.575;            // fatia do vão ocupada pela purina (2 anéis)
+const HBGAP=1.45;           // folga onde as pontes de hidrogênio aparecem
+const BARW=2.25, BART=.9;   // meia-largura e meia-espessura da placa da base
+const SUGT=1, PHOT=.8;      // meia-espessura do pentágono e do disco: peça fina
+                            // vira lasca invisível de perfil
+const SEQ="ATGCGATTACGCATGCTAGCC".split("");
+const COMP={A:"T",T:"A",G:"C",C:"G"};
+const PUR={A:1,G:1};
+// cores lidas das fotos do kit
+const BCOL={A:"#34A853",T:"#F5C518",G:"#2A6FDB",C:"#F26B21"};
+const SUGCOL="#DC3A2C", PHOCOL="#EFEFEC", BONDCOL="#E6E6E1";
+
+const LIGHT=(()=>{const v={x:.42,y:.78,z:.46},m=Math.hypot(v.x,v.y,v.z);
+  return {x:v.x/m,y:v.y/m,z:v.z/m};})();
+const at=(a,r,y)=>({x:Math.cos(a)*r,y,z:Math.sin(a)*r});
+const sub=(p,q)=>({x:p.x-q.x,y:p.y-q.y,z:p.z-q.z});
+const nrm=v=>{const m=Math.hypot(v.x,v.y,v.z)||1;return {x:v.x/m,y:v.y/m,z:v.z/m}};
+const crs=(a,b)=>({x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x});
+const mid=(p,q)=>({x:(p.x+q.x)/2,y:(p.y+q.y)/2,z:(p.z+q.z)/2});
+const lerp=(p,q,f)=>({x:p.x+(q.x-p.x)*f,y:p.y+(q.y-p.y)*f,z:p.z+(q.z-p.z)*f});
+
+/* --- contornos das peças, em coordenadas locais (u ao longo, v atravessado) --- */
+// placa da base: estreita no encaixe do açúcar, larga no corpo, ponta chanfrada
+const BAROUT=[[0,-.58],[.13,-1],[.82,-1],[1,-.5],[1,.5],[.82,1],[.13,1],[0,.58]];
+const PENTOUT=(()=>{const p=[];for(let k=0;k<5;k++){
+  const t=Math.PI/2+k*TAU/5;p.push([Math.cos(t),Math.sin(t)]);}return p;})();
+const DISCOUT=(()=>{const p=[];for(let k=0;k<8;k++){   // 8 lados bastam num disco de ~15 px
+  const t=k*TAU/8;p.push([Math.cos(t),Math.sin(t)]);}return p;})();
+// normal externa de cada aresta do contorno (constante, vale pré-calcular)
+function edgeNormals(out){
+  const n=[];
+  for(let k=0;k<out.length;k++){
+    const a=out[k], b=out[(k+1)%out.length];
+    const dx=b[0]-a[0], dy=b[1]-a[1], m=Math.hypot(dx,dy)||1;
+    n.push([dy/m,-dx/m]);                       // gira -90°: aponta para fora
+  }
+  return n;
+}
+const BARN=edgeNormals(BAROUT), PENTN=edgeNormals(PENTOUT), DISCN=edgeNormals(DISCOUT);
+
+function buildKit(){
+  const it=[];
+  for(let i=0;i<NBP;i++){
+    const y=(i-(NBP-1)/2)*RISE, a1=i*TWIST, a2=a1+OFF2;
+    const b1=SEQ[i], b2=COMP[b1];
+    const c1=at(a1,R_C1,y), c2=at(a2,R_C1,y);
+    // a purina come a fatia maior do vão, e a junção sai do meio
+    const j=lerp(c1,c2,PUR[b1]?FPUR:1-FPUR);
+    const d=nrm(sub(c2,c1));
+    const e1={x:j.x-d.x*HBGAP,y:y,z:j.z-d.z*HBGAP};
+    const e2={x:j.x+d.x*HBGAP,y:y,z:j.z+d.z*HBGAP};
+    it.push({t:"sug",k:"acucar",c:SUGCOL,p:at(a1,R_BB,y),a:a1,s:0,i});
+    it.push({t:"sug",k:"acucar",c:SUGCOL,p:at(a2,R_BB,y),a:a2,s:1,i});
+    it.push({t:"bar",k:b1,c:BCOL[b1],p:mid(c1,e1),from:c1,to:e1,s:0,i,pur:!!PUR[b1]});
+    it.push({t:"bar",k:b2,c:BCOL[b2],p:mid(c2,e2),from:c2,to:e2,s:1,i,pur:!!PUR[b2]});
+    if(i<NBP-1){
+      it.push({t:"pho",k:"fosfato",c:PHOCOL,p:at(a1+TWIST/2,R_BB,y+RISE/2),a:a1+TWIST/2,s:0,i});
+      it.push({t:"pho",k:"fosfato",c:PHOCOL,p:at(a2+TWIST/2,R_BB,y+RISE/2),a:a2+TWIST/2,s:1,i});
+    }
+    it.push({t:"hb",k:"ponteH",p:j,n:(b1==="G"||b1==="C")?3:2,i,from:e1,to:e2});
+  }
+  return it;
+}
+const HM=buildKit();
+const HHEIGHT=(NBP-1)/2*RISE;
+// ligações do esqueleto resolvidas UMA vez: procurar com HM.find a cada quadro
+// custava ~25 mil comparações por frame e aparecia no celular
+const LINKS=(()=>{
+  const idx={}, out=[];
+  HM.forEach(o=>{ if(o.t==="sug"||o.t==="pho") idx[o.t+o.i+"_"+o.s]=o; });
+  // a haste liga SUPERFÍCIE a superfície, não centro a centro: saindo do centro
+  // ela atravessa a peça e vira um palito espetado no meio do pentágono
+  const rec=(a,b)=>{
+    const d=nrm(sub(b.p,a.p));
+    const ra=(a.t==="sug"?SUGR:PHOR)*.55, rb=(b.t==="sug"?SUGR:PHOR)*.55;
+    out.push([{x:a.p.x+d.x*ra,y:a.p.y+d.y*ra,z:a.p.z+d.z*ra},
+              {x:b.p.x-d.x*rb,y:b.p.y-d.y*rb,z:b.p.z-d.z*rb}]);
+  };
+  for(let i=0;i<NBP-1;i++)for(let s=0;s<2;s++){
+    const a=idx["sug"+i+"_"+s], b=idx["pho"+i+"_"+s], c=idx["sug"+(i+1)+"_"+s];
+    if(a&&b&&c){ rec(a,b); rec(b,c); }
+  }
+  return out;
+})();
+const TOUCHFLOOR=matchMedia("(pointer:coarse)").matches?17:13;
+
+/* --- desenho das placas --- */
+const DEPTH=R_BB+SUGR;                           // meia-profundidade da hélice
+function faceShade(col,n,z){                     // lambert simples: parece plástico moldado
+  const d=Math.max(0,n.x*LIGHT.x+n.y*LIGHT.y+n.z*LIGHT.z);
+  let a=(.42+.58*d-.78)*104;
+  // névoa de profundidade: o fundo escurece, então o olho separa as duas fitas
+  // sem depender só da ordem de desenho
+  if(z!=null) a-=clamp((z-camH.dist+DEPTH)/(2*DEPTH),0,1)*58;
+  return shade(col,Math.round(a));
+}
+function poly(ctx,pts,fill,alpha,rim,rimW){
+  ctx.globalAlpha=alpha; ctx.beginPath();
+  for(let i=0;i<pts.length;i++) i?ctx.lineTo(pts[i].x,pts[i].y):ctx.moveTo(pts[i].x,pts[i].y);
+  ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
+  if(rim){ctx.strokeStyle=rim;ctx.lineWidth=rimW||1.1;ctx.stroke();}
+  ctx.globalAlpha=1;
+}
+/* Placa extrudada: contorno 2D no plano (u,v), espessura ao longo de n.
+   Devolve os pontos já projetados e a lista de faces visíveis, com as de
+   trás descartadas: metade dos polígonos some sem custo nenhum.        */
+function plate(o,out,eN,U,V,N,hu,hv,ht,w,h){
+  const n=out.length, base=[], top=[], bot=[];
+  for(let k=0;k<n;k++){
+    const cu=out[k][0]*hu, cv=out[k][1]*hv;
+    const b={x:o.x+U.x*cu+V.x*cv, y:o.y+U.y*cu+V.y*cv, z:o.z+U.z*cu+V.z*cv};
+    base.push(b);                                // guarda o mundo: o teste precisa do PONTO
+    top.push(project({x:b.x+N.x*ht,y:b.y+N.y*ht,z:b.z+N.z*ht},camH,w,h));
+    bot.push(project({x:b.x-N.x*ht,y:b.y-N.y*ht,z:b.z-N.z*ht},camH,w,h));
+  }
+  const faces=[];
+  for(let k=0;k<n;k++){                          // laterais voltadas para quem vê
+    // a placa é escalada de forma anisotrópica (comprimento >> largura), então a
+    // normal do contorno precisa ser dividida pela escala de cada eixo, não só girada
+    const e=eN[k], eu=e[0]/hu, ev=e[1]/hv, k2=(k+1)%n;
+    const wn=nrm({x:U.x*eu+V.x*ev,y:U.y*eu+V.y*ev,z:U.z*eu+V.z*ev});
+    const mp={x:(base[k].x+base[k2].x)/2,y:(base[k].y+base[k2].y)/2,z:(base[k].z+base[k2].z)/2};
+    if(!facesViewer(wn,mp,camH)) continue;
+    faces.push({pts:[top[k],top[k2],bot[k2],bot[k]],n:wn,
+                z:(top[k].z+top[k2].z+bot[k].z+bot[k2].z)/4});
+  }
+  // a tampa visível é a que estiver voltada para quem vê, testada no ponto dela,
+  // não pela direção da normal: nas bordas da hélice as duas coisas divergem
+  const up=facesViewer(N,{x:o.x+N.x*ht,y:o.y+N.y*ht,z:o.z+N.z*ht},camH);
+  const cap=up?top:bot, capN=up?N:{x:-N.x,y:-N.y,z:-N.z};
+  let cz=0; for(let k=0;k<n;k++) cz+=cap[k].z;
+  faces.push({pts:cap,n:capN,z:cz/n-.5,cap:1});
+  return faces;
+}
+
+/* --- destaque, foco do ponteiro e o "pop" do clique --- */
+let hoverObj=null, popObj=null, popT=0;
+const POPMS=300;
+function popScale(o){
+  if(o!==popObj||REDUCE) return 1;
+  const k=(performance.now()-popT)/POPMS;
+  if(k>=1){popObj=null;return 1;}
+  return 1+.3*Math.sin(Math.PI*k);               // cresce e assenta, sem repique
+}
+function isHi(o){
+  if(!sel2) return false;
+  if(sel2===o.k) return true;
+  if(sel2==="fosfodiester") return o.t==="sug"||o.t==="pho";
+  if(sel2==="glicosidica")  return o.t==="sug"||o.t==="bar";
+  if(sel2==="sulcos"||sel2==="antiparalelo") return o.t==="sug"||o.t==="pho";
+  return false;
+}
+
+const UP={x:0,y:1,z:0};
+function drawHelix(){
+  const {ctx,w,h}=helix; helix.clear();
+  const dim = sel2 ? .34 : 1;
+  const items=[];
+  const P=o=>project(o.p,camH,w,h);
+
+  // esqueleto branco: pentágono -> disco -> pentágono
+  const bbHi=sel2==="fosfodiester"||sel2==="antiparalelo";
+  const bbAl=bbHi?1:(sel2?dim:.95), bbCol=bbHi?"#FFFFFF":BONDCOL;
+  for(let i=0;i<LINKS.length;i++){
+    const a=project(LINKS[i][0],camH,w,h), b=project(LINKS[i][1],camH,w,h);
+    items.push({z:(a.z+b.z)/2,
+      d:()=>tube(ctx,a,b,2.05*a.s/5,2.05*b.s/5,bbCol,bbAl)});
+  }
+
+  HM.forEach(o=>{
+    const hi=isHi(o), hov=o===hoverObj;
+    const al=hi?1:(sel2?dim:1), p=P(o), sc=popScale(o);
+    const rim=hi?"rgba(255,255,255,.95)":hov?"rgba(255,255,255,.8)":"rgba(0,0,0,.45)";
+
+    if(o.t==="sug"||o.t==="pho"){
+      // pentágono e disco: mesmo eixo, a face olha para fora do eixo da hélice
+      const U={x:-Math.sin(o.a),y:0,z:Math.cos(o.a)}, N=nrm(at(o.a,1,0));
+      const isSug=o.t==="sug";
+      const R=(isSug?SUGR:PHOR)*sc, T=(isSug?SUGT:PHOT)*sc;
+      const px=R*p.s;            // raio REAL em pixels (antes vinha 5x menor)
+      if(px<6){
+        // Longe: uma placa chapada basta , mas de perfil ela tem área ZERO e some.
+        // O contorno grosso na cor da peça devolve a espessura sem custo de faces.
+        const flat=(isSug?PENTOUT:DISCOUT).map(q=>project(
+          {x:o.p.x+U.x*q[0]*R,y:o.p.y+q[1]*R,z:o.p.z+U.z*q[0]*R},camH,w,h));
+        const col=faceShade(o.c,N,p.z), lw=Math.max(1.1,T*2*p.s/5);
+        items.push({z:p.z,d:()=>poly(ctx,flat,col,al,hi||hov?rim:col,lw)});
+      }else{
+        // cada face entra na lista GLOBAL com a própria profundidade
+        const fs=plate(o.p,isSug?PENTOUT:DISCOUT,isSug?PENTN:DISCN,U,UP,N,R,R,T,w,h);
+        const hr=R*.32*p.s/5;
+        for(let k=0;k<fs.length;k++){
+          const f=fs[k];
+          items.push({z:f.z,d:()=>{
+            poly(ctx,f.pts,faceShade(o.c,f.n,f.z),al,(f.cap||hi||hov)?rim:null);
+            if(f.cap&&hr>1.3){                   // o furo acompanha a face que o contém
+              ctx.globalAlpha=al*.92;
+              ctx.fillStyle=isSug?"rgba(250,246,238,.95)":"rgba(60,58,54,.85)";
+              ctx.beginPath();ctx.arc(p.x,p.y,hr,0,TAU);ctx.fill();ctx.globalAlpha=1;
+            }
+          }});
+        }
+      }
+
+    } else if(o.t==="bar"){
+      const U=nrm(sub(o.to,o.from));
+      const V=nrm(crs(U,UP));
+      const L=Math.hypot(o.to.x-o.from.x,o.to.y-o.from.y,o.to.z-o.from.z)/2;
+      // o contorno vai de u=0 (açúcar) a u=1 (junção): centra e escala
+      const ctr={x:o.p.x,y:o.p.y,z:o.p.z};
+      const outC=o._out||(o._out=BAROUT.map(q=>[q[0]*2-1,q[1]]));
+      const px=BARW*sc*p.s;      // raio REAL em pixels
+      if(px<6){
+        const flat=outC.map(q=>project(
+          {x:ctr.x+U.x*q[0]*L+V.x*q[1]*BARW*sc,y:ctr.y+V.y*q[1]*BARW*sc,
+           z:ctr.z+U.z*q[0]*L+V.z*q[1]*BARW*sc},camH,w,h));
+        const col=faceShade(o.c,UP,p.z), lw=Math.max(1.1,BART*sc*2*p.s/5);
+        items.push({z:p.z,d:()=>poly(ctx,flat,col,al,hi||hov?rim:col,lw)});
+      }else{
+        const fs=plate(ctr,outC,o._n||(o._n=edgeNormals(outC)),U,V,UP,L,BARW*sc,BART*sc,w,h);
+        for(let k=0;k<fs.length;k++){
+          const f=fs[k];
+          items.push({z:f.z,d:()=>poly(ctx,f.pts,faceShade(o.c,f.n,f.z),al,(f.cap||hi||hov)?rim:null)});
+        }
+      }
+
+    } else if(o.t==="hb"){
+      const a=project(o.from,camH,w,h), b=project(o.to,camH,w,h);
+      const hi2=sel2==="ponteH", al2=hi2?1:(sel2?dim:.62);
+      items.push({z:p.z-.8,d:()=>{
+        ctx.save(); ctx.globalAlpha=al2; ctx.setLineDash([2.5,3]);
+        ctx.strokeStyle=hi2?"#FFFFFF":"rgba(226,232,236,.85)"; ctx.lineWidth=hi2?2:1.1;
+        const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L;
+        for(let k=0;k<o.n;k++){
+          const q=(k-(o.n-1)/2)*2.6*a.s/5;
+          ctx.beginPath();ctx.moveTo(a.x+nx*q,a.y+ny*q);ctx.lineTo(b.x+nx*q,b.y+ny*q);ctx.stroke();
+        }
+        ctx.restore();
+      }});
+    }
+  });
+
+  items.sort((a,b)=>b.z-a.z);
+  for(let i=0;i<items.length;i++) items[i].d();
+
+  // medidas que só fazem sentido com a hélice inteira à vista
+  if(sel2==="sulcos"||sel2==="antiparalelo"){
+    ctx.font='500 10px ui-monospace,Consolas,monospace';ctx.textAlign="left";
+    ctx.fillStyle="rgba(242,237,227,.8)";
+    try{ctx.letterSpacing="1.2px";}catch(e){}
+    const t=project({x:0,y:HHEIGHT+5,z:0},camH,w,h), b=project({x:0,y:-HHEIGHT-5,z:0},camH,w,h);
+    ctx.fillText(sel2==="antiparalelo"?"5' - FITA 1 - 3'":"SULCO MAIOR 22 Å",t.x+12,t.y);
+    ctx.fillText(sel2==="antiparalelo"?"3' - FITA 2 - 5'":"SULCO MENOR 12 Å",b.x+12,b.y);
+    try{ctx.letterSpacing="0px";}catch(e){}
+  }
+  if(coKey) placeCallout();
+}
+
+/* --- seleção por toque e por ponteiro --- */
+function pickRadius(o,s){
+  const u=o.t==="bar"?9:o.t==="sug"?SUGR+1.5:o.t==="pho"?PHOR+1:2.6;
+  return Math.max(o.t==="hb"?TOUCHFLOOR-2:TOUCHFLOOR,u*s/5);
+}
+function pickHelix(mx,my){
+  // Decide pela distância NORMALIZADA pelo tamanho da peça, não pela profundidade
+  // pura: senão um pentágono grande à frente rouba o clique de uma barra centrada.
+  // A profundidade entra só como desempate.
+  let best=null,bs=1e9;
+  HM.forEach(o=>{
+    const p=project(o.p,camH,helix.w,helix.h);
+    const rad=pickRadius(o,p.s), d=Math.hypot(p.x-mx,p.y-my);
+    if(d>rad)return;
+    const sc=d/rad+p.z/4000;
+    if(sc<bs){bs=sc;best=o;}
+  });
+  return best;
+}
+helix.el.addEventListener("click",ev=>{
+  const r=helix.el.getBoundingClientRect();
+  const o=pickHelix(ev.clientX-r.left,ev.clientY-r.top);
+  if(o){ coAnchor=o; popObj=o; popT=performance.now(); SFX.toque();
+         showInfo(o.k); openCallout(o.k); camH.auto=false; hideTip(); }
+  else { closeCallout(); showInfo(null); }
+  drawHelix(); updateReframe();
+});
+$("#reframe").onclick=()=>{ closeCallout(); showInfo(null); reframeHelix(); };
+// duplo toque também reenquadra, sem precisar procurar o botão
+helix.el.addEventListener("dblclick",()=>{ closeCallout(); showInfo(null); reframeHelix(); });
+
+/* --- legenda ao passar o ponteiro (só onde existe ponteiro de verdade) --- */
+const FINE=matchMedia("(hover:hover) and (pointer:fine)").matches;
+function showTip(txt,mx,my){
+  const el=$("#tip");
+  if(el.textContent!==txt) el.textContent=txt;
+  el.hidden=false;
+  const bw=el.offsetWidth, bh=el.offsetHeight;
+  el.style.left=clamp(mx+16,4,Math.max(4,helix.w-bw-4))+"px";
+  el.style.top =clamp(my-bh-12,4,Math.max(4,helix.h-bh-4))+"px";
+  el.classList.add("on");
+}
+function hideTip(){ const el=$("#tip"); el.classList.remove("on"); el.hidden=true; }
+if(FINE){
+  helix.el.addEventListener("mousemove",ev=>{
+    if(mode!=="helix")return;
+    const r=helix.el.getBoundingClientRect();
+    const mx=ev.clientX-r.left, my=ev.clientY-r.top;
+    const o=pickHelix(mx,my);
+    // o realce precisa de um redesenho explícito: o laço só desenha quando gira
+    if(o!==hoverObj){ hoverObj=o; helix.el.style.cursor=o?"pointer":"default"; drawHelix(); }
+    if(o&&INFO[o.k]) showTip(INFO[o.k].n,mx,my); else hideTip();
+  });
+  helix.el.addEventListener("mouseleave",()=>{
+    hoverObj=null; hideTip(); helix.el.style.cursor="default"; drawHelix();
+  });
+}
+
+/* =======================================================================
+   ETIQUETA ANCORADA · abre ao lado da peça tocada e a acompanha
+======================================================================= */
+let coKey=null, coAnchor=null, coW=210, coH=90;
+function openCallout(k){
+  const i=INFO[k]; if(!i)return;
+  const el=$("#callout");
+  el.style.setProperty("--co",i.c);
+  $("#coName").textContent=i.n;
+  $("#coForm").textContent=i.f||"";
+  $("#coShort").textContent=i.short||"";
+  clearTimeout(closeCallout.t);
+  el.hidden=false; coKey=k;
+  measureCallout();                           // mede uma vez; o loop não pode forçar layout
+  placeCallout();
+  void el.offsetWidth;                        // reflow: a transição parte do estado inicial
+  el.classList.add("on");                     // sem depender de rAF (aba de fundo não dispara)
+}
+function closeCallout(){
+  const el=$("#callout"); el.classList.remove("on"); coKey=null; coAnchor=null;
+  clearTimeout(closeCallout.t);
+  closeCallout.t=setTimeout(()=>{if(!coKey)el.hidden=true;},260);
+}
+function measureCallout(){
+  const el=$("#callout");
+  el.style.left="0px"; el.style.top="0px";    // mede a altura livre, sem o `left` anterior estreitá-la
+  coW=el.offsetWidth; coH=el.offsetHeight;
+}
+function placeCallout(){
+  if(!coAnchor)return;
+  const el=$("#callout");
+  const p=project(coAnchor.p,camH,helix.w,helix.h);
+  const bw=coW, bh=coH;
+  const right=p.x<helix.w*.55;
+  let x=right? p.x+30 : p.x-30-bw;
+  let y=p.y-bh/2;
+  x=clamp(x,10,Math.max(10,helix.w-bw-10));
+  y=clamp(y,10,Math.max(10,helix.h-bh-10));
+  el.style.left=x+"px"; el.style.top=y+"px";
+  el.classList.toggle("flip",!right);
+  // guia da peça até a etiqueta
+  const ctx=helix.ctx, ax=right?x:x+bw, ay=clamp(p.y,y+14,y+bh-14);
+  ctx.save();
+  ctx.strokeStyle=INFO[coKey]?INFO[coKey].c:"#fff"; ctx.globalAlpha=.75; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(ax,ay); ctx.stroke();
+  ctx.globalAlpha=1; ctx.fillStyle=ctx.strokeStyle;
+  ctx.beginPath(); ctx.arc(p.x,p.y,2.6,0,TAU); ctx.fill();
+  ctx.restore();
+}
+
+/* ---- diagrama molecular 2D (SVG) ---- */
+const NS="http://www.w3.org/2000/svg";
+const ACOL={N:"#7D9CC0",O:"#C4696D",C:"#9C968B",P:"#BFAE91",H:"#F2EDE3"};
+const L=30, X2=115;                                  // comprimento de ligação / centro da pirimidina
+function purine(){
+  const a={
+    N1:[30,0], C2:[15,25.98], N3:[-15,25.98], C4:[-30,0], C5:[-15,-25.98], C6:[15,-25.98],
+    N7:[-35.07,-48.29], C8:[-62.48,-36.09], N9:[-59.35,-6.25]
+  };
+  const b=[["N1","C2",2],["C2","N3",1],["N3","C4",1],["C4","C5",2],["C5","C6",1],["C6","N1",1],
+           ["C5","N7",1],["N7","C8",2],["C8","N9",1],["N9","C4",1]];
+  return {a,b};
+}
+function pyrimidine(){
+  const a={
+    N3:[X2-30,0], C4:[X2-15,-25.98], C5:[X2+15,-25.98], C6:[X2+30,0], N1:[X2+15,25.98], C2:[X2-15,25.98]
+  };
+  const b=[["N1","C2",1],["C2","N3",1],["N3","C4",1],["C4","C5",1],["C5","C6",2],["C6","N1",1]];
+  return {a,b};
+}
+function baseData(which){
+  if(which==="A"){const{a,b}=purine();a.N6=[30,-51.96];b.push(["C6","N6",1]);
+    return{a,b,label:"Adenina",anchor:"N9",side:-1,wc:["N6","N1"],hlab:{N6:"H₂"}};}
+  if(which==="G"){const{a,b}=purine();a.O6=[30,-51.96];a.N2=[30,51.96];
+    b.push(["C6","O6",2],["C2","N2",1]);
+    // guanina: N1-H, C2=N3 ; ajusta ordens
+    b.forEach(x=>{if(x[0]==="N1"&&x[1]==="C2")x[2]=1; if(x[0]==="C2"&&x[1]==="N3")x[2]=2;});
+    return{a,b,label:"Guanina",anchor:"N9",side:-1,wc:["O6","N1","N2"],hlab:{N1:"H",N2:"H₂"}};}
+  if(which==="T"){const{a,b}=pyrimidine();a.O4=[X2-30,-51.96];a.O2=[X2-30,51.96];a.C7=[X2+30,-51.96];
+    b.push(["C4","O4",2],["C2","O2",2],["C5","C7",1]);
+    return{a,b,label:"Timina",anchor:"N1",side:1,wc:["O4","N3"],hlab:{N3:"H"},extra:{C7:"CH₃"}};}
+  const{a,b}=pyrimidine();a.N4=[X2-30,-51.96];a.O2=[X2-30,51.96];
+  b.push(["C4","N4",1],["C2","O2",2]);
+  b.forEach(x=>{if(x[0]==="N3"&&x[1]==="C4")x[2]=2;});
+  return{a,b,label:"Citosina",anchor:"N1",side:1,wc:["N4","N3"],hlab:{N4:"H₂"}};
+}
+// açúcar-fosfato em coordenadas locais (positivo = afastando-se da base)
+const SUGAR={
+  C1p:[20.95,8.25], O4p:[45.65,-9.75], C2p:[30.35,37.25], C3p:[60.95,37.25], C4p:[70.35,8.25],
+  C5p:[92.65,-7.75], O5p:[92.65,-36], P:[92.65,-62], Oa:[68,-76], Ob:[117,-76], O3p:[60.95,67]
+};
+const SBONDS=[["C1p","O4p"],["O4p","C4p"],["C4p","C3p"],["C3p","C2p"],["C2p","C1p"],
+              ["C4p","C5p"],["C5p","O5p"],["O5p","P"],["P","Oa"],["P","Ob"],["C3p","O3p"]];
+const SLAB={C1p:"C1′",O4p:"O4′",C2p:"C2′",C3p:"C3′",C4p:"C4′",C5p:"C5′",O5p:"O5′",P:"P",Oa:"O",Ob:"O⁻",O3p:"O3′"};
+function el(t,at,parent){
+  const e=document.createElementNS(NS,t);
+  for(const k in at) e.setAttribute(k,at[k]);
+  if(parent)parent.appendChild(e);
+  return e;
+}
+function elemOf(name){const c=name[0];return ACOL[c]?c:"C";}
+function bond(g,p,q,order,col,wid){
+  if(order===2){
+    const dx=q[0]-p[0],dy=q[1]-p[1],Ln=Math.hypot(dx,dy),nx=-dy/Ln*2.6,ny=dx/Ln*2.6;
+    [[nx,ny],[-nx,-ny]].forEach(o=>el("line",{x1:p[0]+o[0],y1:p[1]+o[1],x2:q[0]+o[0],y2:q[1]+o[1],
+      stroke:col||"rgba(242,237,227,.45)","stroke-width":wid||2},g));
+  } else el("line",{x1:p[0],y1:p[1],x2:q[0],y2:q[1],stroke:col||"rgba(242,237,227,.45)","stroke-width":wid||2},g);
+}
+function atom(g,p,name,label){
+  const e=elemOf(name);
+  el("circle",{cx:p[0],cy:p[1],r:9.5,fill:"#08080B",stroke:ACOL[e],"stroke-width":1.2,opacity:.95},g);
+  const t=el("text",{x:p[0],y:p[1]+3.4,"text-anchor":"middle","font-size":"9.5",
+    fill:ACOL[e],"font-family":"ui-monospace,monospace"},g);
+  t.textContent=label||name.replace("p","′");
+}
+function buildPair(pairKey){
+  const svg=$("#mol"); svg.innerHTML="";
+  const left = baseData(pairKey==="AT"?"A":"G");
+  const right= baseData(pairKey==="AT"?"T":"C");
+  const g=el("g",{},svg);
+  const gBonds=el("g",{},g), gHB=el("g",{},g), gAtoms=el("g",{},g), gHit=el("g",{},g), gTxt=el("g",{},g);
+
+  const put=(side,local)=>{
+    const A=side<0?left.a[left.anchor]:right.a[right.anchor];
+    return side<0?[A[0]-local[0],A[1]+local[1]]:[A[0]+local[0],A[1]-local[1]];
+  };
+  // --- bases
+  [[left,-1],[right,1]].forEach(([bd,side])=>{
+    bd.b.forEach(([u,v,o])=>bond(gBonds,bd.a[u],bd.a[v],o));
+    for(const k in bd.a) atom(gAtoms,bd.a[k],k);
+    // hidrogênios das bordas
+    for(const k in (bd.hlab||{})){
+      const p=bd.a[k], dir=side<0?1:-1;
+      const t=el("text",{x:p[0]+dir*13,y:p[1]-9,"font-size":"9",fill:"#F2EDE3","text-anchor":"middle"},gTxt);
+      t.textContent=bd.hlab[k];
+    }
+    if(bd.extra) for(const k in bd.extra){
+      const p=bd.a[k];
+      const t=el("text",{x:p[0]+16,y:p[1]-6,"font-size":"9.5",fill:"#9C968B"},gTxt); t.textContent=bd.extra[k];
+    }
+    // ligação glicosídica + açúcar-fosfato
+    const anchor=bd.a[bd.anchor];
+    const S={}; for(const k in SUGAR) S[k]=put(side,SUGAR[k]);
+    bond(gBonds,anchor,S.C1p,1,"#9C8AA8",2.6);
+    SBONDS.forEach(([u,v])=>bond(gBonds,S[u],S[v],1,"rgba(242,237,227,.34)"));
+    for(const k in S) atom(gAtoms,S[k],k[0]==="O"?"O":(k==="P"?"P":"C"),SLAB[k]);
+    // rótulos de extremidade
+    const t5=el("text",{x:S.P[0],y:S.P[1]+(side<0?-20:24),"font-size":"11",fill:"#BFAE91","text-anchor":"middle","font-weight":"600"},gTxt);
+    t5.textContent="5′";
+    const t3=el("text",{x:S.O3p[0]+(side<0?-16:16),y:S.O3p[1]+(side<0?14:-8),"font-size":"11",fill:"#BFAE91","text-anchor":"middle","font-weight":"600"},gTxt);
+    t3.textContent="3′";
+    // nome da base
+    const cx=side<0?-24:X2+6;
+    const t=el("text",{x:cx,y:side<0?-76:88,"font-size":"12.5",fill:"#F2EDE3","text-anchor":"middle","font-weight":"600"},gTxt);
+    t.textContent=bd.label;
+    // zonas clicáveis
+    const kBase=pairKey==="AT"?(side<0?"A":"T"):(side<0?"G":"C");
+    el("rect",{x:side<0?-72:X2-40,y:-68,width:112,height:136,class:"hit",rx:10},gHit)
+      .addEventListener("click",()=>showInfo(kBase));
+    const sx=Math.min(S.C1p[0],S.O3p[0],S.C4p[0])-16, sy=Math.min(S.C1p[1],S.C3p[1],S.O4p[1])-14;
+    el("rect",{x:sx,y:sy,width:74,height:74,class:"hit",rx:10},gHit)
+      .addEventListener("click",()=>showInfo("acucar"));
+    el("rect",{x:S.P[0]-30,y:S.P[1]-22,width:60,height:48,class:"hit",rx:10},gHit)
+      .addEventListener("click",()=>showInfo("fosfato"));
+  });
+  // --- pontes de hidrogênio
+  const pairs = pairKey==="AT" ? [["N6","O4"],["N1","N3"]] : [["O6","N4"],["N1","N3"],["N2","O2"]];
+  pairs.forEach(([u,v])=>{
+    const p=left.a[u], q=right.a[v];
+    el("line",{x1:p[0]+11,y1:p[1],x2:q[0]-11,y2:q[1],stroke:"#F2EDE3","stroke-width":2,
+      "stroke-dasharray":"4 4",opacity:.9},gHB);
+  });
+  const hbTxt=el("text",{x:(30+X2-30)/2,y:-72,"font-size":"11.5",fill:"#F2EDE3","text-anchor":"middle"},gTxt);
+  hbTxt.textContent=(pairKey==="AT"?"2":"3")+" pontes de hidrogênio";
+  el("rect",{x:34,y:-64,width:X2-64,height:128,class:"hit",rx:10},gHit)
+    .addEventListener("click",()=>showInfo("ponteH"));
+
+  svg.setAttribute("viewBox","-250 -160 620 320");
+  svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+}
+
+/* ---- alternância de vistas da aba química ---- */
+$$("#v-qui [data-view]").forEach(b=>b.onclick=()=>{
+  $$("#v-qui [data-view]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  mode=b.dataset.view;
+  const isH=mode==="helix";
+  $("#helix").style.display=isH?"block":"none";
+  $("#mol").style.display=isH?"none":"block";
+  if(!isH) closeCallout();
+  $("#quiHint").textContent=isH?"Arraste para girar · toque nas moléculas":"Toque nas partes da molécula";
+  if(isH)drawHelix(); else buildPair(mode);
+});
+
+/* =======================================================================
+   ABA 3 · JOGO
+======================================================================= */
+/* =======================================================================
+   JOGO · dois modos
+   1. MONTAR A FITA: aparece uma fita-molde; o aluno toca na base que
+      encaixa em cada posição. Acertou, a peça se encaixa e as pontes de
+      hidrogênio aparecem (2 ou 3, conforme o par). Aprende com a mão.
+   2. QUIZ: o banco de 20 questões, para quem quiser testar a teoria.
+======================================================================= */
+const el2=(tag,cls)=>{const e=document.createElement(tag);e.className=cls||"";return e;};
+const GBASE=["A","T","G","C"];
+const GNOME={A:"Adenina",T:"Timina",G:"Guanina",C:"Citosina"};
+const GPAR={A:"T",T:"A",G:"C",C:"G"};
+const NPOS=10;                                  // posições por rodada no modo montar
+let gScore=0, gStreak=0, gBest=0, gMarks=[];
+let tpl=[], pos=0, travado=false;
+
+try{ gBest=+(localStorage.getItem("labdna_best")||0)||0; }catch(e){ gBest=0; }
+function salvarRecorde(){
+  if(gScore>gBest){ gBest=gScore; try{localStorage.setItem("labdna_best",gBest);}catch(e){} return true; }
+  return false;
+}
+const shuffle=a=>{const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.random()*(i+1)|0;
+  [b[i],b[j]]=[b[j],b[i]];}return b;};
+
+/* ---------- abertura ----------
+   Com um modo só, um menu de escolha seria uma porta a mais entre o aluno e
+   o jogo. A tela de abertura explica a regra e entra direto.               */
+function gameMenu(){
+  const g=$("#game"); g.innerHTML="";
+  const h=el2("div");
+  h.innerHTML='<span class="lbl">Jogo</span>'+
+    '<h2 style="margin:8px 0 6px;font:800 30px/1.15 var(--sans);letter-spacing:-.02em">Monte a fita que falta</h2>'+
+    '<p style="margin:0;font:400 16px/1.55 var(--sans);color:var(--mut)">'+
+      'Uma fita de DNA aparece. Toque na base que encaixa em cada posição. '+
+      'Errou, ela mostra qual era e por quê. Leva menos de dois minutos.</p>'+
+    (gBest>0?'<p style="margin:12px 0 0"><span class="pill">Seu recorde: <b>'+gBest+'</b> de '+NPOS+'</span></p>':"");
+  g.appendChild(h);
+
+  const regra=el2("div","fb");
+  regra.innerHTML='<b>A regra é uma só:</b> grande com pequena. '+
+    '<b>A</b> encaixa em <b>T</b> com 2 pontes de hidrogênio, e '+
+    '<b>G</b> encaixa em <b>C</b> com 3.';
+  g.appendChild(regra);
+
+  const b=el2("button","btn");
+  b.textContent="Começar";
+  b.onclick=()=>{ gScore=0; gStreak=0; gMarks=[]; startBuild(); };
+  g.appendChild(b);
+}
+
+/* ---------- placar comum ---------- */
+function hud(total){
+  const h=el2("div","hud");
+  h.innerHTML='<span class="pill">Acertos <b>'+gScore+'</b></span>'+
+    (gStreak>1?'<span class="pill hot">🔥 '+gStreak+' seguidas</span>':"")+
+    '<span class="grow"></span>'+
+    '<span class="pill">'+Math.min(gMarks.length+1,total)+' de '+total+'</span>';
+  return h;
+}
+function strip(total,all){
+  const s=el2("div","strip");
+  for(let i=0;i<total;i++){
+    let c="frame";
+    if(i<gMarks.length) c+=gMarks[i]?" hit":" miss";
+    else if(!all&&i===gMarks.length) c+=" now";
+    s.appendChild(el2("span",c));
+  }
+  return s;
+}
+
+/* =============== MODO 1 · MONTAR A FITA =============== */
+function startBuild(){
+  tpl=[]; for(let i=0;i<NPOS;i++) tpl.push(GBASE[Math.random()*4|0]);
+  pos=0; travado=false; gMarks=[]; gScore=0; gStreak=0;
+  renderBuild();
+}
+function renderBuild(){
+  const g=$("#game"); g.innerHTML="";
+  g.appendChild(hud(NPOS));
+  g.appendChild(strip(NPOS,false));
+
+  const box=el2("div","tpl");
+  box.innerHTML='<span class="tpl-lbl">Fita-molde &nbsp;5′ → 3′</span>';
+  const row=el2("div","strand");
+  tpl.forEach((b,i)=>{
+    const col=el2("div","pair");
+    const top=el2("div","nt "+b); top.textContent=b; col.appendChild(top);
+    const bd=el2("div","bond");
+    bd.textContent = i<pos ? (b==="G"||b==="C"?"≡":"=") : "·";
+    col.appendChild(bd);
+    if(i<pos){
+      const done=el2("div","nt "+GPAR[b]+" done"); done.textContent=GPAR[b]; col.appendChild(done);
+    }else{
+      const s=el2("div","slot"+(i===pos?" now":"")); s.textContent=i===pos?"?":""; col.appendChild(s);
+    }
+    row.appendChild(col);
+  });
+  box.appendChild(row);
+  g.appendChild(box);
+  // em tela estreita a fita não cabe inteira: traz a posição da vez para o meio
+  const alvo=row.children[pos];
+  if(alvo&&box.scrollWidth>box.clientWidth)
+    box.scrollLeft=alvo.offsetLeft-box.clientWidth/2+alvo.offsetWidth/2;
+
+  const p=el2("p"); p.style.cssText="margin:0;font:600 15px/1.5 var(--sans);color:var(--ink2)";
+  p.innerHTML='Qual base encaixa na posição marcada com <b>?</b>';
+  g.appendChild(p);
+
+  const opts=el2("div","opts");
+  GBASE.forEach(b=>{
+    const btn=el2("button","base-btn "+b);
+    btn.innerHTML=b+'<small>'+GNOME[b].toUpperCase()+'</small>';
+    btn.onclick=()=>respondeBuild(b,btn,opts);
+    opts.appendChild(btn);
+  });
+  g.appendChild(opts);
+  // a ajuda fica sempre à vista: o aluno está sozinho
+  const dica=el2("div","fb");
+  dica.innerHTML='<b>Regra:</b> grande com pequena. <b>A</b> só encaixa em <b>T</b> (2 pontes) e '+
+                 '<b>G</b> só encaixa em <b>C</b> (3 pontes).';
+  g.appendChild(dica);
+}
+function respondeBuild(b,btn,opts){
+  if(travado)return; travado=true;
+  const certa=GPAR[tpl[pos]], ok=b===certa;
+  $$(".base-btn",opts).forEach(x=>x.disabled=true);
+  gMarks.push(ok);
+  const n=(tpl[pos]==="G"||tpl[pos]==="C")?3:2;
+  if(ok){ gScore++; gStreak++; SFX.encaixe(n); }   // uma nota por ponte de hidrogênio
+  else{ gStreak=0; btn.classList.add("shake"); SFX.erro(); }
+
+  const g=$("#game");
+  const fb=el2("div","fb "+(ok?"ok":"no"));
+  fb.innerHTML = ok
+    ? "<b>Isso!</b> "+GNOME[tpl[pos]]+" com "+GNOME[certa]+", presas por <b>"+n+" pontes de hidrogênio</b>."
+    : "<b>Quase.</b> Em frente à "+GNOME[tpl[pos]]+" só cabe a <b>"+GNOME[certa]+"</b> , e as duas juntas dão "+n+" pontes.";
+  g.appendChild(fb);
+
+  setTimeout(()=>{
+    pos++; travado=false;
+    if(pos>=NPOS) fimDeRodada(); else renderBuild();
+  }, ok?700:1500);
+}
+
+function fimDeRodada(){
+  const total=NPOS;
+  const g=$("#game"); g.innerHTML="";
+  const novo=salvarRecorde();
+  SFX.fim(gScore,total); if(novo) SFX.recorde();
+  const pct=gScore/total;
+  const msg = pct===1 ? "Gabaritou. Sério."
+            : pct>=.8 ? "Muito bom, passou longe do chute."
+            : pct>=.5 ? "Metade. Dá uma volta nas outras abas e tenta de novo."
+                      : "Vale olhar as abas Experimento e Química antes da próxima.";
+  g.appendChild(strip(total,true));
+  const c=el2("div");
+  c.innerHTML='<span class="lbl">Resultado</span>'+
+    '<div class="score">'+gScore+'<s> / '+total+'</s></div>'+
+    '<p style="margin:10px 0 0;font:600 17px/1.5 var(--sans);color:var(--ink2)">'+msg+'</p>'+
+    (novo?'<p style="margin:10px 0 0"><span class="pill hot">🏆 Novo recorde!</span></p>'
+         :gBest>0?'<p style="margin:10px 0 0"><span class="pill">Recorde: <b>'+gBest+'</b></span></p>':"");
+  g.appendChild(c);
+
+  const row=el2("div","rowbtn");
+  const again=el2("button","btn"); again.textContent="Jogar de novo";
+  again.onclick=()=>{ gScore=0;gStreak=0;gMarks=[]; startBuild(); };
+  const back=el2("button","btn ghost"); back.textContent="Ver a regra";
+  back.onclick=gameMenu;
+  row.appendChild(again); row.appendChild(back);
+  g.appendChild(row);
+}
+function startGame(){ gameMenu(); }
+startGame();
+
+/* =======================================================================
+   LOOP E RESIZE
+======================================================================= */
+const FIT_LAB=boxPts(116,48,40);
+const FIT_HEL=cylPts(R_BB+SUGR*.8,HHEIGHT+SUGR*.8);
+function resizeAll(){
+  lab.resize(); helix.resize();
+  fitCam(camL,FIT_LAB,lab,14);
+  fitCam(camH,FIT_HEL,helix,10);
+  if(coKey) measureCallout();                 // a largura da etiqueta muda com o breakpoint
+  drawLab(); drawHelix(); drawFilm();
+}
+window.addEventListener("resize",resizeAll);
+window.addEventListener("orientationchange",()=>setTimeout(resizeAll,60));
+if(window.visualViewport) visualViewport.addEventListener("resize",resizeAll);
+if(window.ResizeObserver){
+  const ro=new ResizeObserver(()=>resizeAll());
+  ro.observe($("#v-exp .stage")); ro.observe($("#v-qui .stage"));
+}
+let last=0;
+function loop(t){
+  const dt=Math.min(64,t-last)||16; last=t;
+  beamT=(beamT+dt*.05)%16;
+  if(exposing){
+    expose=clamp(expose+dt/9000,0,1);
+    if(expose>=1){exposing=false;setExposeBtn();}
+    drawFilm();
+  }
+  if($("#v-exp").classList.contains("on")){
+    if(lab.ensure()){ fitCam(camL,FIT_LAB,lab,14); }
+    if(camL.auto&&!REDUCE) camL.ry+=dt*.00012;
+    drawLab();
+  } else if($("#v-qui").classList.contains("on") && mode==="helix"){
+    // se o host trocou o tamanho sem avisar, reajusta e redesenha na hora
+    let mudou=helix.ensure();
+    if(mudou){ fitCam(camH,FIT_HEL,helix,10); updateReframe(); }
+    // fora isso, só redesenha quando algo mudou: parada, a hélice não custa nada
+    if(camH.auto&&!REDUCE){ camH.ry+=dt*.00022; mudou=true; }
+    if(mudou||popObj) drawHelix();
+  }
+  requestAnimationFrame(loop);
+}
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* =======================================================================
+   TELA INICIAL VIVA
+   Uma hélice desenhada em curva contínua que se inclina na direção do
+   ponteiro (ou do dedo), sobre um campo de partículas que se afastam do
+   toque. Cada toque solta uma onda que acende os degraus por onde passa.
+   Tudo em canvas, leve o bastante para o celular de um aluno.
+======================================================================= */
+const HERO=(()=>{
+  const cv=$("#heroCv"); if(!cv) return {parar(){},iniciar(){}};
+  const ctx=cv.getContext("2d");
+  let W=0,H=0,dpr=1,raf=null,t0=0;
+  let px=.5, py=.5;            // ponteiro em fração da tela
+  let tx=.5, ty=.5;            // alvo, para o movimento chegar suave
+  const ondas=[];
+  const NP=window.matchMedia("(pointer:coarse)").matches?26:44;
+  const parts=[];
+
+  const BASES=["#2E9E4B","#E8B70C","#2A6FDB","#EE6420"];
+
+  function medir(){
+    const r=cv.getBoundingClientRect();
+    dpr=Math.min(window.devicePixelRatio||1,2);
+    W=Math.max(1,Math.round(r.width)); H=Math.max(1,Math.round(r.height));
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+    if(!parts.length) for(let i=0;i<NP;i++) parts.push({
+      x:Math.random(), y:Math.random(),
+      v:.012+Math.random()*.028, r:.7+Math.random()*1.9, a:.12+Math.random()*.3});
+  }
+  function apontar(cx,cy){
+    const r=cv.getBoundingClientRect();
+    tx=(cx-r.left)/Math.max(1,r.width); ty=(cy-r.top)/Math.max(1,r.height);
+  }
+  function tocar(cx,cy){
+    const r=cv.getBoundingClientRect();
+    ondas.push({x:(cx-r.left)/Math.max(1,r.width),y:(cy-r.top)/Math.max(1,r.height),t:0});
+    if(ondas.length>4) ondas.shift();
+  }
+
+  function quadro(ts){
+    if(!t0)t0=ts; const t=(ts-t0)/1000;
+    px+=(tx-px)*.06; py+=(ty-py)*.06;          // perseguição suave: nada de tranco
+    ctx.clearRect(0,0,W,H);
+
+    // fundo: brilho profundo que acompanha o ponteiro de longe
+    const gx=W*(.5+(px-.5)*.35), gy=H*(.34+(py-.5)*.3);
+    const g=ctx.createRadialGradient(gx,gy,0,gx,gy,Math.max(W,H)*.85);
+    g.addColorStop(0,"#1B3358"); g.addColorStop(.42,"#0E1B30"); g.addColorStop(1,"#05070C");
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+    // partículas subindo, empurradas para longe do dedo
+    ctx.save();
+    for(let i=0;i<parts.length;i++){
+      const p=parts[i];
+      p.y-=p.v*.006; if(p.y<-.05){p.y=1.05;p.x=Math.random();}
+      let x=p.x*W, y=p.y*H;
+      const dx=x-px*W, dy=y-py*H, d=Math.hypot(dx,dy);
+      if(d<160&&d>.1){ const f=(1-d/160)*46; x+=dx/d*f; y+=dy/d*f; }
+      ctx.globalAlpha=p.a; ctx.fillStyle="#9FC2FF";
+      ctx.beginPath(); ctx.arc(x,y,p.r,0,TAU); ctx.fill();
+    }
+    ctx.restore();
+
+    // a hélice
+    const cx=W/2, alt=Math.min(H*.62,340), topo=H*.5-alt/2;
+    const R=Math.min(W*.15,64);
+    const N=30, giro=t*.55 + (px-.5)*2.1;      // o ponteiro gira a hélice
+    const incl=(py-.5)*.45;                     // e inclina de leve
+    const pt=i=>{
+      const f=i/(N-1), ang=giro+f*Math.PI*3.1;
+      const y=topo+f*alt+Math.sin(ang)*incl*22;
+      return {a:ang,y:y,x1:cx+Math.sin(ang)*R,x2:cx-Math.sin(ang)*R,z:Math.cos(ang)};
+    };
+    const P=[]; for(let i=0;i<N;i++) P.push(pt(i));
+
+    // degraus, do fundo para a frente
+    const ordem=P.map((p,i)=>i).sort((a,b)=>P[a].z-P[b].z);
+    for(const i of ordem){
+      const p=P[i];
+      let luz=0;                                 // a onda do toque acende o degrau
+      for(const o of ondas){
+        const d=Math.abs(Math.hypot(cx-o.x*W,p.y-o.y*H)-o.t*520);
+        if(d<58) luz=Math.max(luz,(1-d/58)*(1-o.t/1.15));
+      }
+      const prof=(p.z+1)/2;
+      ctx.globalAlpha=(.2+prof*.55)+luz*.45;
+      ctx.strokeStyle=BASES[i%4];
+      ctx.lineWidth=(2.2+prof*2.4)+luz*2.6;
+      ctx.lineCap="round";
+      ctx.beginPath(); ctx.moveTo(p.x1,p.y); ctx.lineTo(p.x2,p.y); ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+
+    // as duas fitas, em curva contínua
+    [["x1","#F2645A"],["x2","#F4F7FA"]].forEach(([k,cor])=>{
+      ctx.strokeStyle=cor; ctx.lineWidth=4.2; ctx.lineJoin="round"; ctx.lineCap="round";
+      ctx.beginPath();
+      for(let i=0;i<N;i++){ const p=P[i];
+        if(i===0) ctx.moveTo(p[k],p.y);
+        else{ const q=P[i-1]; ctx.quadraticCurveTo(q[k],q.y,(q[k]+p[k])/2,(q.y+p.y)/2); }
+      }
+      ctx.stroke();
+    });
+
+    for(let i=ondas.length-1;i>=0;i--){ ondas[i].t+=.016; if(ondas[i].t>1.15) ondas.splice(i,1); }
+    raf=requestAnimationFrame(quadro);
+  }
+
+  cv.addEventListener("pointermove",e=>apontar(e.clientX,e.clientY));
+  cv.addEventListener("pointerdown",e=>{apontar(e.clientX,e.clientY);tocar(e.clientX,e.clientY);});
+  cv.addEventListener("touchmove",e=>{const t=e.touches[0];if(t)apontar(t.clientX,t.clientY);},{passive:true});
+  window.addEventListener("resize",()=>{if(raf)medir();});
+
+  return {
+    iniciar(){ if(raf)return; medir(); t0=0;
+      if(REDUCE){ quadroParado(); return; }
+      raf=requestAnimationFrame(quadro); },
+    parar(){ if(raf) cancelAnimationFrame(raf); raf=null; }
+  };
+  function quadroParado(){ medir(); quadro(performance.now()); if(raf){cancelAnimationFrame(raf);raf=null;} }
+})();
+
+/* ---- tela de atração: 80 s sem toque e o convite volta ---- */
+const OCIO=80000;
+let ocioT=null;
+function fecharAtracao(){
+  const a=$("#attract"); if(a.hidden)return;
+  a.hidden=true; HERO.parar(); resizeAll();
+}
+function abrirAtracao(){
+  const a=$("#attract"); if(!a.hidden)return;
+  // volta ao começo, como um totem deve fazer para o próximo visitante
+  a.hidden=false; HERO.iniciar(); closeCallout(); showInfo(null);
+  $$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.tab==="exp"));
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-exp"));
+  expose=0; exposing=false; setExposeBtn(); selectFinding(null);
+  reframeHelix(); gameMenu();
+}
+function cutucar(){ clearTimeout(ocioT); ocioT=setTimeout(abrirAtracao,OCIO); }
+// O primeiro gesto do usuário é a única chance de destravar áudio no celular.
+// Repare que tocar NÃO fecha a tela inicial: ela é para brincar. Se qualquer
+// toque fechasse, a onda que responde ao dedo nunca chegaria a ser vista.
+["pointerdown","keydown","wheel","touchstart"].forEach(ev=>
+  window.addEventListener(ev,()=>{SFX.destravar();cutucar();},{passive:true}));
+$("#atStart").onclick=()=>{SFX.destravar();fecharAtracao();cutucar();};
+// teclado: Enter, espaço ou Esc também entram
+window.addEventListener("keydown",e=>{
+  if($("#attract").hidden)return;
+  if(e.key==="Enter"||e.key===" "||e.key==="Escape"){e.preventDefault();
+    SFX.destravar();fecharAtracao();cutucar();}
+});
+(()=>{
+  const b=$("#snd");
+  const pinta=()=>{const on=SFX.ligado();b.textContent=on?"🔊":"🔇";b.setAttribute("aria-pressed",on?"true":"false");};
+  b.onclick=e=>{e.stopPropagation();SFX.destravar();SFX.alternar();pinta();};
+  pinta();
+})();
+HERO.iniciar();   // a tela inicial já nasce viva
+cutucar();
+buildRail(); expInfoReset(); setExposeBtn(); showInfo(null);
+requestAnimationFrame(()=>{resizeAll();drawFilm();requestAnimationFrame(loop);});
+</script>
+</body>
+</html>
