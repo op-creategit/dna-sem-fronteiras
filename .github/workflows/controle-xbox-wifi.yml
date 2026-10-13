@@ -1,0 +1,118 @@
+name: Controle Xbox Wi-Fi
+
+on:
+  push:
+    paths:
+      - "controle-xbox-wifi/**"
+      - ".github/workflows/controle-xbox-wifi.yml"
+  pull_request:
+    paths:
+      - "controle-xbox-wifi/**"
+      - ".github/workflows/controle-xbox-wifi.yml"
+  workflow_dispatch:
+    inputs:
+      versao:
+        description: "Para publicar uma versão com link de download, informe o número (ex.: 1.0.0). Vazio só compila."
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+env:
+  VGAMEPAD_URL: https://files.pythonhosted.org/packages/source/v/vgamepad/vgamepad-0.1.0.tar.gz
+  VGAMEPAD_SHA256: 57f6bd01aec0c172947517fb782d150ef9b285f7f4d524c317374fa5c24a89de
+
+jobs:
+  testes:
+    name: Testes do servidor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Testes
+        working-directory: controle-xbox-wifi/pc
+        run: python -m unittest -v test_servidor
+
+  apk:
+    name: APK (Android)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compilar
+        working-directory: controle-xbox-wifi/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk ../ControleXboxWifi.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ControleXboxWifi-apk
+          path: controle-xbox-wifi/ControleXboxWifi.apk
+
+  exe:
+    name: EXE (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Baixar vgamepad
+        shell: bash
+        working-directory: controle-xbox-wifi/pc
+        # Sem "pip install": o setup.py do vgamepad abre o instalador do
+        # driver e travaria a máquina de build. Basta o código e as DLLs.
+        run: |
+          curl -sSL -o vgamepad.tar.gz "$VGAMEPAD_URL"
+          echo "$VGAMEPAD_SHA256  vgamepad.tar.gz" | sha256sum -c -
+          tar xzf vgamepad.tar.gz
+      - name: Empacotar
+        shell: bash
+        working-directory: controle-xbox-wifi/pc
+        run: |
+          python -m pip install pyinstaller==6.11.1
+          python -m PyInstaller --onefile --console --clean \
+            --name ControleXboxWifi-Servidor \
+            --paths vgamepad-0.1.0 \
+            --hidden-import vgamepad \
+            --add-data "vgamepad-0.1.0/vgamepad;vgamepad" \
+            servidor.py
+      - name: Conferir o .exe
+        shell: bash
+        working-directory: controle-xbox-wifi/pc
+        run: |
+          ./dist/ControleXboxWifi-Servidor.exe --help
+          ./dist/ControleXboxWifi-Servidor.exe --verificar-pacote
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ControleXboxWifi-exe
+          path: controle-xbox-wifi/pc/dist/ControleXboxWifi-Servidor.exe
+
+  release:
+    name: Publicar versão
+    if: github.event_name == 'workflow_dispatch' && inputs.versao != ''
+    needs: [testes, apk, exe]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: arquivos
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: controle-v${{ inputs.versao }}
+          target_commitish: ${{ github.sha }}
+          name: Controle Xbox Wi-Fi ${{ inputs.versao }}
+          files: |
+            arquivos/ControleXboxWifi.apk
+            arquivos/ControleXboxWifi-Servidor.exe
