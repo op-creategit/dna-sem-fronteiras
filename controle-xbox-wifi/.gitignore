@@ -1,0 +1,14 @@
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+
+# PC
+pc/build/
+pc/dist/
+pc/*.spec
+pc/vgamepad*/
+pc/vgamepad.tar.gz
+__pycache__/

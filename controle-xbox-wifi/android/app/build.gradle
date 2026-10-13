@@ -1,0 +1,30 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "br.dna.controlewifi"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "br.dna.controlewifi"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // Assinado com a chave de depuração para o APK instalar direto,
+            // sem loja. Para publicar na Play Store, troque por uma chave própria.
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}

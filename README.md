@@ -32,3 +32,9 @@ pasta raiz. O endereço nunca muda, então o QR impresso vale para sempre.
 Substitua `index.html` e envie. A mesma URL passa a servir a versão nova,
 sem nenhum passo extra. A versão aparece na tela inicial e no bloco
 "Fontes e versão", para conferir num segundo se um aparelho está atualizado.
+
+## Outros projetos nesta pasta
+
+- [`controle-xbox-wifi/`](controle-xbox-wifi/README.md): app Android e
+  servidor Windows que transformam o celular num controle de Xbox 360 pelo
+  Wi-Fi.
