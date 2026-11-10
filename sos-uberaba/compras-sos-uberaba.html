@@ -1,0 +1,305 @@
+<title>Compras SOS Uberaba</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: faixa de resumo fixa no topo, filtros, lista de produtos em linhas com links de busca e cotação expansível */
+:root{
+  --bg:#F4F5F2; --surface:#FFFFFF; --ink:#1B1F24; --muted:#5F6670; --line:#DCDFD8;
+  --accent:#F2B705; --accent-ink:#1B1F24; --link:#0B6E6E; --good:#2E7D32; --bad:#B3261E; --chip:#ECEEE8;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121416; --surface:#1B1E21; --ink:#E8EAE6; --muted:#9AA1A9; --line:#2D3135;
+  --accent:#F2B705; --accent-ink:#121416; --link:#5CC8C8; --good:#7BC67E; --bad:#F2867D; --chip:#24282C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121416; --surface:#1B1E21; --ink:#E8EAE6; --muted:#9AA1A9; --line:#2D3135;
+  --accent:#F2B705; --accent-ink:#121416; --link:#5CC8C8; --good:#7BC67E; --bad:#F2867D; --chip:#24282C; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2{font-family:var(--display);font-weight:700;letter-spacing:.01em;margin:0;text-wrap:balance}
+h1{font-size:2.1rem;line-height:1.05}
+h2{font-size:1.4rem}
+.tag{display:inline-block;background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:700;
+  font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+.sub{color:var(--muted);margin:6px 0 0;max-width:65ch}
+.num{font-variant-numeric:tabular-nums}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.stat{background:var(--surface);padding:14px 16px;min-width:0}
+.stat .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stat .v{font-family:var(--display);font-size:1.7rem;font-weight:700;line-height:1.1}
+.stat.hl{background:var(--accent);color:var(--accent-ink)}
+.stat.hl .k{color:var(--accent-ink);opacity:.8}
+.bar{height:6px;background:var(--chip);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);width:0;transition:width .3s}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);
+  background:var(--bg);padding-block:10px;z-index:5;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  padding:6px 12px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#q{flex:1 1 180px;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.group-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:8px}
+.group-title span{color:var(--muted);font-size:.85rem}
+.list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.item{padding:12px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.item:first-child{border-top:0}
+.row1{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.name{font-weight:600;min-width:0}
+.meta{color:var(--muted);font-size:.85rem}
+.status{flex:none;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.status.ok{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.links a{font-size:.8rem;color:var(--link);text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:999px;background:var(--bg)}
+.links a:hover{border-color:var(--link)}
+.toggle{align-self:flex-start;font:inherit;font-size:.82rem;background:none;border:0;color:var(--ink);text-decoration:underline;cursor:pointer;padding:0}
+form.quote{display:grid;grid-template-columns:1fr 110px 80px auto;gap:8px;align-items:end}
+form.quote label{display:flex;flex-direction:column;gap:3px;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;min-width:0}
+form.quote input{font:inherit;font-size:.9rem;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);min-width:0;width:100%}
+form.quote button{font:inherit;font-weight:600;font-size:.88rem;padding:8px 14px;border-radius:6px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.chosen{font-size:.82rem;overflow-wrap:anywhere}
+.chosen a{color:var(--link)}
+.diff.up{color:var(--bad)} .diff.down{color:var(--good)}
+.note{font-size:.82rem;color:var(--muted)}
+.inv{border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow-x:auto}
+.inv table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.inv td{padding:9px 14px;border-top:1px solid var(--line)}
+.inv tr:first-child td{border-top:0}
+.inv td:last-child{text-align:right;white-space:nowrap}
+.inv tr.total td{font-family:var(--display);font-size:1.25rem;font-weight:700;background:var(--accent);color:var(--accent-ink)}
+.empty{padding:18px;color:var(--muted)}
+@media (max-width:560px){form.quote{grid-template-columns:1fr 1fr}form.quote label:first-child{grid-column:1/-1}form.quote button{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">Dark store · Uberaba</span>
+    <h1>Compras SOS Uberaba</h1>
+    <p class="sub">63 produtos para o SOS Casa e o SOS Tech. Toque numa loja para ver as ofertas, depois registre o link e o preço que escolheu. O investimento se atualiza com o que você cotar.</p>
+    <p class="note" id="sync">Conectando ao armazenamento…</p>
+  </header>
+
+  <section class="summary" aria-label="Resumo">
+    <div class="stat hl"><div class="k">Investimento total</div><div class="v num" id="sTotal">-</div></div>
+    <div class="stat"><div class="k">Estoque</div><div class="v num" id="sStock">-</div></div>
+    <div class="stat"><div class="k">Faturamento potencial</div><div class="v num" id="sRev">-</div></div>
+    <div class="stat"><div class="k">Cotados</div><div class="v num" id="sDone">-</div><div class="bar"><i id="sBar"></i></div></div>
+  </section>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Filtro">
+      <button type="button" data-f="all" aria-pressed="true">Todos</button>
+      <button type="button" data-f="SOS Casa" aria-pressed="false">SOS Casa</button>
+      <button type="button" data-f="SOS Tech" aria-pressed="false">SOS Tech</button>
+      <button type="button" data-f="pend" aria-pressed="false">Pendentes</button>
+      <button type="button" data-f="ok" aria-pressed="false">Cotados</button>
+    </div>
+    <input id="q" type="search" placeholder="Buscar produto" aria-label="Buscar produto">
+  </div>
+
+  <main id="groups"></main>
+
+  <section>
+    <h2>Investimento</h2>
+    <p class="note">Usa o custo cotado quando existe; senão, a estimativa de atacado. Valores fixos são estimativas da pesquisa.</p>
+    <div class="inv"><table id="inv"></table></div>
+  </section>
+</div>
+
+<script>
+const P=[
+["c01","SOS Casa","Resistência Lorenzetti Maxi Ducha/Bello Banho 220V","resistencia lorenzetti maxi ducha 220v",16,45,8],
+["c02","SOS Casa","Resistência Lorenzetti Maxi Ducha/Bello Banho 127V","resistencia lorenzetti maxi ducha 127v",16,45,6],
+["c03","SOS Casa","Resistência Lorenzetti Advanced/Duo Shower 220V","resistencia lorenzetti advanced duo shower 220v",28,69,6],
+["c04","SOS Casa","Resistência Lorenzetti Acqua (Star/Duo/Ultra) 220V","resistencia lorenzetti acqua 220v",45,99,3],
+["c05","SOS Casa","Resistência Hydra (Optima/Corona) 220V","resistencia hydra corona optima 220v",18,49,5],
+["c06","SOS Casa","Resistência Fame 220V","resistencia chuveiro fame 220v",18,49,5],
+["c07","SOS Casa","Resistência Zagonel 220V","resistencia chuveiro zagonel 220v",20,49,4],
+["c08","SOS Casa","Chuveiro completo Lorenzetti Maxi Ducha 220V","chuveiro lorenzetti maxi ducha 220v",55,119,3],
+["c09","SOS Casa","Lâmpada LED bulbo 9W","lampada led bulbo 9w kit",4,14.9,30],
+["c10","SOS Casa","Lâmpada LED bulbo 15W","lampada led bulbo 15w kit",7,19.9,15],
+["c11","SOS Casa","Lâmpada LED tubular 18W","lampada led tubular 18w",10,29.9,6],
+["c12","SOS Casa","Soquete E27","soquete e27",3,12.9,6],
+["c13","SOS Casa","Fita isolante 10m","fita isolante 10m",3,12.9,15],
+["c14","SOS Casa","Extensão 3m, 3 tomadas","extensao eletrica 3 metros 3 tomadas",15,39.9,8],
+["c15","SOS Casa","Extensão 5m, 3 tomadas","extensao eletrica 5 metros 3 tomadas",22,54.9,5],
+["c16","SOS Casa","Filtro de linha 5 tomadas","filtro de linha 5 tomadas",18,49.9,6],
+["c17","SOS Casa","Benjamim / adaptador T","adaptador benjamim t tomada",3,14.9,15],
+["c18","SOS Casa","Adaptador de tomada (padrão antigo/novo)","adaptador tomada padrao novo antigo",2.5,9.9,20],
+["c19","SOS Casa","Plugue macho/fêmea 10A","plugue macho femea 10a",3,12.9,10],
+["c20","SOS Casa","Tomada completa 10A/20A","tomada completa 20a com placa",7,24.9,8],
+["c21","SOS Casa","Interruptor simples completo","interruptor simples completo com placa",7,22.9,6],
+["c22","SOS Casa","Disjuntor DIN (20A, 32A, 40A; 3 de cada)","disjuntor din 32a",9,34.9,9],
+["c23","SOS Casa","Conector de emenda tipo Wago (10 un)","conector emenda wago 10 unidades",12,34.9,6],
+["c24","SOS Casa","Chave de teste","chave teste eletricista",4,16.9,6],
+["c25","SOS Casa","Pilha AA alcalina (4 un)","pilha aa alcalina cartela 4",10,26.9,20],
+["c26","SOS Casa","Pilha AAA alcalina (4 un)","pilha aaa alcalina cartela 4",10,26.9,20],
+["c27","SOS Casa","Bateria 9V","bateria 9v alcalina",9,24.9,6],
+["c28","SOS Casa","Bateria CR2032 (cartela)","bateria cr2032 cartela",3,14.9,15],
+["c29","SOS Casa","Lanterna LED recarregável","lanterna led recarregavel",15,44.9,5],
+["c30","SOS Casa","Reparo de válvula de descarga Hydra","reparo valvula descarga hydra",22,59.9,4],
+["c31","SOS Casa","Kit reparo caixa acoplada universal","kit reparo caixa acoplada universal",18,54.9,4],
+["c32","SOS Casa","Engate flexível 40cm","engate flexivel 40cm",6,22.9,10],
+["c33","SOS Casa","Veda-rosca 18mm x 25m","veda rosca 18mm 25m",2.5,9.9,15],
+["c34","SOS Casa","Reparo/vedante de torneira (kit)","reparo vedante torneira 1/2",4,14.9,10],
+["c35","SOS Casa","Sifão sanfonado universal","sifao sanfonado universal",7,24.9,6],
+["c36","SOS Casa","Boia de caixa d'água 3/4","boia caixa dagua 3/4",12,39.9,3],
+["c37","SOS Casa","Ducha higiênica com gatilho","ducha higienica gatilho",20,59.9,3],
+["c38","SOS Casa","Desentupidor de pia/vaso","desentupidor ventosa vaso pia",8,29.9,5],
+["c39","SOS Casa","Desentupidor químico (soda)","desentupidor quimico soda",12,32.9,5],
+["c40","SOS Casa","Adesivo PVC / silicone (tubo)","adesivo pvc tubo 75g",8,24.9,6],
+["c41","SOS Casa","Fita silver tape","fita silver tape",9,29.9,5],
+["c42","SOS Casa","Super Bonder","super bonder",3,12.9,15],
+["c43","SOS Casa","Cadeado 30mm","cadeado 30mm",12,34.9,5],
+["c44","SOS Casa","Kit buchas e parafusos","kit buchas parafusos",6,19.9,6],
+["c45","SOS Casa","Jogo de chaves fenda/Phillips","jogo chaves fenda phillips",10,34.9,4],
+["t01","SOS Tech","Cabo USB-C 1m","cabo usb tipo c 1m",5,29.9,20],
+["t02","SOS Tech","Cabo USB-C para USB-C 1m","cabo usb c para usb c 1m",7,34.9,15],
+["t03","SOS Tech","Cabo Lightning (iPhone) 1m","cabo lightning iphone 1m",6,32.9,20],
+["t04","SOS Tech","Cabo micro USB 1m","cabo micro usb 1m",4,24.9,10],
+["t05","SOS Tech","Fonte USB-C 20W (carga rápida)","fonte usb c 20w carregador rapido",15,59.9,12],
+["t06","SOS Tech","Carregador duplo USB 2,4A","carregador tomada 2 usb 2.4a",10,39.9,10],
+["t07","SOS Tech","Carregador veicular","carregador veicular usb",8,34.9,6],
+["t08","SOS Tech","Fone com fio P2","fone de ouvido com fio p2",6,29.9,8],
+["t09","SOS Tech","Fone Bluetooth TWS","fone bluetooth tws",25,89.9,6],
+["t10","SOS Tech","Power bank 10.000mAh","power bank 10000mah",40,119.9,5],
+["t11","SOS Tech","Cartão de memória 64GB","cartao de memoria 64gb",22,59.9,5],
+["t12","SOS Tech","Pen drive 32GB","pen drive 32gb",15,44.9,5],
+["t13","SOS Tech","Adaptador USB-C para P2","adaptador usb c para p2",6,29.9,6],
+["t14","SOS Tech","Adaptador OTG","adaptador otg usb c",3,19.9,6],
+["t15","SOS Tech","Cabo HDMI 2m","cabo hdmi 2 metros",10,39.9,6],
+["t16","SOS Tech","Controle remoto universal de TV","controle remoto universal tv",12,44.9,6],
+["t17","SOS Tech","Mouse sem fio","mouse sem fio",18,59.9,4],
+["t18","SOS Tech","Cabo de força tripolar (TV/PC)","cabo de forca tripolar",7,29.9,5]
+].map(([id,brand,name,term,cost,price,qty])=>({id,brand,name,term,cost,price,qty}));
+
+const FIXED=[["Estrutura (estantes, caixas, embalagens, maquininha, logo)",850],["DAS MEI (1º mês)",83],["Anota Aí (1º mês)",300],["Meta Ads, R$25 por dia por 30 dias",750],["Google Ads, R$20 por dia por 30 dias",600],["Capital de giro",1000]];
+const IFOOD=0.152;
+const STORES=[
+ ["Mercado Livre",t=>"https://lista.mercadolivre.com.br/"+t.split(" ").join("-")],
+ ["Shopee",t=>"https://shopee.com.br/search?keyword="+encodeURIComponent(t)],
+ ["Amazon",t=>"https://www.amazon.com.br/s?k="+t.split(" ").map(encodeURIComponent).join("+")],
+ ["Magalu",t=>"https://www.magazineluiza.com.br/busca/"+t.split(" ").map(encodeURIComponent).join("+")+"/"],
+ ["Google Shopping",t=>"https://www.google.com/search?tbm=shop&q="+t.split(" ").map(encodeURIComponent).join("+")],
+ ["AliExpress",t=>"https://pt.aliexpress.com/w/wholesale-"+t.split(" ").join("-")+".html"]
+];
+const brl=n=>"R$ "+n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const brl0=n=>"R$ "+Math.round(n).toLocaleString("pt-BR");
+let quotes={}, filter="all", query="", open=new Set(), db=null, mode="loading";
+
+function eff(p){const q=quotes[p.id]||{};return{cost:(typeof q.custo==="number"&&q.custo>0)?q.custo:p.cost,qty:(typeof q.qtd==="number"&&q.qtd>=0)?q.qtd:p.qty,q}}
+function isDone(p){const q=quotes[p.id];return !!(q&&typeof q.custo==="number"&&q.custo>0)}
+function safeUrl(u){try{const x=new URL(u);return(x.protocol==="https:"||x.protocol==="http:")?x.href:null}catch(e){return null}}
+function el(tag,attrs,...kids){const e=document.createElement(tag);for(const k in attrs||{}){if(k==="class")e.className=attrs[k];else if(k.startsWith("on"))e.addEventListener(k.slice(2),attrs[k]);else e.setAttribute(k,attrs[k])}for(const c of kids){if(c==null)continue;e.append(c.nodeType?c:document.createTextNode(c))}return e}
+
+function renderSummary(){
+  let stock=0,rev=0,done=0;
+  for(const p of P){const e=eff(p);stock+=e.cost*e.qty;rev+=p.price*e.qty;if(isDone(p))done++}
+  const fixed=FIXED.reduce((a,b)=>a+b[1],0), total=stock+fixed;
+  document.getElementById("sTotal").textContent=brl0(total);
+  document.getElementById("sStock").textContent=brl0(stock);
+  document.getElementById("sRev").textContent=brl0(rev);
+  document.getElementById("sDone").textContent=done+" de "+P.length;
+  document.getElementById("sBar").style.width=(done/P.length*100)+"%";
+  const casa=P.filter(p=>p.brand==="SOS Casa").reduce((a,p)=>{const e=eff(p);return a+e.cost*e.qty},0);
+  const inv=document.getElementById("inv");inv.replaceChildren();
+  const rows=[["Estoque SOS Casa",casa],["Estoque SOS Tech",stock-casa],...FIXED];
+  for(const [k,v] of rows)inv.append(el("tr",{},el("td",{},k),el("td",{},brl(v))));
+  inv.append(el("tr",{class:"total"},el("td",{},"Investimento total"),el("td",{},brl(total))));
+  inv.append(el("tr",{},el("td",{},"Faturamento se vender todo o estoque"),el("td",{},brl(rev))));
+  inv.append(el("tr",{},el("td",{},"Lucro bruto no 1º giro (descontando 15,2% de iFood)"),el("td",{},brl(rev-stock-rev*IFOOD))));
+}
+
+function itemNode(p){
+  const e=eff(p),done=isDone(p),q=e.q;
+  const margin=Math.round((p.price-e.cost)/e.cost*100);
+  const head=el("div",{class:"row1"},
+    el("div",{style:"min-width:0"},el("div",{class:"name"},p.name),
+      el("div",{class:"meta num"},e.qty+" un × "+brl(e.cost)+(done?" (cotado)":" (estimado)")+" · venda "+brl(p.price)+" · margem "+margin+"%")),
+    el("span",{class:"status"+(done?" ok":"")},done?"Cotado":"Pendente"));
+  const links=el("div",{class:"links"},...STORES.map(([n,f])=>el("a",{href:f(p.term),target:"_blank",rel:"noopener"},n)));
+  const node=el("div",{class:"item"},head,links);
+  if(done){
+    const u=q.link?safeUrl(q.link):null, d=e.cost*e.qty-p.cost*e.qty;
+    node.append(el("div",{class:"chosen"},u?el("a",{href:u,target:"_blank",rel:"noopener"},"Abrir oferta escolhida"):"Sem link salvo",
+      " · ",el("span",{class:"diff num "+(d>0?"up":"down")},(d>0?"+":"")+brl(d)+" vs estimativa")));
+  }
+  const isOpen=open.has(p.id);
+  const tg=el("button",{type:"button",class:"toggle","aria-expanded":String(isOpen),onclick:()=>{isOpen?open.delete(p.id):open.add(p.id);render()}},done?"Editar cotação":"Registrar cotação");
+  node.append(tg);
+  if(isOpen){
+    const f=el("form",{class:"quote"},
+      el("label",{},"Link escolhido",el("input",{id:"l-"+p.id,type:"url",placeholder:"https://…",value:q.link||""})),
+      el("label",{},"Custo un. (R$)",el("input",{id:"c-"+p.id,type:"number",step:"0.01",min:"0",inputmode:"decimal",value:q.custo??""})),
+      el("label",{},"Qtd",el("input",{id:"q-"+p.id,type:"number",step:"1",min:"0",inputmode:"numeric",value:q.qtd??p.qty})),
+      el("button",{type:"submit"},"Salvar"));
+    f.addEventListener("submit",ev=>{ev.preventDefault();save(p,f)});
+    node.append(f);
+  }
+  return node;
+}
+
+function render(){
+  renderSummary();
+  const g=document.getElementById("groups");g.replaceChildren();
+  const qn=query.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+  for(const brand of ["SOS Casa","SOS Tech"]){
+    if(filter!=="all"&&filter!=="pend"&&filter!=="ok"&&filter!==brand)continue;
+    const items=P.filter(p=>p.brand===brand&&(filter!=="pend"||!isDone(p))&&(filter!=="ok"||isDone(p))
+      &&(!qn||p.name.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().includes(qn)));
+    const sub=items.reduce((a,p)=>{const e=eff(p);return a+e.cost*e.qty},0);
+    g.append(el("div",{class:"group-title"},el("h2",{},brand),el("span",{class:"num"},items.length+" itens · "+brl(sub))));
+    const list=el("div",{class:"list"});
+    if(!items.length)list.append(el("div",{class:"empty"},filter==="ok"?"Nenhum item cotado ainda. Abra um produto e toque em Registrar cotação.":"Nada encontrado com esse filtro."));
+    items.forEach(p=>list.append(itemNode(p)));
+    g.append(list);
+  }
+}
+
+const LS="sos-uberaba-cotacoes";
+function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||"{}")}catch(e){return{}}}
+function lsSave(){try{localStorage.setItem(LS,JSON.stringify(quotes))}catch(e){}}
+
+async function save(p,f){
+  const link=f.querySelector("#l-"+p.id).value.trim();
+  const custo=parseFloat(f.querySelector("#c-"+p.id).value);
+  const qtd=parseInt(f.querySelector("#q-"+p.id).value,10);
+  const body={link:link||"",custo:isFinite(custo)?custo:null,qtd:isFinite(qtd)?qtd:p.qty,atualizado:new Date().toISOString()};
+  const btn=f.querySelector("button");btn.disabled=true;btn.textContent="Salvando…";
+  quotes[p.id]=body;
+  try{
+    if(db)await db.collection("cotacoes").doc(p.id).set(body);else lsSave();
+    open.delete(p.id);
+  }catch(e){
+    setSync("Não foi possível salvar: "+(e&&e.message?e.message:"erro desconhecido")+". Tente de novo.");
+  }
+  render();
+}
+function setSync(t){document.getElementById("sync").textContent=t}
+
+document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+  filter=b.dataset.f;document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()}));
+document.getElementById("q").addEventListener("input",e=>{query=e.target.value;render()});
+
+render();
+(async()=>{
+  let cap=null;
+  try{cap=window.claude&&window.claude.use?await window.claude.use("db"):null}catch(e){cap=null}
+  if(!cap){quotes=lsLoad();setSync("Cotações salvas só neste aparelho.");render();return}
+  db=cap;
+  const timer=setTimeout(()=>setSync("O armazenamento ainda não respondeu. As cotações podem estar desatualizadas."),10000);
+  db.collection("cotacoes").onSnapshot(snap=>{
+    const next={};snap.docs.forEach(d=>{const v=d.data();if(v)next[d.id]=v});
+    quotes=next;
+    if(!snap.metadata.fromCache){clearTimeout(timer);setSync("Cotações sincronizadas entre seus aparelhos.")}
+    render();
+  },err=>{clearTimeout(timer);setSync("Falha ao ler as cotações ("+(err&&err.code||"erro")+"). Recarregue a página mais tarde.")});
+})();
+</script>
