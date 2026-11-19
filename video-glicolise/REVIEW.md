@@ -23,6 +23,7 @@ Vídeo de 4min18s, 1920×1080, 30 fps, narrado em pt-BR, para a apresentação d
 - Revisão por quadros: os contact sheets de cada cena, dos cortes e da versão de celular (360 px) foram vistos.
 - Áudio: a narração foi gerada localmente (Kokoro, voz `pf_dora`, pt-BR). Os termos técnicos foram escritos foneticamente para a síntese (ATP → "á tê pê", NADH → "ene á dê agá", Krebs → "Crébs"). **A pronúncia não foi ouvida por ninguém, só conferida pelos fonemas gerados.** Vale assistir antes de apresentar.
 - Legendas: o tempo de cada legenda foi estimado pela proporção de caracteres dentro de cada frase. O início de cada frase é exato porque cada frase foi sintetizada separadamente. O Whisper não pôde ser baixado neste ambiente.
+- Loudness do arquivo final: -16,6 LUFS (normalizado com ffmpeg loudnorm depois da renderização).
 - Sem trilha musical: não havia fonte de música disponível (o catálogo da HeyGen exige login). Os efeitos sonoros são os do pacote da skill (Pixabay).
 
 ## Avisos mantidos de propósito
