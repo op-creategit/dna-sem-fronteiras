@@ -1,0 +1,173 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .s07-ez { position: absolute; left: 110px; top: 360px; width: 440px; }
+    .s07-ez .enz { position: static; display: inline-block; }
+    .s07-ez .k { display: block; margin-bottom: 12px; font: 600 24px/1 "IBM Plex Mono", monospace; letter-spacing: 0.14em; color: var(--enz); }
+    #s07-led { left: 1490px; top: 250px; width: 340px; height: 560px; }
+    #s07-led .kicker { left: 0; width: 100%; top: 34px; text-align: center; color: var(--atp); }
+    .s07-slot { position: absolute; width: 112px; height: 112px; margin: -56px 0 0 -56px; border-radius: 50%; border: 3px dashed #2C3F55; }
+    .s07-nm { top: 790px; }
+    #s07-def { top: 778px; }
+    #s07-defs { top: 838px; }
+    .s07-w { position: absolute; font: 600 28px/1 "IBM Plex Mono", monospace; color: #9FD0FF; }
+  </style>
+  <div id="root" data-composition-id="s07" data-width="1920" data-height="1080">
+    <div id="s07-stage" class="abs" style="inset:0">
+      <div class="track" data-layout-ignore>
+        <div class="rail"></div>
+        <div class="nd inv" style="left:0px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">1</div>
+        <div class="nd inv" style="left:133.3px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">2</div>
+        <div class="nd inv" style="left:266.7px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">3</div>
+        <div class="nd inv" style="left:400px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">4</div>
+        <div class="nd inv" style="left:533.3px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">5</div>
+        <div class="nd pay" id="s07-n6" style="left:666.7px;border-color:#74D68A;color:#C9F5D3">6</div>
+        <div class="nd pay" id="s07-n7" style="left:800px;border-color:#74D68A;color:#C9F5D3">7</div>
+        <div class="nd pay" id="s07-n8" style="left:933.3px;border-color:#74D68A;color:#C9F5D3">8</div>
+        <div class="nd pay" id="s07-n9" style="left:1066.7px;border-color:#74D68A;color:#C9F5D3">9</div>
+        <div class="nd pay" id="s07-n10" style="left:1200px;border-color:#74D68A;color:#C9F5D3">10</div>
+        <div class="zone" style="left:170px;color:var(--phos)">INVESTIMENTO</div>
+        <div class="zone" style="left:850px;color:var(--atp)">PAGAMENTO · ×2</div>
+      </div>
+
+      <div id="s07-led" class="panel"><div class="kicker">produzido</div></div>
+      <div class="s07-slot" style="left:1590px;top:390px"></div>
+      <div class="s07-slot" style="left:1730px;top:390px"></div>
+      <div class="s07-slot" style="left:1590px;top:530px"></div>
+      <div class="s07-slot" style="left:1730px;top:530px"></div>
+      <div class="coin" id="s07-c1" style="left:1590px;top:390px">ATP</div>
+      <div class="coin" id="s07-c2" style="left:1730px;top:390px">ATP</div>
+      <div class="coin" id="s07-c3" style="left:1590px;top:530px">ATP</div>
+      <div class="coin" id="s07-c4" style="left:1730px;top:530px">ATP</div>
+
+      <div id="s07-ez6" class="s07-ez"><span class="k">REAÇÃO 6</span><span class="enz">G3P-desidrogenase</span></div>
+      <div id="s07-ez7" class="s07-ez"><span class="k">REAÇÃO 7</span><span class="enz">fosfoglicerato-cinase</span></div>
+      <div id="s07-ez8" class="s07-ez"><span class="k">REAÇÕES 8 E 9</span><span class="enz">mutase · enolase</span></div>
+      <div id="s07-ez10" class="s07-ez"><span class="k">REAÇÃO 10</span><span class="enz">piruvato-cinase</span></div>
+
+      <!-- as duas moléculas: começam onde a cena 6 terminou (y 440 e 670) -->
+      <div id="s07-mols" class="abs" style="inset:0">
+        <div id="s07-A" class="abs" style="inset:0">
+          <div class="bond" style="left:850px;top:440px;width:220px"></div>
+          <div class="stem s07-sR" style="left:1070px;top:350px;height:52px"></div>
+          <div class="stem s07-sL" style="left:850px;top:350px;height:52px"></div>
+          <div class="bead s07-b s07-bL" style="left:850px;top:440px">C</div>
+          <div class="bead s07-b" style="left:960px;top:440px">C</div>
+          <div class="bead s07-b" style="left:1070px;top:440px">C</div>
+          <div class="ph s07-pR" style="left:1070px;top:320px">P</div>
+          <div class="ph s07-pL" id="s07-pLA" style="left:850px;top:320px">P</div>
+          <div class="otag s07-o" style="left:850px;top:488px">=O</div>
+          <div class="nad s07-nad0" style="left:590px;top:418px">NAD⁺</div>
+          <div class="nad full s07-nad1" id="s07-nhA" style="left:590px;top:418px">NADH</div>
+          <div class="s07-w" style="left:800px;top:500px">H₂O</div>
+        </div>
+        <div id="s07-B" class="abs" style="inset:0">
+          <div class="bond" style="left:850px;top:670px;width:220px"></div>
+          <div class="stem s07-sR" style="left:1070px;top:580px;height:52px"></div>
+          <div class="stem s07-sL" style="left:850px;top:580px;height:52px"></div>
+          <div class="bead s07-b s07-bL" style="left:850px;top:670px">C</div>
+          <div class="bead s07-b" style="left:960px;top:670px">C</div>
+          <div class="bead s07-b" style="left:1070px;top:670px">C</div>
+          <div class="ph s07-pR" style="left:1070px;top:550px">P</div>
+          <div class="ph s07-pL" id="s07-pLB" style="left:850px;top:550px">P</div>
+          <div class="otag s07-o" style="left:850px;top:718px">=O</div>
+          <div class="nad s07-nad0" style="left:590px;top:648px">NAD⁺</div>
+          <div class="nad full s07-nad1" id="s07-nhB" style="left:590px;top:648px">NADH</div>
+          <div class="s07-w" style="left:800px;top:730px">H₂O</div>
+        </div>
+      </div>
+      <div class="nad full" id="s07-nhA2" style="left:1555px;top:640px">NADH</div>
+      <div class="nad full" id="s07-nhB2" style="left:1555px;top:710px">NADH</div>
+
+      <div id="s07-nm1" class="label c s07-nm">1,3-bisfosfoglicerato</div>
+      <div id="s07-nm2" class="label c s07-nm">3-fosfoglicerato</div>
+      <div id="s07-def" class="label c abs" style="color:var(--atp)">fosforilação em nível de substrato</div>
+      <div id="s07-defs" class="sub c abs">o fosfato sai direto da molécula para o ADP</div>
+      <div id="s07-nm3" class="label c s07-nm">fosfoenolpiruvato (PEP)</div>
+      <div id="s07-nm4" class="label c s07-nm" style="color:var(--pyr)">piruvato ×2</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s07a":[0.5,4.105,"Reação seis: cada gliceraldeído-3-fosfato é oxidado."],"s07b":[4.455,9.149,"Os elétrons vão para o NAD⁺, que vira NADH, e entra mais um fosfato."],"s07c":[9.499,14.149,"Reação sete: esse fosfato passa para o ADP. Primeiro lucro: dois ATP."],"s07d":[14.499,17.657,"Isso se chama fosforilação em nível de substrato."],"s07e":[19.307,25.429,"Reações oito e nove: a molécula é rearranjada até virar fosfoenolpiruvato, carregado de energia."],"s07f":[25.779,32.094,"Reação dez: a piruvato-cinase transfere o último fosfato. Mais dois ATP, e nasce o piruvato."]}; const D = 32.894;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", immediateRender: false, ...(ex.to || {}) }, t);
+    const OUT = (s, t, d = 0.22) => tl.to(s, { opacity: 0, filter: "blur(6px)", duration: d, ease: "power2.in" }, t);
+    const ON = (n, t, prev) => { tl.to(n, { backgroundColor: "#74D68A", borderColor: "#74D68A", color: "#0B2A14", scale: 1.15, duration: 0.3, ease: "power3.out" }, t); if (prev) tl.to(prev, { scale: 1, duration: 0.3 }, t); };
+    const SWAP = (a, b, t) => { OUT(a, t, 0.2); IN(b, t + 0.12, 0.3); };
+    const POP = (s, t) => tl.fromTo(s, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, t);
+
+    gsap.set([".s07-sL", ".s07-pL", ".s07-nad0", ".s07-nad1", ".s07-w", "#s07-nhA2", "#s07-nhB2", "#s07-c1", "#s07-c2", "#s07-c3", "#s07-c4",
+      "#s07-ez6", "#s07-ez7", "#s07-ez8", "#s07-ez10", "#s07-nm1", "#s07-nm2", "#s07-def", "#s07-defs", "#s07-nm3", "#s07-nm4"], { opacity: 0 });
+    tl.fromTo(["#s07-led", ".s07-slot"], { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 0.1);
+    tl.to("#s07-A", { y: -20, duration: 0.5, ease: "power2.inOut" }, 0.1);
+    tl.to("#s07-B", { y: 20, duration: 0.5, ease: "power2.inOut" }, 0.1);
+
+    // reação 6: oxidação, NAD+ -> NADH, entra um fosfato
+    ON("#s07-n6", T.s07a[0]);
+    IN("#s07-ez6", T.s07a[0] + 0.2, 0.35);
+    tl.to(".s07-bL", { boxShadow: "0 0 0 10px rgba(93,178,255,0.45)", borderColor: "#5DB2FF", duration: 0.3 }, K("s07a", "oxidado") - 0.1);
+    IN(".s07-nad0", K("s07b", "NAD⁺") - 0.15, 0.3);
+    const tn = K("s07b", "NADH");
+    tl.to(".s07-nad0", { opacity: 0, duration: 0.15 }, tn - 0.05);
+    POP(".s07-nad1", tn - 0.05);
+    tl.to(".s07-bL", { boxShadow: "0 0 0 0px rgba(93,178,255,0)", borderColor: "#A9BDD2", duration: 0.3 }, tn);
+    tl.to("#s07-nhA", { x: 965, y: 242, scale: 0.8, duration: 0.8, ease: "power2.inOut" }, tn + 0.5);
+    tl.to("#s07-nhB", { x: 965, y: 42, scale: 0.8, duration: 0.8, ease: "power2.inOut" }, tn + 0.6);
+    tl.to(["#s07-nhA", "#s07-nhB"], { opacity: 0, duration: 0.1 }, tn + 1.4);
+    tl.to(["#s07-nhA2", "#s07-nhB2"], { opacity: 1, duration: 0.1 }, tn + 1.4);
+    const tf = K("s07b", "fosfato");
+    POP(".s07-pL", tf);
+    tl.to(".s07-sL", { opacity: 1, duration: 0.2 }, tf + 0.1);
+    IN("#s07-nm1", tf + 0.2, 0.35);
+
+    // reação 7: primeiro lucro, 2 ATP
+    ON("#s07-n7", T.s07c[0], "#s07-n6");
+    SWAP("#s07-ez6", "#s07-ez7", T.s07c[0]);
+    const tp = K("s07c", "passa");
+    tl.to(".s07-sL", { opacity: 0, duration: 0.15 }, tp);
+    tl.to("#s07-pLA", { x: 740, y: 90, scale: 1.4, duration: 0.85, ease: "power2.inOut" }, tp);
+    tl.to("#s07-pLB", { x: 880, y: -180, scale: 1.4, duration: 0.85, ease: "power2.inOut" }, tp + 0.08);
+    tl.to(["#s07-pLA", "#s07-pLB"], { opacity: 0, duration: 0.12 }, tp + 0.85);
+    POP("#s07-c1", tp + 0.85);
+    POP("#s07-c2", tp + 0.93);
+    SWAP("#s07-nm1", "#s07-nm2", tp + 0.6);
+
+    // definição
+    const tdf = T.s07d[0];
+    OUT("#s07-nm2", tdf, 0.2);
+    IN("#s07-def", tdf + 0.1, 0.35);
+    IN("#s07-defs", K("s07d", "substrato"), 0.35);
+    tl.to(["#s07-c1", "#s07-c2"], { scale: 1.12, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.inOut" }, tdf + 0.2);
+
+    // reações 8 e 9: fosfato muda de lugar, sai água -> PEP
+    ON("#s07-n8", T.s07e[0], "#s07-n7");
+    ON("#s07-n9", K("s07e", "nove"), "#s07-n8");
+    SWAP("#s07-ez7", "#s07-ez8", T.s07e[0]);
+    OUT(["#s07-def", "#s07-defs"], T.s07e[0] + 0.3, 0.2);
+    const tr = K("s07e", "rearranjada");
+    tl.to([".s07-pR", ".s07-sR"], { x: -110, duration: 0.7, ease: "power3.inOut" }, tr);
+    tl.to(".s07-w", { opacity: 1, duration: 0.2 }, tr + 0.6);
+    tl.to(".s07-o", { opacity: 0, duration: 0.3 }, tr + 0.6);
+    tl.to(".s07-w", { y: 40, opacity: 0, duration: 0.8, ease: "power1.in" }, tr + 1.0);
+    IN("#s07-nm3", K("s07e", "fosfoenolpiruvato"), 0.35);
+    tl.to(".s07-pR", { boxShadow: "0 0 0 16px rgba(245,169,59,0.35)", scale: 1.15, duration: 0.35 }, K("s07e", "energia") - 0.2);
+
+    // reação 10: mais 2 ATP, nasce o piruvato
+    ON("#s07-n10", T.s07f[0], "#s07-n9");
+    SWAP("#s07-ez8", "#s07-ez10", T.s07f[0]);
+    const tt = K("s07f", "transfere");
+    const pr = gsap.utils.toArray(".s07-pR"), sr = gsap.utils.toArray(".s07-sR");
+    tl.to(sr, { opacity: 0, duration: 0.15 }, tt);
+    tl.to(pr[0], { x: 520, y: 230, scale: 1.4, boxShadow: "0 0 0 0px rgba(245,169,59,0)", duration: 0.85, ease: "power2.inOut" }, tt);
+    tl.to(pr[1], { x: 660, y: -40, scale: 1.4, boxShadow: "0 0 0 0px rgba(245,169,59,0)", duration: 0.85, ease: "power2.inOut" }, tt + 0.08);
+    tl.to(pr, { opacity: 0, duration: 0.12 }, tt + 0.85);
+    POP("#s07-c3", tt + 0.85);
+    POP("#s07-c4", tt + 0.93);
+    const tpy = K("s07f", "piruvato.");
+    tl.to(".s07-b", { backgroundColor: "#123B3F", borderColor: "#3CC7C0", duration: 0.4, stagger: 0.03 }, tpy - 0.2);
+    SWAP("#s07-nm3", "#s07-nm4", tpy - 0.2);
+    tl.to("#s07-stage", { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, D - 0.3);
+    window.__timelines["s07"] = tl;
+  </script>
+</template>

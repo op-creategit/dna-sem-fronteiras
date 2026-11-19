@@ -1,0 +1,102 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s02-tw { position: absolute; left: 0; width: 1920px; top: 170px; display: flex; justify-content: center; }
+    #s02-tw .title { position: relative; }
+    .s02-mean { position: absolute; top: 380px; width: 600px; text-align: center; }
+    .s02-mean b { display: block; font: 600 26px/1 "IBM Plex Mono", monospace; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 14px; }
+    .s02-mean span { font: 700 64px/1 Outfit, sans-serif; color: var(--phos); }
+    .s02-num { position: absolute; top: 352px; width: 60px; margin-left: -30px; text-align: center; font: 600 24px/1 "IBM Plex Mono", monospace; color: var(--muted); }
+    .s02-pl { position: absolute; top: 500px; width: 420px; text-align: center; }
+    .s02-pl .label { position: static; color: var(--pyr); }
+    .s02-pl .sub { position: static; display: block; margin-top: 8px; }
+    #s02-ten { top: 330px; font: 800 250px/1 Outfit, sans-serif; color: var(--ink); }
+    #s02-tensub { top: 600px; font-size: 44px; }
+  </style>
+  <div id="root" data-composition-id="s02" data-width="1920" data-height="1080">
+    <div id="s02-stage" class="abs" style="inset:0">
+      <div id="s02-tw">
+        <span id="s02-t1" class="title">Glicó</span><span id="s02-t2" class="title">lise</span>
+      </div>
+      <div id="s02-m1" class="s02-mean" style="left:340px"><b>glykýs (grego)</b><span>açúcar</span></div>
+      <div id="s02-m2" class="s02-mean" style="left:980px"><b>lýsis (grego)</b><span>quebra</span></div>
+
+      <div id="s02-chain" class="abs" style="inset:0">
+        <div id="s02-bl" class="bond" style="left:685px;top:430px;width:220px"></div>
+        <div id="s02-bm" class="bond" style="left:905px;top:430px;width:110px"></div>
+        <div id="s02-br" class="bond" style="left:1015px;top:430px;width:220px"></div>
+        <div class="bead s02-b s02-L" style="left:685px;top:430px">C</div>
+        <div class="bead s02-b s02-L" style="left:795px;top:430px">C</div>
+        <div class="bead s02-b s02-L" style="left:905px;top:430px">C</div>
+        <div class="bead s02-b s02-R" style="left:1015px;top:430px">C</div>
+        <div class="bead s02-b s02-R" style="left:1125px;top:430px">C</div>
+        <div class="bead s02-b s02-R" style="left:1235px;top:430px">C</div>
+        <div class="s02-num" style="left:685px">1</div>
+        <div class="s02-num" style="left:795px">2</div>
+        <div class="s02-num" style="left:905px">3</div>
+        <div class="s02-num" style="left:1015px">4</div>
+        <div class="s02-num" style="left:1125px">5</div>
+        <div class="s02-num" style="left:1235px">6</div>
+        <div id="s02-gl" class="label c" style="top:262px">glicose · 6 carbonos</div>
+        <div id="s02-p1" class="s02-pl" style="left:465px"><div class="label">piruvato</div><span class="sub">3 carbonos</span></div>
+        <div id="s02-p2" class="s02-pl" style="left:1035px"><div class="label">piruvato</div><span class="sub">3 carbonos</span></div>
+      </div>
+
+      <div class="track" id="s02-track" data-layout-ignore>
+        <div class="rail" id="s02-rail"></div>
+        <div class="nd inv s02-nd" style="left:0px">1</div>
+        <div class="nd inv s02-nd" style="left:133.3px">2</div>
+        <div class="nd inv s02-nd" style="left:266.7px">3</div>
+        <div class="nd inv s02-nd" style="left:400px">4</div>
+        <div class="nd inv s02-nd" style="left:533.3px">5</div>
+        <div class="nd pay s02-nd" style="left:666.7px">6</div>
+        <div class="nd pay s02-nd" style="left:800px">7</div>
+        <div class="nd pay s02-nd" style="left:933.3px">8</div>
+        <div class="nd pay s02-nd" style="left:1066.7px">9</div>
+        <div class="nd pay s02-nd" style="left:1200px">10</div>
+      </div>
+      <div id="s02-ten" class="c abs">10</div>
+      <div id="s02-tensub" class="label c">reações · cada uma com a sua enzima</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s02a":[0.5,3.807,"Glicólise quer dizer, literalmente, quebra do açúcar."],"s02b":[4.557,10.082,"Uma glicose, com seis carbonos, vira duas moléculas de piruvato, com três carbonos cada."],"s02c":[10.432,13.248,"São dez reações, e cada uma tem a sua enzima."]}; const D = 14.048;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+    const OUT = (s, t, d = 0.22) => tl.to(s, { opacity: 0, filter: "blur(6px)", duration: d, ease: "power2.in" }, t);
+
+    // o nome se parte em dois
+    const ta = K("s02a", "literalmente");
+    tl.fromTo("#s02-t1", { x: 0 }, { x: -170, duration: 0.6, ease: "power3.inOut" }, ta);
+    tl.fromTo("#s02-t2", { x: 0 }, { x: 170, duration: 0.6, ease: "power3.inOut" }, ta);
+    tl.fromTo("#s02-chain", { opacity: 1 }, { opacity: 0, duration: 0.3 }, ta - 0.1);
+    IN("#s02-m2", K("s02a", "quebra") - 0.05, 0.35, { from: { y: 14 }, to: { y: 0 } });
+    IN("#s02-m1", K("s02a", "açúcar") - 0.05, 0.35, { from: { y: 14 }, to: { y: 0 } });
+
+    // 6 carbonos -> 2 x 3 carbonos
+    const tb = T.s02b[0];
+    OUT(["#s02-t1", "#s02-t2", "#s02-m1", "#s02-m2"], tb + 0.1, 0.25);
+    tl.to("#s02-chain", { opacity: 1, duration: 0.35 }, tb + 0.3);
+    tl.fromTo(".s02-num", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, stagger: 0.06, ease: "power3.out" }, K("s02b", "seis") - 0.2);
+    IN("#s02-gl", K("s02b", "seis"), 0.35);
+    const tv = K("s02b", "vira");
+    OUT(".s02-num", tv - 0.1, 0.2);
+    OUT("#s02-gl", K("s02b", "piruvato") - 0.15, 0.2);
+    tl.to("#s02-bm", { scaleX: 0, opacity: 0, duration: 0.3, ease: "power3.in", transformOrigin: "50% 50%" }, tv);
+    tl.to([".s02-L", "#s02-bl"], { x: -60, duration: 0.6, ease: "power3.out" }, tv + 0.2);
+    tl.to([".s02-R", "#s02-br"], { x: 60, duration: 0.6, ease: "power3.out" }, tv + 0.2);
+    tl.to(".s02-b", { backgroundColor: "#123B3F", borderColor: "#3CC7C0", duration: 0.4 }, tv + 0.5);
+    IN(["#s02-p1", "#s02-p2"], K("s02b", "piruvato"), 0.4, { from: { y: 12 }, to: { y: 0 } });
+
+    // dez reações
+    const tc = T.s02c[0];
+    tl.to("#s02-chain", { y: 120, opacity: 0, filter: "blur(8px)", duration: 0.35, ease: "power3.in" }, tc - 0.1);
+    tl.fromTo("#s02-rail", { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, tc);
+    tl.fromTo(".s02-nd", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.8)", stagger: 0.09 }, tc + 0.1);
+    tl.fromTo("#s02-ten", { opacity: 0, scale: 1.1, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, K("s02c", "dez"));
+    IN("#s02-tensub", K("s02c", "reações") + 0.1, 0.35);
+    tl.to("#s02-stage", { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, D - 0.3);
+    window.__timelines["s02"] = tl;
+  </script>
+</template>

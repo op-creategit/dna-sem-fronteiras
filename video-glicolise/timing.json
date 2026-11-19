@@ -1,0 +1,409 @@
+{
+ "scenes": [
+  {
+   "id": "s01",
+   "start": 0,
+   "phrases": [
+    {
+     "id": "s01a",
+     "cap": "Sabe aquela queimação nas pernas no fim de uma corrida?",
+     "start": 0.5,
+     "end": 3.785
+    },
+    {
+     "id": "s01b",
+     "cap": "Ela começa com uma molécula que você comeu no café da manhã: a glicose.",
+     "start": 4.135,
+     "end": 8.338
+    },
+    {
+     "id": "s01c",
+     "cap": "Hoje vamos seguir essa glicose, passo a passo, pela primeira etapa do metabolismo energético: a glicólise.",
+     "start": 8.688,
+     "end": 14.981
+    }
+   ],
+   "duration": 15.781
+  },
+  {
+   "id": "s02",
+   "start": 15.781,
+   "phrases": [
+    {
+     "id": "s02a",
+     "cap": "Glicólise quer dizer, literalmente, quebra do açúcar.",
+     "start": 0.5,
+     "end": 3.807
+    },
+    {
+     "id": "s02b",
+     "cap": "Uma glicose, com seis carbonos, vira duas moléculas de piruvato, com três carbonos cada.",
+     "start": 4.557,
+     "end": 10.082
+    },
+    {
+     "id": "s02c",
+     "cap": "São dez reações, e cada uma tem a sua enzima.",
+     "start": 10.432,
+     "end": 13.248
+    }
+   ],
+   "duration": 14.048
+  },
+  {
+   "id": "s03",
+   "start": 29.829,
+   "phrases": [
+    {
+     "id": "s03a",
+     "cap": "Tudo isso acontece no citosol, o líquido que preenche a célula.",
+     "start": 0.5,
+     "end": 4.319
+    },
+    {
+     "id": "s03b",
+     "cap": "E não precisa de oxigênio.",
+     "start": 4.669,
+     "end": 6.397
+    },
+    {
+     "id": "s03c",
+     "cap": "Por isso a glicólise é tão antiga: ela existe em quase todos os seres vivos, das bactérias até nós.",
+     "start": 7.247,
+     "end": 13.412
+    }
+   ],
+   "duration": 14.212
+  },
+  {
+   "id": "s04",
+   "start": 44.041,
+   "phrases": [
+    {
+     "id": "s04a",
+     "cap": "Pense na glicólise como um pequeno negócio.",
+     "start": 0.5,
+     "end": 3.209
+    },
+    {
+     "id": "s04b",
+     "cap": "Primeiro você investe energia. Depois, colhe o lucro.",
+     "start": 3.559,
+     "end": 6.994
+    },
+    {
+     "id": "s04c",
+     "cap": "E a moeda desse negócio é o ATP.",
+     "start": 7.344,
+     "end": 9.733
+    }
+   ],
+   "duration": 12.333
+  },
+  {
+   "id": "s05",
+   "start": 56.375,
+   "phrases": [
+    {
+     "id": "s05a",
+     "cap": "Reação um: a hexocinase prende um fosfato na glicose, gastando o primeiro ATP.",
+     "start": 0.5,
+     "end": 5.407
+    },
+    {
+     "id": "s05b",
+     "cap": "Ela vira glicose-6-fosfato e, com carga negativa, fica presa dentro da célula.",
+     "start": 5.757,
+     "end": 10.898
+    },
+    {
+     "id": "s05c",
+     "cap": "Reação dois: uma isomerase reorganiza a molécula em frutose-6-fosfato.",
+     "start": 11.248,
+     "end": 15.835
+    },
+    {
+     "id": "s05d",
+     "cap": "Reação três: a fosfofrutocinase-1 gasta o segundo ATP e forma frutose-1,6-bisfosfato.",
+     "start": 16.185,
+     "end": 21.945
+    },
+    {
+     "id": "s05e",
+     "cap": "Esse é o passo decisivo: depois dele, não tem volta.",
+     "start": 22.295,
+     "end": 25.473
+    }
+   ],
+   "duration": 26.273
+  },
+  {
+   "id": "s06",
+   "start": 82.648,
+   "phrases": [
+    {
+     "id": "s06a",
+     "cap": "Reação quatro: a aldolase corta a frutose ao meio.",
+     "start": 0.5,
+     "end": 3.572
+    },
+    {
+     "id": "s06b",
+     "cap": "Saem dois açúcares de três carbonos: o gliceraldeído-3-fosfato e a di-hidroxiacetona-fosfato.",
+     "start": 3.922,
+     "end": 10.173
+    },
+    {
+     "id": "s06c",
+     "cap": "Reação cinco: uma isomerase transforma o segundo no primeiro.",
+     "start": 10.523,
+     "end": 14.171
+    },
+    {
+     "id": "s06d",
+     "cap": "Resultado: duas moléculas iguais. A partir daqui, tudo acontece em dobro.",
+     "start": 14.521,
+     "end": 19.129
+    }
+   ],
+   "duration": 19.929
+  },
+  {
+   "id": "s07",
+   "start": 102.577,
+   "phrases": [
+    {
+     "id": "s07a",
+     "cap": "Reação seis: cada gliceraldeído-3-fosfato é oxidado.",
+     "start": 0.5,
+     "end": 4.105
+    },
+    {
+     "id": "s07b",
+     "cap": "Os elétrons vão para o NAD⁺, que vira NADH, e entra mais um fosfato.",
+     "start": 4.455,
+     "end": 9.149
+    },
+    {
+     "id": "s07c",
+     "cap": "Reação sete: esse fosfato passa para o ADP. Primeiro lucro: dois ATP.",
+     "start": 9.499,
+     "end": 14.149
+    },
+    {
+     "id": "s07d",
+     "cap": "Isso se chama fosforilação em nível de substrato.",
+     "start": 14.499,
+     "end": 17.657
+    },
+    {
+     "id": "s07e",
+     "cap": "Reações oito e nove: a molécula é rearranjada até virar fosfoenolpiruvato, carregado de energia.",
+     "start": 19.307,
+     "end": 25.429
+    },
+    {
+     "id": "s07f",
+     "cap": "Reação dez: a piruvato-cinase transfere o último fosfato. Mais dois ATP, e nasce o piruvato.",
+     "start": 25.779,
+     "end": 32.094
+    }
+   ],
+   "duration": 32.894
+  },
+  {
+   "id": "s08",
+   "start": 135.471,
+   "phrases": [
+    {
+     "id": "s08a",
+     "cap": "Vamos fechar a conta.",
+     "start": 0.5,
+     "end": 1.951
+    },
+    {
+     "id": "s08b",
+     "cap": "Investimos dois ATP. Produzimos quatro.",
+     "start": 2.301,
+     "end": 5.031
+    },
+    {
+     "id": "s08c",
+     "cap": "Saldo final, por glicose: dois ATP, dois NADH e dois piruvatos.",
+     "start": 5.381,
+     "end": 9.989
+    }
+   ],
+   "duration": 12.789
+  },
+  {
+   "id": "s09",
+   "start": 148.26,
+   "phrases": [
+    {
+     "id": "s09a",
+     "cap": "Mas a célula não queima glicose sem parar.",
+     "start": 0.5,
+     "end": 3.209
+    },
+    {
+     "id": "s09b",
+     "cap": "A fosfofrutocinase-1 funciona como uma válvula.",
+     "start": 3.559,
+     "end": 6.503
+    },
+    {
+     "id": "s09c",
+     "cap": "Quando sobra ATP, ela fecha. Quando a energia acaba e o AMP aumenta, ela abre.",
+     "start": 6.853,
+     "end": 12.037
+    },
+    {
+     "id": "s09d",
+     "cap": "No fígado, a insulina também abre essa válvula, por meio da frutose-2,6-bisfosfato.",
+     "start": 12.387,
+     "end": 17.87
+    }
+   ],
+   "duration": 18.67
+  },
+  {
+   "id": "s10",
+   "start": 166.93,
+   "phrases": [
+    {
+     "id": "s10a",
+     "cap": "E o piruvato? O destino dele depende do oxigênio.",
+     "start": 0.5,
+     "end": 3.572
+    },
+    {
+     "id": "s10b",
+     "cap": "Com oxigênio, ele entra na mitocôndria, vira acetil-CoA e alimenta o ciclo de Krebs.",
+     "start": 3.922,
+     "end": 9.639
+    },
+    {
+     "id": "s10c",
+     "cap": "No fim da respiração, uma glicose rende cerca de trinta ATP.",
+     "start": 9.989,
+     "end": 14.043
+    },
+    {
+     "id": "s10d",
+     "cap": "Sem oxigênio suficiente, o piruvato vira lactato no músculo, ou etanol e gás carbônico nas leveduras.",
+     "start": 14.393,
+     "end": 20.878
+    },
+    {
+     "id": "s10e",
+     "cap": "Essa fermentação devolve o NAD⁺, e a glicólise continua.",
+     "start": 21.228,
+     "end": 25.175
+    }
+   ],
+   "duration": 25.975
+  },
+  {
+   "id": "s11",
+   "start": 192.905,
+   "phrases": [
+    {
+     "id": "s11a",
+     "cap": "Então o lactato é o vilão da dor muscular?",
+     "start": 0.5,
+     "end": 3.145
+    },
+    {
+     "id": "s11b",
+     "cap": "Não. A queimação durante o esforço está ligada ao acúmulo de íons hidrogênio.",
+     "start": 3.495,
+     "end": 7.933
+    },
+    {
+     "id": "s11c",
+     "cap": "A dor dos dias seguintes vem de microlesões nas fibras.",
+     "start": 8.283,
+     "end": 11.653
+    },
+    {
+     "id": "s11d",
+     "cap": "E o lactato é reaproveitado: o fígado o transforma de volta em glicose. É o ciclo de Cori.",
+     "start": 12.003,
+     "end": 17.571
+    }
+   ],
+   "duration": 18.371
+  },
+  {
+   "id": "s12",
+   "start": 211.276,
+   "phrases": [
+    {
+     "id": "s12a",
+     "cap": "A glicólise também aparece na clínica.",
+     "start": 0.5,
+     "end": 2.932
+    },
+    {
+     "id": "s12b",
+     "cap": "As hemácias não têm mitocôndrias: dependem só da glicólise para ter energia.",
+     "start": 3.282,
+     "end": 7.997
+    },
+    {
+     "id": "s12c",
+     "cap": "E muitas células de câncer aceleram a glicólise, mesmo com oxigênio. É o efeito Warburg.",
+     "start": 8.347,
+     "end": 13.936
+    },
+    {
+     "id": "s12d",
+     "cap": "O exame PET usa uma glicose marcada para localizar esses tumores famintos por açúcar.",
+     "start": 14.886,
+     "end": 20.177
+    }
+   ],
+   "duration": 20.977
+  },
+  {
+   "id": "s13",
+   "start": 232.253,
+   "phrases": [
+    {
+     "id": "s13a",
+     "cap": "Recapitulando: no citosol, em dez reações, uma glicose vira dois piruvatos.",
+     "start": 0.5,
+     "end": 5.428
+    },
+    {
+     "id": "s13b",
+     "cap": "Investe dois ATP, ganha quatro, e ainda gera NADH.",
+     "start": 5.778,
+     "end": 9.426
+    },
+    {
+     "id": "s13c",
+     "cap": "Glicólise: o primeiro passo para transformar comida em energia.",
+     "start": 9.776,
+     "end": 13.531
+    }
+   ],
+   "duration": 14.331
+  },
+  {
+   "id": "s14",
+   "start": 246.583,
+   "phrases": [
+    {
+     "id": "s14a",
+     "cap": "Estas foram as nossas fontes. Obrigado pela atenção!",
+     "start": 0.5,
+     "end": 3.636
+    }
+   ],
+   "duration": 4.436
+  }
+ ],
+ "total": 251.019
+}

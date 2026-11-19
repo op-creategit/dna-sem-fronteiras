@@ -1,0 +1,34 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s14-h { top: 110px; font: 800 72px/1 Outfit, sans-serif; color: var(--ink); }
+    #s14-list { position: absolute; left: 230px; top: 230px; width: 1460px; }
+    .s14-r { position: relative; padding-left: 52px; margin-bottom: 22px; font: 400 29px/1.32 Outfit, sans-serif; color: #D5DCE4; }
+    .s14-r b { font-weight: 700; color: var(--ink); }
+    .s14-r i { color: var(--muted); }
+    .s14-r::before { content: attr(data-n); position: absolute; left: 0; top: 0; font: 700 26px/1.45 "IBM Plex Mono", monospace; color: var(--phos); }
+    #s14-cred { top: 820px; font: 600 30px/1 "IBM Plex Mono", monospace; letter-spacing: 0.06em; color: var(--muted); }
+  </style>
+  <div id="root" data-composition-id="s14" data-width="1920" data-height="1080">
+    <div id="s14-stage" class="abs" style="inset:0">
+      <div id="s14-h" class="c abs">Referências</div>
+      <div id="s14-list" data-hold>
+        <div class="s14-r" data-n="01"><b>NELSON, D. L.; COX, M. M.</b> Princípios de Bioquímica de Lehninger. 7. ed. Porto Alegre: Artmed, 2019. <i>(cap. 14)</i></div>
+        <div class="s14-r" data-n="02"><b>MARZZOCO, A.; TORRES, B. B.</b> Bioquímica Básica. 4. ed. Rio de Janeiro: Guanabara Koogan, 2015.</div>
+        <div class="s14-r" data-n="03"><b>VANDER HEIDEN, M. G.; CANTLEY, L. C.; THOMPSON, C. B.</b> Understanding the Warburg effect. Science, v. 324, p. 1029-1033, 2009.</div>
+        <div class="s14-r" data-n="04"><b>ROBERGS, R. A.; GHIASVAND, F.; PARKER, D.</b> Biochemistry of exercise-induced metabolic acidosis. Am. J. Physiol. Regul. Integr. Comp. Physiol., v. 287, p. R502-R516, 2004.</div>
+        <div class="s14-r" data-n="05"><b>BROOKS, G. A.</b> The science and translation of lactate shuttle theory. Cell Metabolism, v. 27, p. 757-785, 2018.</div>
+      </div>
+      <div id="s14-cred" class="c abs">Apresentação discente · Bioquímica · UFTM · Profa. Vera</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s14a":[0.5,3.636,"Estas foram as nossas fontes. Obrigado pela atenção!"]}; const D = 11;/*@T-end*/
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s14-h", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0.2);
+    tl.fromTo(".s14-r", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out", stagger: 0.18 }, 0.45);
+    tl.fromTo("#s14-cred", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.6);
+    tl.to("#s14-stage", { opacity: 0, duration: 0.6, ease: "power2.in" }, D - 0.7);
+    window.__timelines["s14"] = tl;
+  </script>
+</template>

@@ -1,0 +1,120 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .s06-ez { position: absolute; left: 0; width: 1920px; top: 196px; text-align: center; }
+    .s06-ez .enz { position: static; display: inline-block; }
+    .s06-ez .k { display: block; margin-bottom: 10px; font: 600 22px/1 "IBM Plex Mono", monospace; letter-spacing: 0.14em; color: var(--enz); }
+    #s06-led { left: 90px; top: 300px; width: 330px; height: 420px; }
+    #s06-led .kicker { left: 0; width: 100%; top: 34px; text-align: center; color: var(--phos); }
+    #s06-cut { position: absolute; left: 940px; top: 380px; width: 40px; height: 300px; }
+    .s06-nm { position: absolute; left: 1170px; }
+    .s06-nm .label { position: static; display: block; }
+    .s06-nm .sub { position: static; display: block; margin-top: 4px; }
+    #s06-x2 { left: 520px; top: 470px; font: 800 150px/1 Outfit, sans-serif; color: var(--phos); }
+    #s06-x2s { left: 470px; top: 640px; width: 300px; text-align: center; }
+  </style>
+  <div id="root" data-composition-id="s06" data-width="1920" data-height="1080">
+    <div id="s06-stage" class="abs" style="inset:0">
+      <div class="track" data-layout-ignore>
+        <div class="rail"></div>
+        <div class="nd inv" style="left:0px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">1</div>
+        <div class="nd inv" style="left:133.3px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">2</div>
+        <div class="nd inv" style="left:266.7px;background:#F5A93B;border-color:#F5A93B;color:#2A1700">3</div>
+        <div class="nd inv" id="s06-n4" style="left:400px">4</div>
+        <div class="nd inv" id="s06-n5" style="left:533.3px">5</div>
+        <div class="nd pay s06-pay" style="left:666.7px">6</div>
+        <div class="nd pay s06-pay" style="left:800px">7</div>
+        <div class="nd pay s06-pay" style="left:933.3px">8</div>
+        <div class="nd pay s06-pay" style="left:1066.7px">9</div>
+        <div class="nd pay s06-pay" style="left:1200px">10</div>
+        <div class="zone" style="left:170px;color:var(--phos)">INVESTIMENTO</div>
+        <div class="zone" style="left:850px;color:var(--atp)">PAGAMENTO</div>
+      </div>
+      <div id="s06-led" class="panel"><div class="kicker">investido</div></div>
+      <div class="coin spent" style="left:255px;top:450px">ADP</div>
+      <div class="coin spent" style="left:255px;top:610px">ADP</div>
+
+      <div id="s06-ez4" class="s06-ez"><span class="k">REAÇÃO 4</span><span class="enz">aldolase</span></div>
+      <div id="s06-ez5" class="s06-ez"><span class="k">REAÇÃO 5</span><span class="enz">triose-fosfato isomerase</span></div>
+
+      <svg id="s06-cut" viewBox="0 0 40 300"><path id="s06-cutp" d="M20 0 L20 300" stroke="#FF7AA2" stroke-width="6" stroke-dasharray="16 12" /></svg>
+
+      <!-- metade de cima: C4-C6 (vira G3P) -->
+      <div id="s06-R" class="abs" style="inset:0">
+        <div class="bond" style="left:1015px;top:520px;width:220px"></div>
+        <div class="stem" style="left:1235px;top:430px;height:52px"></div>
+        <div class="bead" style="left:1015px;top:520px">C</div>
+        <div class="bead" style="left:1125px;top:520px">C</div>
+        <div class="bead" style="left:1235px;top:520px">C</div>
+        <div class="ph" style="left:1235px;top:400px">P</div>
+        <div class="otag" id="s06-oR" style="left:1015px;top:568px">=O</div>
+      </div>
+      <div id="s06-bm" class="bond" style="left:905px;top:520px;width:110px"></div>
+      <!-- metade de baixo: C1-C3 (DHAP) -->
+      <div id="s06-L" class="abs" style="inset:0">
+        <div class="bond" style="left:685px;top:520px;width:220px"></div>
+        <div class="stem" id="s06-stL" style="left:685px;top:430px;height:52px"></div>
+        <div class="bead" style="left:685px;top:520px">C</div>
+        <div class="bead" style="left:795px;top:520px">C</div>
+        <div class="bead" style="left:905px;top:520px">C</div>
+        <div class="ph" id="s06-pL" style="left:685px;top:400px">P</div>
+        <div class="otag" id="s06-oL" style="left:795px;top:568px">=O</div>
+      </div>
+
+      <div id="s06-nm0" class="label c" style="top:630px">Frutose-1,6-bisfosfato</div>
+      <div id="s06-nmR" class="s06-nm" style="top:395px"><span class="label">gliceraldeído-3-fosfato</span><span class="sub">G3P</span></div>
+      <div id="s06-nmL" class="s06-nm" style="top:625px"><span class="label">di-hidroxiacetona-fosfato</span><span class="sub">DHAP</span></div>
+      <div id="s06-nmL2" class="s06-nm" style="top:625px"><span class="label">gliceraldeído-3-fosfato</span><span class="sub">G3P</span></div>
+
+      <div id="s06-x2" class="abs">×2</div>
+      <div id="s06-x2s" class="sub abs">tudo em dobro</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s06a":[0.5,3.572,"Reação quatro: a aldolase corta a frutose ao meio."],"s06b":[3.922,10.173,"Saem dois açúcares de três carbonos: o gliceraldeído-3-fosfato e a di-hidroxiacetona-fosfato."],"s06c":[10.523,14.171,"Reação cinco: uma isomerase transforma o segundo no primeiro."],"s06d":[14.521,19.129,"Resultado: duas moléculas iguais. A partir daqui, tudo acontece em dobro."]}; const D = 19.929;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+    const OUT = (s, t, d = 0.22) => tl.to(s, { opacity: 0, filter: "blur(6px)", duration: d, ease: "power2.in" }, t);
+    const ON = (n, t) => tl.to(n, { backgroundColor: "#F5A93B", borderColor: "#F5A93B", color: "#2A1700", scale: 1.15, duration: 0.3, ease: "power3.out" }, t);
+
+    gsap.set(["#s06-ez4", "#s06-ez5", "#s06-cut", "#s06-oR", "#s06-nmR", "#s06-nmL", "#s06-nmL2", "#s06-x2", "#s06-x2s"], { opacity: 0 });
+    tl.fromTo("#s06-stage", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+
+    // reação 4: aldolase corta ao meio
+    ON("#s06-n4", T.s06a[0]);
+    IN("#s06-ez4", K("s06a", "aldolase") - 0.1, 0.35);
+    const tc = K("s06a", "corta");
+    tl.fromTo("#s06-cut", { opacity: 0, scaleY: 0, transformOrigin: "50% 0%" }, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, tc - 0.1);
+    tl.to("#s06-bm", { opacity: 0, scaleX: 0, transformOrigin: "50% 50%", duration: 0.2 }, tc + 0.15);
+    OUT("#s06-nm0", tc, 0.2);
+    tl.to("#s06-R", { x: -165, y: -80, duration: 0.8, ease: "power3.inOut" }, tc + 0.25);
+    tl.to("#s06-L", { x: 165, y: 150, duration: 0.8, ease: "power3.inOut" }, tc + 0.25);
+    tl.to("#s06-cut", { opacity: 0, duration: 0.3 }, tc + 0.8);
+    tl.to("#s06-oR", { opacity: 1, duration: 0.3 }, tc + 0.9);
+    IN("#s06-nmR", K("s06b", "gliceraldeído") - 0.1, 0.35, { from: { x: -20 }, to: { x: 0 } });
+    IN("#s06-nmL", K("s06b", "di-hidroxiacetona") - 0.1, 0.35, { from: { x: -20 }, to: { x: 0 } });
+
+    // reação 5: a isomerase transforma DHAP em G3P
+    ON("#s06-n5", T.s06c[0]);
+    tl.to("#s06-n4", { scale: 1, duration: 0.3 }, T.s06c[0]);
+    OUT("#s06-ez4", K("s06c", "isomerase") - 0.3, 0.2);
+    IN("#s06-ez5", K("s06c", "isomerase") - 0.15, 0.3);
+    const tt = K("s06c", "transforma");
+    tl.to(["#s06-pL", "#s06-stL"], { x: 220, duration: 0.8, ease: "power2.inOut" }, tt);
+    tl.to(["#s06-pL", "#s06-stL"], { y: -50, duration: 0.4, ease: "power2.out", yoyo: true, repeat: 1 }, tt);
+    tl.to("#s06-oL", { x: -110, duration: 0.7, ease: "power3.inOut" }, tt + 0.1);
+    OUT("#s06-nmL", tt + 0.5, 0.2);
+    IN("#s06-nmL2", tt + 0.65, 0.3);
+
+    // em dobro
+    const td = K("s06d", "duas");
+    tl.fromTo("#s06-x2", { opacity: 0, scale: 1.4, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out", immediateRender: false }, td);
+    tl.to("#s06-led", { opacity: 0.3, duration: 0.3 }, td - 0.2);
+    tl.to("#s06-stage .coin", { opacity: 0.3, duration: 0.3 }, td - 0.2);
+    IN("#s06-x2s", K("s06d", "dobro") - 0.3, 0.35);
+    tl.to(".s06-pay", { borderColor: "#74D68A", color: "#C9F5D3", scale: 1.12, duration: 0.25, stagger: 0.08 }, K("s06d", "partir"));
+    tl.to("#s06-stage", { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, D - 0.3);
+    window.__timelines["s06"] = tl;
+  </script>
+</template>
