@@ -1,0 +1,324 @@
+{
+  "titulo": "Glicólise: investir 2 para ganhar 4",
+  "voz": "pf_dora",
+  "velocidade": 0.94,
+  "cenas": [
+    {
+      "id": "s01",
+      "nome": "Gancho",
+      "frases": [
+        {
+          "id": "s01a",
+          "cap": "Sabe aquela queimação nas pernas no fim de uma corrida?"
+        },
+        {
+          "id": "s01b",
+          "cap": "Ela começa com uma molécula que você comeu no café da manhã: a glicose."
+        },
+        {
+          "id": "s01c",
+          "cap": "Hoje vamos seguir essa glicose, passo a passo, pela primeira etapa do metabolismo energético: a glicólise."
+        }
+      ]
+    },
+    {
+      "id": "s02",
+      "nome": "Visão geral",
+      "frases": [
+        {
+          "id": "s02a",
+          "cap": "Glicólise quer dizer, literalmente, quebra do açúcar.",
+          "pausa": 0.4
+        },
+        {
+          "id": "s02b",
+          "cap": "Uma glicose, com seis carbonos, vira duas moléculas de piruvato, com três carbonos cada."
+        },
+        {
+          "id": "s02c",
+          "cap": "São dez reações, e cada uma tem a sua enzima."
+        }
+      ]
+    },
+    {
+      "id": "s03",
+      "nome": "Onde acontece",
+      "frases": [
+        {
+          "id": "s03a",
+          "cap": "Tudo isso acontece no citosol, o líquido que preenche a célula."
+        },
+        {
+          "id": "s03b",
+          "cap": "E não precisa de oxigênio.",
+          "pausa": 0.5
+        },
+        {
+          "id": "s03c",
+          "cap": "Por isso a glicólise é tão antiga: ela existe em quase todos os seres vivos, das bactérias até nós."
+        }
+      ]
+    },
+    {
+      "id": "s04",
+      "nome": "A estratégia",
+      "frases": [
+        {
+          "id": "s04a",
+          "cap": "Pense na glicólise como um pequeno negócio."
+        },
+        {
+          "id": "s04b",
+          "cap": "Primeiro você investe energia. Depois, colhe o lucro."
+        },
+        {
+          "id": "s04c",
+          "cap": "E a moeda desse negócio é o ATP.",
+          "say": "E a moeda desse negócio é o á tê pê.",
+          "pausa": 1.8
+        }
+      ]
+    },
+    {
+      "id": "s05",
+      "nome": "Fase de investimento",
+      "frases": [
+        {
+          "id": "s05a",
+          "cap": "Reação um: a hexocinase prende um fosfato na glicose, gastando o primeiro ATP.",
+          "say": "Reação um: a hexocinase prende um fosfato na glicose, gastando o primeiro á tê pê."
+        },
+        {
+          "id": "s05b",
+          "cap": "Ela vira glicose-6-fosfato e, com carga negativa, fica presa dentro da célula.",
+          "say": "Ela vira glicose seis fosfato e, com carga negativa, fica presa dentro da célula."
+        },
+        {
+          "id": "s05c",
+          "cap": "Reação dois: uma isomerase reorganiza a molécula em frutose-6-fosfato.",
+          "say": "Reação dois: uma isomerase reorganiza a molécula em frutose seis fosfato."
+        },
+        {
+          "id": "s05d",
+          "cap": "Reação três: a fosfofrutocinase-1 gasta o segundo ATP e forma frutose-1,6-bisfosfato.",
+          "say": "Reação três: a fosfofrutocinase um gasta o segundo á tê pê e forma frutose um seis bisfosfato."
+        },
+        {
+          "id": "s05e",
+          "cap": "Esse é o passo decisivo: depois dele, não tem volta.",
+          "say": "Esse é o passo decisivo: depois dele, não tem volta."
+        }
+      ]
+    },
+    {
+      "id": "s06",
+      "nome": "A quebra",
+      "frases": [
+        {
+          "id": "s06a",
+          "cap": "Reação quatro: a aldolase corta a frutose ao meio."
+        },
+        {
+          "id": "s06b",
+          "cap": "Saem dois açúcares de três carbonos: o gliceraldeído-3-fosfato e a di-hidroxiacetona-fosfato.",
+          "say": "Saem dois açúcares de três carbonos: o gliceraldeído três fosfato e a di-hidroxiacetona fosfato."
+        },
+        {
+          "id": "s06c",
+          "cap": "Reação cinco: uma isomerase transforma o segundo no primeiro."
+        },
+        {
+          "id": "s06d",
+          "cap": "Resultado: duas moléculas iguais. A partir daqui, tudo acontece em dobro."
+        }
+      ]
+    },
+    {
+      "id": "s07",
+      "nome": "Fase de pagamento",
+      "frases": [
+        {
+          "id": "s07a",
+          "cap": "Reação seis: cada gliceraldeído-3-fosfato é oxidado.",
+          "say": "Reação seis: cada gliceraldeído três fosfato é oxidado."
+        },
+        {
+          "id": "s07b",
+          "cap": "Os elétrons vão para o NAD⁺, que vira NADH, e entra mais um fosfato.",
+          "say": "Os elétrons vão para o ene á dê mais, que vira ene á dê agá, e entra mais um fosfato."
+        },
+        {
+          "id": "s07c",
+          "cap": "Reação sete: esse fosfato passa para o ADP. Primeiro lucro: dois ATP.",
+          "say": "Reação sete: esse fosfato passa para o á dê pê. Primeiro lucro: dois á tê pê."
+        },
+        {
+          "id": "s07d",
+          "cap": "Isso se chama fosforilação em nível de substrato.",
+          "pausa": 1.3
+        },
+        {
+          "id": "s07e",
+          "cap": "Reações oito e nove: a molécula é rearranjada até virar fosfoenolpiruvato, carregado de energia."
+        },
+        {
+          "id": "s07f",
+          "cap": "Reação dez: a piruvato-cinase transfere o último fosfato. Mais dois ATP, e nasce o piruvato.",
+          "say": "Reação dez: a piruvato cinase transfere o último fosfato. Mais dois á tê pê, e nasce o piruvato."
+        }
+      ]
+    },
+    {
+      "id": "s08",
+      "nome": "Balanço",
+      "frases": [
+        {
+          "id": "s08a",
+          "cap": "Vamos fechar a conta."
+        },
+        {
+          "id": "s08b",
+          "cap": "Investimos dois ATP. Produzimos quatro.",
+          "say": "Investimos dois á tê pê. Produzimos quatro."
+        },
+        {
+          "id": "s08c",
+          "cap": "Saldo final, por glicose: dois ATP, dois NADH e dois piruvatos.",
+          "say": "Saldo final, por glicose: dois á tê pê, dois ene á dê agá e dois piruvatos.",
+          "pausa": 2.0
+        }
+      ]
+    },
+    {
+      "id": "s09",
+      "nome": "Regulação",
+      "frases": [
+        {
+          "id": "s09a",
+          "cap": "Mas a célula não queima glicose sem parar."
+        },
+        {
+          "id": "s09b",
+          "cap": "A fosfofrutocinase-1 funciona como uma válvula.",
+          "say": "A fosfofrutocinase um funciona como uma válvula."
+        },
+        {
+          "id": "s09c",
+          "cap": "Quando sobra ATP, ela fecha. Quando a energia acaba e o AMP aumenta, ela abre.",
+          "say": "Quando sobra á tê pê, ela fecha. Quando a energia acaba e o á ême pê aumenta, ela abre."
+        },
+        {
+          "id": "s09d",
+          "cap": "No fígado, a insulina também abre essa válvula, por meio da frutose-2,6-bisfosfato.",
+          "say": "No fígado, a insulina também abre essa válvula, por meio da frutose dois seis bisfosfato."
+        }
+      ]
+    },
+    {
+      "id": "s10",
+      "nome": "Destino do piruvato",
+      "frases": [
+        {
+          "id": "s10a",
+          "cap": "E o piruvato? O destino dele depende do oxigênio."
+        },
+        {
+          "id": "s10b",
+          "cap": "Com oxigênio, ele entra na mitocôndria, vira acetil-CoA e alimenta o ciclo de Krebs.",
+          "say": "Com oxigênio, ele entra na mitocôndria, vira acetil coenzima A, e alimenta o ciclo de Crébs."
+        },
+        {
+          "id": "s10c",
+          "cap": "No fim da respiração, uma glicose rende cerca de trinta ATP.",
+          "say": "No fim da respiração, uma glicose rende cerca de trinta á tê pê."
+        },
+        {
+          "id": "s10d",
+          "cap": "Sem oxigênio suficiente, o piruvato vira lactato no músculo, ou etanol e gás carbônico nas leveduras."
+        },
+        {
+          "id": "s10e",
+          "cap": "Essa fermentação devolve o NAD⁺, e a glicólise continua.",
+          "say": "Essa fermentação devolve o ene á dê mais, e a glicólise continua."
+        }
+      ]
+    },
+    {
+      "id": "s11",
+      "nome": "Mito do lactato",
+      "frases": [
+        {
+          "id": "s11a",
+          "cap": "Então o lactato é o vilão da dor muscular?"
+        },
+        {
+          "id": "s11b",
+          "cap": "Não. A queimação durante o esforço está ligada ao acúmulo de íons hidrogênio."
+        },
+        {
+          "id": "s11c",
+          "cap": "A dor dos dias seguintes vem de microlesões nas fibras."
+        },
+        {
+          "id": "s11d",
+          "cap": "E o lactato é reaproveitado: o fígado o transforma de volta em glicose. É o ciclo de Cori.",
+          "say": "E o lactato é reaproveitado: o fígado o transforma de volta em glicose. É o ciclo de Córi."
+        }
+      ]
+    },
+    {
+      "id": "s12",
+      "nome": "Na clínica",
+      "frases": [
+        {
+          "id": "s12a",
+          "cap": "A glicólise também aparece na clínica."
+        },
+        {
+          "id": "s12b",
+          "cap": "As hemácias não têm mitocôndrias: dependem só da glicólise para ter energia."
+        },
+        {
+          "id": "s12c",
+          "cap": "E muitas células de câncer aceleram a glicólise, mesmo com oxigênio. É o efeito Warburg.",
+          "say": "E muitas células de câncer aceleram a glicólise, mesmo com oxigênio. É o efeito Várburgue.",
+          "pausa": 0.6
+        },
+        {
+          "id": "s12d",
+          "cap": "O exame PET usa uma glicose marcada para localizar esses tumores famintos por açúcar.",
+          "say": "O exame pét usa uma glicose marcada para localizar esses tumores famintos por açúcar."
+        }
+      ]
+    },
+    {
+      "id": "s13",
+      "nome": "Recapitulação",
+      "frases": [
+        {
+          "id": "s13a",
+          "cap": "Recapitulando: no citosol, em dez reações, uma glicose vira dois piruvatos."
+        },
+        {
+          "id": "s13b",
+          "cap": "Investe dois ATP, ganha quatro, e ainda gera NADH.",
+          "say": "Investe dois á tê pê, ganha quatro, e ainda gera ene á dê agá."
+        },
+        {
+          "id": "s13c",
+          "cap": "Glicólise: o primeiro passo para transformar comida em energia."
+        }
+      ]
+    },
+    {
+      "id": "s14",
+      "nome": "Referências",
+      "frases": [
+        {
+          "id": "s14a",
+          "cap": "Estas foram as nossas fontes. Obrigado pela atenção!"
+        }
+      ]
+    }
+  ]
+}

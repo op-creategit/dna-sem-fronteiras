@@ -1,0 +1,14 @@
+[
+  { "scene": "s01", "phrase": "s01c", "word": "glicólise", "sound": "riser", "off": -1.6, "v": 0.3 },
+  { "scene": "s01", "phrase": "s01c", "word": "glicólise", "sound": "impact-bass-1", "off": 0.05, "v": 0.4 },
+  { "scene": "s02", "phrase": "s02b", "word": "vira", "sound": "pop", "off": 0.3 },
+  { "scene": "s04", "phrase": "s04c", "word": "ATP", "sound": "pop" },
+  { "scene": "s05", "phrase": "s05a", "word": "gastando", "sound": "click-soft", "v": 0.5 },
+  { "scene": "s05", "phrase": "s05d", "word": "gasta", "sound": "click-soft", "v": 0.5 },
+  { "scene": "s06", "phrase": "s06a", "word": "corta", "sound": "whoosh-short", "v": 0.4 },
+  { "scene": "s07", "phrase": "s07c", "word": "dois", "sound": "pop" },
+  { "scene": "s07", "phrase": "s07f", "word": "Mais", "sound": "pop" },
+  { "scene": "s08", "phrase": "s08c", "word": "dois ATP", "sound": "sparkle", "v": 0.35 },
+  { "scene": "s10", "phrase": "s10c", "word": "trinta", "sound": "pop" },
+  { "scene": "s11", "phrase": "s11b", "word": "Não", "sound": "impact-bass-1", "v": 0.3 }
+]

@@ -1,0 +1,135 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .s05-nm { top: 630px; }
+    .s05-ez { position: absolute; left: 0; width: 1920px; top: 236px; text-align: center; }
+    .s05-ez .enz { position: static; display: inline-block; }
+    .s05-ez .k { display: block; margin-bottom: 10px; font: 600 20px/1 "IBM Plex Mono", monospace; letter-spacing: 0.14em; color: var(--enz); }
+    #s05-led { left: 90px; top: 300px; width: 330px; height: 420px; }
+    #s05-led .kicker { left: 0; width: 100%; top: 34px; text-align: center; color: var(--phos); }
+    .s05-minus { position: absolute; font: 800 40px/1 Outfit, sans-serif; color: #FF8C7A; }
+    #s05-mem { position: absolute; left: 1540px; top: 300px; width: 40px; height: 460px; }
+    #s05-meml { left: 1480px; top: 770px; width: 160px; text-align: center; font-size: 26px; }
+    #s05-stamp { position: absolute; left: 1440px; top: 470px; width: 330px; padding: 18px 0 20px; border: 5px solid var(--heat); border-radius: 14px; text-align: center; color: var(--heat); }
+    #s05-stamp b { display: block; font: 800 50px/1 Outfit, sans-serif; letter-spacing: 0.02em; }
+    #s05-stamp span { display: block; margin-top: 8px; font: 600 24px/1 "IBM Plex Mono", monospace; letter-spacing: 0.08em; }
+  </style>
+  <div id="root" data-composition-id="s05" data-width="1920" data-height="1080">
+    <div id="s05-stage" class="abs" style="inset:0">
+      <div class="track" id="s05-track" data-layout-ignore>
+        <div class="rail"></div>
+        <div class="nd inv" id="s05-n1" style="left:0px">1</div>
+        <div class="nd inv" id="s05-n2" style="left:133.3px">2</div>
+        <div class="nd inv" id="s05-n3" style="left:266.7px">3</div>
+        <div class="nd inv" style="left:400px">4</div>
+        <div class="nd inv" style="left:533.3px">5</div>
+        <div class="nd pay" style="left:666.7px">6</div>
+        <div class="nd pay" style="left:800px">7</div>
+        <div class="nd pay" style="left:933.3px">8</div>
+        <div class="nd pay" style="left:1066.7px">9</div>
+        <div class="nd pay" style="left:1200px">10</div>
+        <div class="zone" style="left:170px;color:var(--phos)">INVESTIMENTO</div>
+        <div class="zone" style="left:850px;color:var(--atp)">PAGAMENTO</div>
+      </div>
+
+      <div id="s05-led" class="panel"><div class="kicker">investido</div></div>
+      <div class="coin spent" style="left:255px;top:450px" id="s05-adp1">ADP</div>
+      <div class="coin spent" style="left:255px;top:610px" id="s05-adp2">ADP</div>
+      <div class="coin" style="left:255px;top:450px" id="s05-c1">ATP</div>
+      <div class="coin" style="left:255px;top:610px" id="s05-c2">ATP</div>
+
+      <div id="s05-ez1" class="s05-ez"><span class="k">REAÇÃO 1</span><span class="enz">hexocinase</span></div>
+      <div id="s05-ez2" class="s05-ez"><span class="k">REAÇÃO 2</span><span class="enz">fosfoglicose-isomerase</span></div>
+      <div id="s05-ez3" class="s05-ez"><span class="k">REAÇÃO 3</span><span class="enz">fosfofrutocinase-1 (PFK-1)</span></div>
+
+      <svg id="s05-mem" viewBox="0 0 40 460"><path d="M20 0 L20 460" stroke="#A9BDD2" stroke-width="8" stroke-dasharray="22 14" /></svg>
+      <div id="s05-meml" class="sub abs">membrana</div>
+
+      <div id="s05-mol" class="abs" style="inset:0">
+        <div class="bond" style="left:685px;top:520px;width:550px"></div>
+        <div class="stem" id="s05-st6" style="left:1235px;top:430px;height:52px"></div>
+        <div class="stem" id="s05-st1" style="left:685px;top:430px;height:52px"></div>
+        <div class="bead" style="left:685px;top:520px">C</div>
+        <div class="bead" style="left:795px;top:520px">C</div>
+        <div class="bead" style="left:905px;top:520px">C</div>
+        <div class="bead" style="left:1015px;top:520px">C</div>
+        <div class="bead" style="left:1125px;top:520px">C</div>
+        <div class="bead" style="left:1235px;top:520px">C</div>
+        <div class="otag" id="s05-o" style="left:685px;top:568px">=O</div>
+        <div class="ph" id="s05-p6" style="left:1235px;top:400px">P</div>
+        <div class="ph" id="s05-p1" style="left:685px;top:400px">P</div>
+        <div class="s05-minus" id="s05-m1" style="left:1290px;top:350px">−</div>
+        <div class="s05-minus" id="s05-m2" style="left:1290px;top:400px">−</div>
+      </div>
+
+      <div id="s05-nm1" class="label c s05-nm">Glicose</div>
+      <div id="s05-nm2" class="label c s05-nm">Glicose-6-fosfato</div>
+      <div id="s05-nm3" class="label c s05-nm">Frutose-6-fosfato</div>
+      <div id="s05-nm4" class="label c s05-nm">Frutose-1,6-bisfosfato</div>
+
+      <div id="s05-stamp"><b>SEM VOLTA</b><span>passo comprometido</span></div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s05a":[0.5,5.407,"Reação um: a hexocinase prende um fosfato na glicose, gastando o primeiro ATP."],"s05b":[5.757,10.898,"Ela vira glicose-6-fosfato e, com carga negativa, fica presa dentro da célula."],"s05c":[11.248,15.835,"Reação dois: uma isomerase reorganiza a molécula em frutose-6-fosfato."],"s05d":[16.185,21.945,"Reação três: a fosfofrutocinase-1 gasta o segundo ATP e forma frutose-1,6-bisfosfato."],"s05e":[22.295,25.473,"Esse é o passo decisivo: depois dele, não tem volta."]}; const D = 26.273;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+    const OUT = (s, t, d = 0.22) => tl.to(s, { opacity: 0, filter: "blur(6px)", duration: d, ease: "power2.in" }, t);
+    const ON = (n, t) => tl.to(n, { backgroundColor: "#F5A93B", borderColor: "#F5A93B", color: "#2A1700", scale: 1.15, duration: 0.3, ease: "power3.out" }, t);
+    const DONE = (n, t) => tl.to(n, { scale: 1, duration: 0.3 }, t);
+    const SWAP = (a, b, t) => { OUT(a, t, 0.2); IN(b, t + 0.12, 0.3); };
+
+    // estado inicial
+    IN("#s05-track", 0.0, 0.4);
+    IN("#s05-led", 0.1, 0.4);
+    IN(["#s05-c1", "#s05-c2"], 0.2, 0.4);
+    gsap.set(["#s05-adp1", "#s05-adp2"], { opacity: 0 });
+    IN(["#s05-mol .bond", "#s05-mol .bead", "#s05-o"], 0.15, 0.45);
+    IN("#s05-nm1", 0.3, 0.4);
+    gsap.set(["#s05-p6", "#s05-p1", "#s05-st6", "#s05-st1", "#s05-m1", "#s05-m2", "#s05-ez1", "#s05-ez2", "#s05-ez3", "#s05-nm2", "#s05-nm3", "#s05-nm4", "#s05-mem", "#s05-meml", "#s05-stamp"], { opacity: 0 });
+
+    // reação 1: hexocinase gasta o 1º ATP
+    ON("#s05-n1", T.s05a[0]);
+    IN("#s05-ez1", K("s05a", "hexocinase") - 0.1, 0.35);
+    const f1 = K("s05a", "prende");
+    tl.to("#s05-c1", { x: 980, y: -50, scale: 0.55, duration: 0.9, ease: "power2.inOut" }, f1);
+    tl.to("#s05-c1", { opacity: 0, duration: 0.15 }, f1 + 0.85);
+    tl.to("#s05-adp1", { opacity: 1, duration: 0.3 }, f1 + 0.3);
+    tl.fromTo("#s05-p6", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, f1 + 0.85);
+    tl.to("#s05-st6", { opacity: 1, duration: 0.2 }, f1 + 0.85);
+
+    // glicose-6-fosfato: carga negativa, presa na célula
+    SWAP("#s05-nm1", "#s05-nm2", K("s05b", "glicose-6-fosfato") - 0.1);
+    tl.to(["#s05-m1", "#s05-m2"], { opacity: 1, duration: 0.25, stagger: 0.1 }, K("s05b", "negativa") - 0.1);
+    tl.to(["#s05-mem", "#s05-meml"], { opacity: 1, duration: 0.35 }, K("s05b", "presa") - 0.9);
+    const tp = K("s05b", "presa");
+    tl.to("#s05-mol", { x: 150, duration: 0.45, ease: "power2.in" }, tp - 0.35);
+    tl.to("#s05-mol", { x: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" }, tp + 0.1);
+
+    // reação 2: isomerase (o grupo carbonila passa do C1 para o C2)
+    DONE("#s05-n1", T.s05c[0]); ON("#s05-n2", T.s05c[0]);
+    tl.to(["#s05-mem", "#s05-meml", "#s05-m1", "#s05-m2"], { opacity: 0, duration: 0.25 }, T.s05c[0]);
+    SWAP("#s05-ez1", "#s05-ez2", K("s05c", "isomerase") - 0.2);
+    tl.to("#s05-o", { x: 110, duration: 0.6, ease: "power3.inOut" }, K("s05c", "reorganiza"));
+    SWAP("#s05-nm2", "#s05-nm3", K("s05c", "frutose") - 0.1);
+
+    // reação 3: PFK-1 gasta o 2º ATP
+    DONE("#s05-n2", T.s05d[0]); ON("#s05-n3", T.s05d[0]);
+    SWAP("#s05-ez2", "#s05-ez3", K("s05d", "fosfofrutocinase") - 0.1);
+    const f2 = K("s05d", "gasta");
+    tl.to("#s05-c2", { x: 430, y: -210, scale: 0.55, duration: 0.85, ease: "power2.inOut" }, f2);
+    tl.to("#s05-c2", { opacity: 0, duration: 0.15 }, f2 + 0.8);
+    tl.to("#s05-adp2", { opacity: 1, duration: 0.3 }, f2 + 0.3);
+    tl.fromTo("#s05-p1", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, f2 + 0.8);
+    tl.to("#s05-st1", { opacity: 1, duration: 0.2 }, f2 + 0.8);
+    SWAP("#s05-nm3", "#s05-nm4", K("s05d", "frutose") - 0.1);
+
+    // passo comprometido
+    const td = K("s05e", "decisivo");
+    tl.fromTo("#s05-stamp", { opacity: 0, scale: 1.5, rotation: -6 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.25, ease: "power4.in", immediateRender: false }, td - 0.15);
+    tl.to("#s05-n3", { boxShadow: "0 0 0 8px rgba(255,90,60,0.45)", duration: 0.3 }, td);
+    tl.to("#s05-stage", { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, D - 0.3);
+    window.__timelines["s05"] = tl;
+  </script>
+</template>

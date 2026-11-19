@@ -1,0 +1,72 @@
+/* Sistema visual do vídeo: carbonos como contas, fosfato âmbar, ATP como moeda verde, NADH azul, enzimas rosa. */
+:root {
+  --color-ground: #0D1520;
+  --color-ink: #F3EEE6;
+  --color-accent: #F5A93B;
+  --font-display: Outfit;
+  --ground: var(--color-ground);
+  --panel: #142231;
+  --line: #2C3F55;
+  --ink: var(--color-ink);
+  --muted: #93A4B8;
+  --carbon: #24364B;
+  --carbon-edge: #A9BDD2;
+  --phos: var(--color-accent);
+  --atp: #74D68A;
+  --nad: #5DB2FF;
+  --enz: #FF7AA2;
+  --heat: #FF5A3C;
+  --pyr: #3CC7C0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+#root { font-family: var(--font-display), Outfit, sans-serif; color: var(--ink); }
+.bg { position: absolute; inset: 0; background:
+  radial-gradient(ellipse 1100px 760px at 50% 42%, #18283A 0%, rgba(24,40,58,0) 70%), var(--ground); }
+
+.abs { position: absolute; }
+.mono { font-family: "IBM Plex Mono", monospace; }
+
+/* carbono */
+.bead { position: absolute; width: 78px; height: 78px; margin: -39px 0 0 -39px; border-radius: 50%;
+  background: var(--carbon); border: 3px solid var(--carbon-edge); display: grid; place-items: center;
+  font: 600 30px/1 "IBM Plex Mono", monospace; color: var(--ink); }
+.bead.pyr { background: #123B3F; border-color: var(--pyr); }
+.bond { position: absolute; height: 8px; margin-top: -4px; background: var(--carbon-edge); border-radius: 4px; transform-origin: 0 50%; }
+/* fosfato */
+.ph { position: absolute; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%;
+  background: var(--phos); color: #2A1700; font: 800 30px/1 Outfit, sans-serif; display: grid; place-items: center;
+  box-shadow: 0 0 0 6px rgba(245,169,59,0.18); }
+.stem { position: absolute; width: 6px; margin-left: -3px; background: var(--phos); border-radius: 3px; }
+/* ATP */
+.coin { position: absolute; width: 112px; height: 112px; margin: -56px 0 0 -56px; border-radius: 50%;
+  background: var(--atp); border: 6px solid #BDF2C9; color: #0B2A14; font: 800 32px/1 Outfit, sans-serif;
+  display: grid; place-items: center; letter-spacing: 0.02em; }
+.coin.sm { width: 84px; height: 84px; margin: -42px 0 0 -42px; font-size: 28px; border-width: 4px; }
+.coin.spent { background: #3A4656; border-color: #6B7A8C; color: #C9D3DE; }
+/* NADH */
+.nad { position: absolute; padding: 10px 22px; border-radius: 40px; background: #12304D; border: 3px solid var(--nad);
+  color: #CFE7FF; font: 700 30px/1 Outfit, sans-serif; white-space: nowrap; }
+.nad.full { background: var(--nad); color: #06213A; }
+/* enzima */
+.enz { position: absolute; padding: 10px 24px; border-radius: 40px; background: rgba(255,122,162,0.16);
+  border: 3px solid var(--enz); color: #FFD3E0; font: 600 32px/1 Outfit, sans-serif; white-space: nowrap; }
+.label { position: absolute; font: 600 44px/1.15 Outfit, sans-serif; color: var(--ink); white-space: nowrap; }
+.sub { position: absolute; font: 400 32px/1.3 Outfit, sans-serif; color: var(--muted); white-space: nowrap; }
+.kicker { position: absolute; font: 600 28px/1 "IBM Plex Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.panel { position: absolute; border-radius: 26px; background: var(--panel); border: 3px solid var(--line); }
+
+/* trilha das 10 reações */
+.track { position: absolute; left: 360px; top: 74px; width: 1200px; height: 80px; }
+.track .rail { position: absolute; left: 0; right: 0; top: 30px; height: 4px; background: var(--line); }
+.track .nd { position: absolute; top: 12px; width: 40px; height: 40px; margin-left: -20px; border-radius: 50%;
+  background: var(--ground); border: 3px solid var(--line); color: var(--muted);
+  font: 600 18px/34px "IBM Plex Mono", monospace; text-align: center; }
+.track .nd.inv { border-color: rgba(245,169,59,0.55); }
+.track .nd.pay { border-color: rgba(116,214,138,0.55); }
+.track .zone { position: absolute; top: 62px; font: 600 22px/1 "IBM Plex Mono", monospace; letter-spacing: 0.16em; }
+
+.c { left: 0; width: 1920px; text-align: center; }
+.title { position: absolute; font: 800 150px/1 Outfit, sans-serif; letter-spacing: -0.02em; color: var(--ink); }
+.otag { position: absolute; width: 50px; height: 34px; margin: 0 0 0 -25px; border-radius: 10px; background: #3A2030;
+  border: 2px solid #FF8C7A; color: #FFC4B8; font: 700 20px/30px "IBM Plex Mono", monospace; text-align: center; }

@@ -1,0 +1,97 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s10-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .s10-chip { position: absolute; padding: 8px 18px; border-radius: 30px; font: 700 30px/1 Outfit, sans-serif; white-space: nowrap; }
+    .s10-card { position: absolute; left: 800px; padding: 16px 28px; border-radius: 18px; background: var(--panel); border: 3px solid var(--line); white-space: nowrap; }
+    .s10-card b { font: 700 40px/1 Outfit, sans-serif; color: var(--ink); }
+    .s10-card span { margin-left: 16px; font: 400 30px/1 Outfit, sans-serif; color: var(--muted); }
+    #s10-cnt { position: absolute; left: 1580px; top: 445px; font: 800 60px/1 Outfit, sans-serif; color: var(--atp); white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="s10" data-width="1920" data-height="1080">
+    <div id="s10-stage" class="abs" style="inset:0">
+      <svg id="s10-svg" viewBox="0 0 1920 1080">
+        <g fill="none" stroke-width="6" stroke-linecap="round">
+          <path id="s10-up" d="M530 450 C 600 330, 640 260, 740 250" stroke="#5DB2FF" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          <path id="s10-dn" d="M530 495 C 600 620, 660 690, 770 700" stroke="#FF8C7A" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          <path id="s10-a1" d="M1062 250 L1160 250" stroke="#A9BDD2" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          <path id="s10-a2" d="M1418 250 L1480 250" stroke="#A9BDD2" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          <path id="s10-d1" d="M770 700 C 785 670, 790 650, 800 645" stroke="#FF8C7A" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          <path id="s10-d2" d="M770 700 C 785 735, 790 760, 800 765" stroke="#FF8C7A" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          <path id="s10-loop" d="M1380 770 C 1520 900, 520 900, 380 545" stroke="#5DB2FF" stroke-dasharray="14 12" />
+        </g>
+        <g id="s10-mito">
+          <rect x="750" y="178" width="300" height="144" rx="72" fill="#2E2342" stroke="#B48CF0" stroke-width="5" />
+          <path d="M785 250 L815 205 L845 295 L875 205 L905 295 L935 205 L965 295 L995 205 L1015 250" fill="none" stroke="#B48CF0" stroke-width="4" />
+          <text x="900" y="370" text-anchor="middle" font-family="Outfit" font-size="30" fill="#B48CF0">mitocôndria</text>
+        </g>
+        <g id="s10-krebs">
+          <circle cx="1585" cy="250" r="92" fill="none" stroke="#2C3F55" stroke-width="10" />
+          <g id="s10-spin">
+            <path d="M1585 158 A 92 92 0 1 1 1493 250" fill="none" stroke="#74D68A" stroke-width="10" stroke-linecap="round" />
+            <path d="M1478 262 L1493 236 L1510 262 Z" fill="#74D68A" />
+          </g>
+          <text x="1585" y="262" text-anchor="middle" font-family="Outfit" font-weight="700" font-size="30" fill="#F3EEE6">Krebs</text>
+        </g>
+      </svg>
+      <div id="s10-pyr" class="abs" style="inset:0">
+        <div class="bond" style="left:300px;top:470px;width:180px"></div>
+        <div class="bead pyr" style="left:300px;top:470px">C</div>
+        <div class="bead pyr" style="left:390px;top:470px">C</div>
+        <div class="bead pyr" style="left:480px;top:470px">C</div>
+        <div class="label" style="left:290px;top:520px;color:var(--pyr)">piruvato</div>
+      </div>
+      <div id="s10-cu" class="s10-chip" style="left:520px;top:290px;background:#12304D;border:3px solid #5DB2FF;color:#CFE7FF">com O₂</div>
+      <div id="s10-cd" class="s10-chip" style="left:520px;top:620px;background:#3A2030;border:3px solid #FF8C7A;color:#FFC4B8">sem O₂</div>
+      <div id="s10-acoa" class="s10-chip" style="left:1170px;top:228px;background:var(--panel);border:3px solid #A9BDD2;color:var(--ink)">acetil-CoA</div>
+      <div id="s10-coin" class="coin sm" style="left:1530px;top:478px">ATP</div>
+      <div id="s10-cnt">≈ <span id="s10-n">0</span></div>
+      <div id="s10-k1" class="s10-card" style="top:610px"><b>lactato</b><span>no músculo</span></div>
+      <div id="s10-k2" class="s10-card" style="top:730px"><b>etanol + CO₂</b><span>nas leveduras (pão, cerveja)</span></div>
+      <div id="s10-nad" class="nad full" style="left:900px;top:810px">NAD⁺</div>
+      <div id="s10-cont" class="sub abs" style="left:150px;top:590px;color:#9FD0FF">a glicólise continua</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s10a":[0.5,3.572,"E o piruvato? O destino dele depende do oxigênio."],"s10b":[3.922,9.639,"Com oxigênio, ele entra na mitocôndria, vira acetil-CoA e alimenta o ciclo de Krebs."],"s10c":[9.989,14.043,"No fim da respiração, uma glicose rende cerca de trinta ATP."],"s10d":[14.393,20.878,"Sem oxigênio suficiente, o piruvato vira lactato no músculo, ou etanol e gás carbônico nas leveduras."],"s10e":[21.228,25.175,"Essa fermentação devolve o NAD⁺, e a glicólise continua."]}; const D = 25.975;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+    const DRAW = (s, t, d = 0.6) => tl.fromTo(s, { strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: d, ease: "power2.out" }, t);
+
+    IN("#s10-pyr", 0.2, 0.5, { from: { x: -40 }, to: { x: 0 } });
+    // com oxigênio
+    const tu = K("s10b", "oxigênio");
+    DRAW("#s10-up", tu - 0.5, 0.6);
+    IN("#s10-cu", tu - 0.2, 0.3);
+    IN("#s10-mito", K("s10b", "mitocôndria") - 0.2, 0.45, { from: { scale: 0.85, transformOrigin: "900px 250px" }, to: { scale: 1 } });
+    DRAW("#s10-a1", K("s10b", "acetil") - 0.3, 0.35);
+    IN("#s10-acoa", K("s10b", "acetil") - 0.1, 0.3);
+    const tk = K("s10b", "Krebs");
+    DRAW("#s10-a2", tk - 0.4, 0.3);
+    IN("#s10-krebs", tk - 0.2, 0.4);
+    tl.fromTo("#s10-spin", { rotation: 0 }, { rotation: 360 * ((D - tk) / 3), svgOrigin: "1585 250", duration: D - tk, ease: "none" }, tk);
+    // cerca de 30 ATP
+    const tt = K("s10c", "trinta");
+    IN(["#s10-coin", "#s10-cnt"], K("s10c", "rende") - 0.2, 0.35);
+    const ct = { n: 0 };
+    tl.to(ct, { n: 30, duration: 1.3, ease: "power2.out", onUpdate: () => { document.querySelector("#s10-n").textContent = Math.round(ct.n); } }, tt - 0.6);
+    // sem oxigênio: fermentação
+    const td = K("s10d", "Sem");
+    DRAW("#s10-dn", td - 0.1, 0.6);
+    IN("#s10-cd", td + 0.1, 0.3);
+    DRAW("#s10-d1", K("s10d", "lactato") - 0.3, 0.3);
+    IN("#s10-k1", K("s10d", "lactato") - 0.1, 0.35, { from: { x: -20 }, to: { x: 0 } });
+    DRAW("#s10-d2", K("s10d", "etanol") - 0.3, 0.3);
+    IN("#s10-k2", K("s10d", "etanol") - 0.1, 0.35, { from: { x: -20 }, to: { x: 0 } });
+    // NAD+ volta e a glicólise continua
+    const tl0 = K("s10e", "devolve");
+    tl.fromTo("#s10-loop", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tl0 - 0.2);
+    tl.fromTo("#s10-loop", { strokeDashoffset: 0 }, { strokeDashoffset: -260, duration: D - tl0 + 0.2, ease: "none" }, tl0 - 0.2);
+    tl.fromTo("#s10-nad", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, K("s10e", "NAD⁺") - 0.1);
+    tl.to("#s10-nad", { x: -420, y: -110, duration: 1.4, ease: "power2.inOut" }, K("s10e", "NAD⁺") + 0.4);
+    IN("#s10-cont", K("s10e", "continua") - 0.2, 0.35);
+    tl.to("#s10-stage", { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, D - 0.3);
+    window.__timelines["s10"] = tl;
+  </script>
+</template>

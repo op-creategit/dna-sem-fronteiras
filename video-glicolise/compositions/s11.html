@@ -1,0 +1,78 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s11-q { top: 380px; font: 800 84px/1.1 Outfit, sans-serif; color: var(--ink); }
+    #s11-strike { position: absolute; left: 420px; top: 425px; width: 1080px; height: 10px; border-radius: 5px; background: var(--heat); }
+    #s11-mito { position: absolute; left: 1490px; top: 300px; padding: 10px 26px 12px; border: 5px solid var(--heat); border-radius: 12px; color: var(--heat); font: 800 54px/1 Outfit, sans-serif; letter-spacing: 0.04em; }
+    .s11-row { position: absolute; left: 330px; width: 1260px; height: 110px; }
+    .s11-row .ico { position: absolute; left: 0; top: 0; width: 110px; height: 110px; border-radius: 22px; background: var(--panel); border: 3px solid var(--line); display: grid; place-items: center; font: 800 40px/1 Outfit, sans-serif; }
+    .s11-row .t { position: absolute; left: 140px; top: 10px; font: 600 42px/1.1 Outfit, sans-serif; white-space: nowrap; }
+    .s11-row .s { position: absolute; left: 140px; top: 62px; font: 400 32px/1.1 Outfit, sans-serif; color: var(--muted); white-space: nowrap; }
+    #s11-cori { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .s11-box { position: absolute; top: 650px; width: 260px; padding: 18px 0; border-radius: 18px; text-align: center; background: var(--panel); border: 3px solid var(--line); font: 700 40px/1 Outfit, sans-serif; }
+    .s11-al { position: absolute; font: 600 32px/1 Outfit, sans-serif; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="s11" data-width="1920" data-height="1080">
+    <div id="s11-stage" class="abs" style="inset:0">
+      <div id="s11-qw" class="abs" style="inset:0">
+        <div id="s11-q" class="c abs">Lactato = vilão da dor muscular?</div>
+        <div id="s11-strike"></div>
+        <div id="s11-mito">MITO</div>
+      </div>
+
+      <div id="s11-r1" class="s11-row" style="top:250px">
+        <div class="ico" style="color:#FF8C7A">H⁺</div>
+        <div class="t">Queimação durante o esforço</div>
+        <div class="s">acúmulo de íons H⁺ (acidose)</div>
+      </div>
+      <div id="s11-r2" class="s11-row" style="top:400px">
+        <div class="ico"><svg width="70" height="40" viewBox="0 0 70 40"><path d="M2 20 H28 L34 6 L40 34 L44 20 H68" fill="none" stroke="#FF8C7A" stroke-width="5" stroke-linejoin="round" /></svg></div>
+        <div class="t">Dor nos dias seguintes</div>
+        <div class="s">microlesões nas fibras musculares</div>
+      </div>
+
+      <svg id="s11-cori" viewBox="0 0 1920 1080">
+        <path id="s11-top" d="M700 645 C 860 585, 1060 585, 1220 645" fill="none" stroke="#3CC7C0" stroke-width="6" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+        <path id="s11-toph" d="M1206 628 L1226 648 L1200 656" fill="none" stroke="#3CC7C0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        <path id="s11-bot" d="M1220 760 C 1060 820, 860 820, 700 760" fill="none" stroke="#F5A93B" stroke-width="6" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+        <path id="s11-both" d="M714 777 L694 757 L720 749" fill="none" stroke="#F5A93B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div id="s11-bm" class="s11-box" style="left:430px">músculo</div>
+      <div id="s11-bf" class="s11-box" style="left:1230px">fígado</div>
+      <div id="s11-lt" class="s11-al" style="left:890px;top:560px;color:var(--pyr)">lactato →</div>
+      <div id="s11-lb" class="s11-al" style="left:880px;top:815px;color:var(--phos)">← glicose</div>
+      <div id="s11-cl" class="label c" style="top:690px">ciclo de Cori</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s11a":[0.5,3.145,"Então o lactato é o vilão da dor muscular?"],"s11b":[3.495,7.933,"Não. A queimação durante o esforço está ligada ao acúmulo de íons hidrogênio."],"s11c":[8.283,11.653,"A dor dos dias seguintes vem de microlesões nas fibras."],"s11d":[12.003,17.571,"E o lactato é reaproveitado: o fígado o transforma de volta em glicose. É o ciclo de Cori."]}; const D = 18.371;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+    const DRAW = (s, t, d = 0.6) => tl.fromTo(s, { strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t);
+
+    tl.fromTo("#s11-q", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.3);
+    tl.fromTo("#s11-q", { color: "#5B6B7E" }, { color: "#F3EEE6", duration: 0.6, ease: "none" }, 0.3);
+    // não!
+    const tn = K("s11b", "Não");
+    tl.fromTo("#s11-strike", { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, tn - 0.15);
+    tl.fromTo("#s11-mito", { opacity: 0, scale: 1.6, rotation: 8 }, { opacity: 1, scale: 1, rotation: 8, duration: 0.2, ease: "power4.in" }, tn);
+    tl.to("#s11-qw", { y: -250, scale: 0.6, opacity: 0.45, transformOrigin: "960px 420px", duration: 0.7, ease: "power3.inOut" }, tn + 0.6);
+    IN("#s11-r1", K("s11b", "queimação") - 0.1, 0.4, { from: { x: -30 }, to: { x: 0 } });
+    IN("#s11-r2", K("s11c", "dor") - 0.2, 0.4, { from: { x: -30 }, to: { x: 0 } });
+    // ciclo de Cori
+    const tr = K("s11d", "reaproveitado");
+    IN("#s11-bm", tr - 0.3, 0.35);
+    DRAW("#s11-top", tr, 0.6);
+    tl.fromTo("#s11-toph", { opacity: 0 }, { opacity: 1, duration: 0.15 }, tr + 0.5);
+    IN("#s11-lt", tr + 0.2, 0.3);
+    IN("#s11-bf", K("s11d", "fígado") - 0.1, 0.35);
+    const tg = K("s11d", "glicose");
+    DRAW("#s11-bot", tg - 0.3, 0.6);
+    tl.fromTo("#s11-both", { opacity: 0 }, { opacity: 1, duration: 0.15 }, tg + 0.2);
+    IN("#s11-lb", tg - 0.1, 0.3);
+    IN("#s11-cl", K("s11d", "Cori") - 0.3, 0.35);
+    tl.to("#s11-stage", { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power2.in" }, D - 0.3);
+    window.__timelines["s11"] = tl;
+  </script>
+</template>

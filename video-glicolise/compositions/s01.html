@@ -1,0 +1,122 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s01-fibers { position: absolute; left: 260px; top: 170px; width: 1400px; height: 420px; }
+    #s01-word { top: 640px; font: 800 120px/1 Outfit, sans-serif; color: var(--heat); letter-spacing: -0.01em; }
+    #s01-kick { top: 110px; }
+    #s01-ring { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    #s01-gname { left: 1260px; top: 360px; }
+    #s01-gform { left: 1262px; top: 420px; font-size: 34px; }
+    #s01-gsrc { left: 1262px; top: 470px; }
+    #s01-title { top: 170px; }
+    #s01-tkick { top: 600px; }
+  </style>
+  <div id="root" data-composition-id="s01" data-width="1920" data-height="1080">
+    <div id="s01-stage" class="abs" style="inset:0">
+      <div id="s01-kick" class="kicker c">fim da corrida</div>
+      <div id="s01-zoom" class="abs" style="inset:0">
+        <svg id="s01-fibers" viewBox="0 0 1400 420">
+          <defs>
+            <pattern id="s01-stria" width="22" height="60" patternUnits="userSpaceOnUse">
+              <rect width="22" height="60" fill="none" />
+              <rect x="0" y="0" width="5" height="60" fill="rgba(255,255,255,0.10)" />
+              <rect x="11" y="0" width="2" height="60" fill="rgba(0,0,0,0.25)" />
+            </pattern>
+          </defs>
+          <g id="s01-tubes">
+            <rect class="s01-t" x="40" y="8" width="1320" height="50" rx="25" fill="#5B2A33" />
+            <rect class="s01-t" x="0" y="66" width="1380" height="50" rx="25" fill="#64303A" />
+            <rect class="s01-t" x="60" y="124" width="1300" height="50" rx="25" fill="#5B2A33" />
+            <rect class="s01-t" x="20" y="182" width="1360" height="50" rx="25" fill="#6A333D" />
+            <rect class="s01-t" x="80" y="240" width="1280" height="50" rx="25" fill="#5B2A33" />
+            <rect class="s01-t" x="10" y="298" width="1370" height="50" rx="25" fill="#64303A" />
+            <rect class="s01-t" x="50" y="356" width="1310" height="50" rx="25" fill="#5B2A33" />
+          </g>
+          <rect x="0" y="0" width="1400" height="420" fill="url(#s01-stria)" />
+          <g id="s01-heat">
+            <rect x="0" y="66" width="1380" height="50" rx="25" fill="#FF5A3C" opacity="0.75" />
+            <rect x="20" y="182" width="1360" height="50" rx="25" fill="#FF7A3C" opacity="0.7" />
+            <rect x="10" y="298" width="1370" height="50" rx="25" fill="#FF5A3C" opacity="0.75" />
+            <rect x="40" y="8" width="1320" height="50" rx="25" fill="#FF8A3C" opacity="0.45" />
+            <rect x="60" y="124" width="1300" height="50" rx="25" fill="#FF8A3C" opacity="0.45" />
+            <rect x="80" y="240" width="1280" height="50" rx="25" fill="#FF8A3C" opacity="0.45" />
+            <rect x="50" y="356" width="1310" height="50" rx="25" fill="#FF8A3C" opacity="0.45" />
+          </g>
+        </svg>
+      </div>
+      <div id="s01-word" class="c abs">queimação</div>
+
+      <!-- anel da glicose (piranose): O no vértice superior direito -->
+      <svg id="s01-ring" viewBox="0 0 1920 1080">
+        <path id="s01-hex" d="M960 270 L1098.6 350 L1098.6 510 L960 590 L821.4 510 L821.4 350 Z" fill="none" stroke="#A9BDD2" stroke-width="8" stroke-linejoin="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+        <path id="s01-c6stem" d="M960 270 L960 160" stroke="#A9BDD2" stroke-width="8" stroke-linecap="round" />
+        <g id="s01-O">
+          <circle cx="1098.6" cy="350" r="34" fill="#3A2030" stroke="#FF8C7A" stroke-width="4" />
+          <text x="1098.6" y="361" text-anchor="middle" font-family="IBM Plex Mono" font-weight="700" font-size="32" fill="#FFC4B8">O</text>
+        </g>
+      </svg>
+      <!-- carbonos: posições finais em linha (y=430); x/y do GSAP partem do anel -->
+      <div id="s01-chainbonds" class="abs" style="inset:0">
+        <div class="bond" style="left:685px;top:430px;width:550px"></div>
+      </div>
+      <div class="bead s01-b" style="left:685px;top:430px">C</div>
+      <div class="bead s01-b" style="left:795px;top:430px">C</div>
+      <div class="bead s01-b" style="left:905px;top:430px">C</div>
+      <div class="bead s01-b" style="left:1015px;top:430px">C</div>
+      <div class="bead s01-b" style="left:1125px;top:430px">C</div>
+      <div class="bead s01-b" style="left:1235px;top:430px">C</div>
+
+      <div id="s01-gname" class="label">Glicose</div>
+      <div id="s01-gform" class="label mono">C₆H₁₂O₆</div>
+      <div id="s01-gsrc" class="sub">do pão, da fruta, do arroz...</div>
+
+      <div id="s01-title" class="title c">Glicólise</div>
+      <div id="s01-tkick" class="kicker c">metabolismo energético · etapa 1</div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s01a":[0.5,3.785,"Sabe aquela queimação nas pernas no fim de uma corrida?"],"s01b":[4.135,8.338,"Ela começa com uma molécula que você comeu no café da manhã: a glicose."],"s01c":[8.688,14.981,"Hoje vamos seguir essa glicose, passo a passo, pela primeira etapa do metabolismo energético: a glicólise."]}; const D = 15.781;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+    const OUT = (s, t, d = 0.22) => tl.to(s, { opacity: 0, filter: "blur(6px)", duration: d, ease: "power2.in" }, t);
+
+    // fibras musculares
+    IN("#s01-kick", 0.15, 0.4);
+    tl.fromTo(".s01-t", { scaleX: 0.55, opacity: 0, transformOrigin: "50% 50%" }, { scaleX: 1, opacity: 1, duration: 0.9, ease: "expo.out", stagger: 0.06 }, 0.1);
+    tl.fromTo("#s01-heat", { opacity: 0 }, { opacity: 1, duration: 2.6, ease: "power1.in" }, K("s01a", "queimação") - 0.2);
+    tl.fromTo("#s01-word", { opacity: 0, scale: 1.08, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, K("s01a", "queimação"));
+
+    // mergulho na fibra
+    const z = T.s01b[0];
+    tl.to("#s01-zoom", { scale: 2.8, filter: "blur(14px)", opacity: 0, duration: 0.75, ease: "power3.in", transformOrigin: "50% 40%" }, z - 0.1);
+    OUT("#s01-word", z - 0.1, 0.3);
+    OUT("#s01-kick", z - 0.1, 0.3);
+
+    // anel da glicose
+    const ring = [[1098.6, 510], [960, 590], [821.4, 510], [821.4, 350], [960, 270], [960, 160]]; // C1..C6
+    const line = [685, 795, 905, 1015, 1125, 1235];
+    const tm = K("s01b", "molécula");
+    tl.fromTo("#s01-hex", { strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, tm);
+    tl.fromTo("#s01-c6stem", { opacity: 0 }, { opacity: 1, duration: 0.3 }, tm + 0.6);
+    tl.fromTo("#s01-O", { opacity: 0, scale: 0.6, transformOrigin: "1098.6px 350px" }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, tm + 0.5);
+    gsap.utils.toArray(".s01-b").forEach((el, i) => {
+      tl.fromTo(el, { x: ring[i][0] - line[i], y: ring[i][1] - 430, opacity: 0, scale: 0.4 },
+        { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, tm + 0.55 + i * 0.07);
+    });
+    IN("#s01-gname", K("s01b", "glicose") - 0.1, 0.35);
+    IN("#s01-gform", K("s01b", "glicose") + 0.15, 0.35);
+    IN("#s01-gsrc", K("s01b", "café") - 0.2, 0.35);
+
+    // o anel se abre em cadeia: o sistema visual do vídeo
+    const tc = T.s01c[0];
+    OUT(["#s01-gname", "#s01-gform", "#s01-gsrc"], tc, 0.25);
+    tl.to(["#s01-hex", "#s01-c6stem", "#s01-O"], { opacity: 0, duration: 0.35, ease: "power2.in" }, tc + 0.1);
+    tl.to(".s01-b", { x: 0, y: 0, duration: 0.9, ease: "power2.inOut", stagger: 0.05 }, tc + 0.2);
+    tl.fromTo("#s01-chainbonds", { opacity: 0 }, { opacity: 1, duration: 0.4 }, tc + 1.0);
+    const tg = K("s01c", "glicólise");
+    tl.fromTo("#s01-title", { opacity: 0, filter: "blur(16px)", scale: 1.04 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.3, ease: "expo.out" }, tg);
+    IN("#s01-tkick", K("s01c", "metabolismo"), 0.4);
+    window.__timelines["s01"] = tl;
+  </script>
+</template>

@@ -1,0 +1,77 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s13-row { position: absolute; left: 0; width: 1920px; top: 610px; display: flex; justify-content: center; align-items: center; gap: 44px; }
+    #s13-row > div { font: 800 60px/1 Outfit, sans-serif; white-space: nowrap; }
+    #s13-row .nadc { padding: 10px 26px; border-radius: 40px; background: var(--nad); color: #06213A; font-size: 46px; }
+    #s13-ft { top: 330px; }
+    #s13-fl { top: 530px; font: 600 64px/1.1 Outfit, sans-serif; }
+  </style>
+  <div id="root" data-composition-id="s13" data-width="1920" data-height="1080">
+    <div id="s13-stage" class="abs" style="inset:0">
+      <div id="s13-recap" class="abs" style="inset:0">
+        <div class="track" data-layout-ignore>
+          <div class="rail"></div>
+          <div class="nd inv s13-nd" style="left:0px">1</div>
+          <div class="nd inv s13-nd" style="left:133.3px">2</div>
+          <div class="nd inv s13-nd" style="left:266.7px">3</div>
+          <div class="nd inv s13-nd" style="left:400px">4</div>
+          <div class="nd inv s13-nd" style="left:533.3px">5</div>
+          <div class="nd pay s13-nd" style="left:666.7px">6</div>
+          <div class="nd pay s13-nd" style="left:800px">7</div>
+          <div class="nd pay s13-nd" style="left:933.3px">8</div>
+          <div class="nd pay s13-nd" style="left:1066.7px">9</div>
+          <div class="nd pay s13-nd" style="left:1200px">10</div>
+        </div>
+        <div id="s13-cy" class="kicker c" style="top:270px;color:#9FD0FF">no citosol</div>
+        <div id="s13-chain" class="abs" style="inset:0">
+          <div id="s13-bl" class="bond" style="left:685px;top:420px;width:220px"></div>
+          <div id="s13-bm" class="bond" style="left:905px;top:420px;width:110px"></div>
+          <div id="s13-br" class="bond" style="left:1015px;top:420px;width:220px"></div>
+          <div class="bead s13-b s13-L" style="left:685px;top:420px">C</div>
+          <div class="bead s13-b s13-L" style="left:795px;top:420px">C</div>
+          <div class="bead s13-b s13-L" style="left:905px;top:420px">C</div>
+          <div class="bead s13-b s13-R" style="left:1015px;top:420px">C</div>
+          <div class="bead s13-b s13-R" style="left:1125px;top:420px">C</div>
+          <div class="bead s13-b s13-R" style="left:1235px;top:420px">C</div>
+        </div>
+        <div id="s13-row">
+          <div id="s13-v1" style="color:var(--phos)">−2 ATP</div>
+          <div id="s13-v2" style="color:var(--atp)">+4 ATP</div>
+          <div id="s13-v3" style="color:var(--atp)">= +2 ATP</div>
+          <div id="s13-v4" class="nadc">+ NADH</div>
+        </div>
+      </div>
+      <div id="s13-ft" class="title c">Glicólise</div>
+      <div id="s13-fl" class="c abs">o primeiro passo de comida → <span style="color:var(--phos)">energia</span></div>
+    </div>
+  </div>
+  <script>
+    /*@T*/const T = {"s13a":[0.5,5.428,"Recapitulando: no citosol, em dez reações, uma glicose vira dois piruvatos."],"s13b":[5.778,9.426,"Investe dois ATP, ganha quatro, e ainda gera NADH."],"s13c":[9.776,13.531,"Glicólise: o primeiro passo para transformar comida em energia."]}; const D = 14.331;/*@T-end*/
+    const K = (id, w, f = 0) => { const [a, b, c] = T[id]; if (w) { const i = c.indexOf(w); return a + (i / c.length) * (b - a); } return a + f * (b - a); };
+    const tl = gsap.timeline({ paused: true });
+    const IN = (s, t, d = 0.4, ex = {}) => tl.fromTo(s, { opacity: 0, filter: "blur(8px)", ...(ex.from || {}) }, { opacity: 1, filter: "blur(0px)", duration: d, ease: "power3.out", ...(ex.to || {}) }, t);
+
+    IN(["#s13-chain", ".s13-nd"], 0.1, 0.4);
+    IN("#s13-cy", K("s13a", "citosol") - 0.1, 0.35);
+    const t10 = K("s13a", "dez"), tg = K("s13a", "glicose");
+    gsap.utils.toArray(".s13-nd").forEach((n, i) => tl.to(n, { backgroundColor: i < 5 ? "#F5A93B" : "#74D68A", borderColor: i < 5 ? "#F5A93B" : "#74D68A", color: i < 5 ? "#2A1700" : "#0B2A14", duration: 0.2 }, t10 - 0.2 + i * ((tg - t10 + 0.6) / 10)));
+    const tp = K("s13a", "dois");
+    tl.to("#s13-bm", { scaleX: 0, opacity: 0, transformOrigin: "50% 50%", duration: 0.25 }, tp - 0.2);
+    tl.to([".s13-L", "#s13-bl"], { x: -60, duration: 0.5, ease: "power3.out" }, tp);
+    tl.to([".s13-R", "#s13-br"], { x: 60, duration: 0.5, ease: "power3.out" }, tp);
+    tl.to(".s13-b", { backgroundColor: "#123B3F", borderColor: "#3CC7C0", duration: 0.35 }, tp + 0.2);
+
+    IN("#s13-v1", K("s13b", "Investe"), 0.3, { from: { y: 16 }, to: { y: 0 } });
+    IN("#s13-v2", K("s13b", "ganha"), 0.3, { from: { y: 16 }, to: { y: 0 } });
+    IN("#s13-v3", K("s13b", "quatro") + 0.35, 0.3, { from: { y: 16 }, to: { y: 0 } });
+    IN("#s13-v4", K("s13b", "NADH") - 0.15, 0.3, { from: { y: 16 }, to: { y: 0 } });
+
+    const tc = T.s13c[0];
+    tl.to("#s13-recap", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, tc - 0.1);
+    tl.fromTo("#s13-ft", { opacity: 0, filter: "blur(16px)", scale: 1.04 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.3, ease: "expo.out" }, tc + 0.15);
+    tl.fromTo("#s13-fl", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, K("s13c", "primeiro") - 0.1);
+    tl.to("#s13-stage", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power2.in" }, D - 0.35);
+    window.__timelines["s13"] = tl;
+  </script>
+</template>
